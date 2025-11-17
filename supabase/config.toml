@@ -1,0 +1,4 @@
+project_id = "jycewyilbtlngfikiogo"
+
+[functions.ai-enhance]
+verify_jwt = true
