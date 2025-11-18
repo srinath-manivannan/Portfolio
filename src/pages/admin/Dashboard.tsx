@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Briefcase, Award, Code2, LogOut, Settings, Sparkles, Mail, Clock, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
@@ -5,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/components/ui/sonner';
 
 function useCountUp(target: number, duration = 900) {
   const [val, setVal] = useState(0);
@@ -52,33 +54,80 @@ export default function Dashboard() {
     });
   };
 
-  const fetchInbox = async () => {
-    setInboxLoading(true);
+
+const fetchInbox = async () => {
+  setInboxLoading(true);
+  
+  try {
+    // Fetch all messages
     const { data, error } = await supabase
       .from('contact_submissions')
-      .select('id, created_at, name, email, subject, category, message')
-      .order('created_at', { ascending: false })
-      .limit(20);
-    if (!error && data) setInbox(data);
-    setInboxLoading(false);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Move this message to trash? This will delete the record.')) return;
-    try {
-      setDeletingId(id);
-      const { error } = await supabase
-        .from('contact_submissions')
-        .delete()
-        .eq('id', id);
-      if (!error) {
-        setInbox(prev => prev.filter(m => m.id !== id));
-      }
-    } finally {
-      setDeletingId(null);
+      .select('id, created_at, name, email, subject, category, message, is_deleted')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Fetch error:', error);
+      setInbox([]);
+    } else {
+      // Filter out deleted messages in JavaScript
+      const activeMessages = (data || [])
+        .filter((msg: any) => !msg.is_deleted)
+        .slice(0, 20);
+      
+      console.log('Total messages:', data?.length);
+      console.log('Active messages:', activeMessages.length);
+      
+      setInbox(activeMessages);
     }
-  };
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    setInbox([]);
+  } finally {
+    setInboxLoading(false);
+  }
+};
 
+const handleDelete = async (id: string) => {
+  if (!confirm('Move this message to trash?')) return;
+  
+  try {
+    setDeletingId(id);
+    
+    console.log('Deleting message:', id);
+    
+    // Update using raw SQL
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .update({ 
+        is_deleted: true,
+        deleted_at: new Date().toISOString()
+      } as any)
+      .eq('id', id)
+      .select();
+    
+    console.log('Delete result:', { data, error });
+    
+    if (error) {
+      console.error('Delete error:', error);
+      alert('Failed to delete: ' + error.message);
+    } else {
+      // Remove from UI immediately
+      setInbox(prev => prev.filter(m => m.id !== id));
+      toast.success('Message moved to trash');
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    alert('Unexpected error occurred');
+  } finally {
+    setDeletingId(null);
+  }
+};
+useEffect(() => {
+  // Check current auth user
+  supabase.auth.getUser().then(({ data }) => {
+    console.log('Current Auth User:', data.user?.id);
+  });
+}, []);
   const counters = {
     projects: useCountUp(stats.projects),
     experiences: useCountUp(stats.experiences),
@@ -223,6 +272,145 @@ export default function Dashboard() {
             </ul>
           </div>
         </motion.div> */}
+
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
+  {/* Header - Responsive */}
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+    <div className="flex items-center gap-3">
+      <h2 className="text-xl sm:text-2xl font-bold">Inbox</h2>
+      {inbox.length > 0 && (
+        <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+          {inbox.length} new
+        </span>
+      )}
+    </div>
+    
+    <div className="flex items-center gap-2">
+      {inbox.length > 5 && (
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={() => setExpanded(e => !e)} 
+          className="gap-1 text-xs sm:text-sm"
+        >
+          {expanded ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
+          <span className="hidden sm:inline">{expanded ? 'Show less' : `Show more (${inbox.length - 5})`}</span>
+          <span className="sm:hidden">{expanded ? 'Less' : `+${inbox.length - 5}`}</span>
+        </Button>
+      )}
+      <Button variant="outline" size="sm" onClick={fetchInbox} className="text-xs sm:text-sm">
+        Refresh
+      </Button>
+    </div>
+  </div>
+
+  {/* Messages List - Responsive */}
+  <div className="glassmorphic rounded-xl sm:rounded-2xl p-0 mb-12 overflow-hidden">
+    <ul className="divide-y divide-[hsl(var(--border))]">
+      {inboxLoading && (
+        <li className="p-3 sm:p-4 animate-pulse text-muted-foreground text-sm">Loading messages…</li>
+      )}
+      
+      {!inboxLoading && inbox.length === 0 && (
+        <li className="p-3 sm:p-4 text-muted-foreground text-sm">No new messages.</li>
+      )}
+      
+      {!inboxLoading && (expanded ? inbox : inbox.slice(0, 5)).map((m) => (
+        <li key={m.id} className="p-3 sm:p-4 hover:bg-[hsl(var(--card))/0.6] transition-colors">
+          {/* Mobile Layout (< 640px) */}
+          <div className="sm:hidden space-y-2">
+            {/* Top Row: Name + Category */}
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <Mail className="w-3.5 h-3.5 text-primary shrink-0" />
+                <span className="font-medium text-sm truncate">{m.name}</span>
+              </div>
+              {m.category && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 whitespace-nowrap">
+                  {m.category}
+                </span>
+              )}
+            </div>
+
+            {/* Subject */}
+            <div className="text-xs text-muted-foreground line-clamp-1 pl-5">
+              {m.subject || '(No subject)'}
+            </div>
+
+            {/* Message */}
+            <div className="text-xs text-muted-foreground line-clamp-2 pl-5">
+              {m.message}
+            </div>
+
+            {/* Bottom Row: Time + Delete */}
+            <div className="flex items-center justify-between gap-2 pl-5">
+              <div className="text-[10px] text-muted-foreground flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {m.created_at ? new Date(m.created_at).toLocaleDateString('en-US', { 
+                  month: 'short', 
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }) : ''}
+              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="gap-1 h-7 px-2 text-xs"
+                onClick={() => handleDelete(m.id)}
+                disabled={deletingId === m.id}
+                title="Move to trash"
+              >
+                <Trash2 className="w-3 h-3" />
+                {deletingId === m.id ? 'Deleting...' : 'Delete'}
+              </Button>
+            </div>
+          </div>
+
+          {/* Desktop Layout (≥ 640px) */}
+          <div className="hidden sm:flex items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Mail className="w-4 h-4 text-primary shrink-0" />
+                <span className="font-medium truncate max-w-[200px] lg:max-w-[300px]">{m.name}</span>
+                {m.category && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                    {m.category}
+                  </span>
+                )}
+              </div>
+              <div className="text-sm text-muted-foreground mt-1 line-clamp-1">
+                {m.subject || '(No subject)'}
+              </div>
+              <div className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                {m.message}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="text-xs text-muted-foreground flex items-center gap-1 whitespace-nowrap">
+                <Clock className="w-3.5 h-3.5" />
+                {m.created_at ? new Date(m.created_at).toLocaleString() : ''}
+              </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="gap-1"
+                onClick={() => handleDelete(m.id)}
+                disabled={deletingId === m.id}
+                title="Move to trash"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span className="hidden lg:inline">{deletingId === m.id ? 'Removing...' : 'Trash'}</span>
+                <span className="lg:hidden">{deletingId === m.id ? '...' : ''}</span>
+              </Button>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</motion.div>
 
         {/* Quick Links */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
