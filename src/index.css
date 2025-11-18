@@ -37,7 +37,19 @@ All colors MUST be HSL.
     --input: 220 15% 90%;
     --ring: 217 91% 60%;
 
+    /* Additional semantic tokens */
+    --surface: 220 15% 97%;
+
+    /* Radius and motion tokens */
     --radius: 0.75rem;
+    --motion-fast: 200ms;
+    --motion-normal: 350ms;
+    --motion-slow: 700ms;
+
+    /* Gradient helpers (will be overridden by ThemeContext if present) */
+    --gradient-from: var(--primary);
+    --gradient-via: var(--secondary);
+    --gradient-to: var(--secondary);
 
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(185 100% 50%));
     --gradient-subtle: linear-gradient(180deg, hsl(248 100% 98%), hsl(220 15% 95%));
@@ -75,6 +87,14 @@ All colors MUST be HSL.
     --input: 224 45% 15%;
     --ring: 217 91% 60%;
 
+    /* Additional semantic tokens */
+    --surface: 224 55% 8%;
+
+    /* Gradient helpers (will be overridden by ThemeContext if present) */
+    --gradient-from: var(--primary);
+    --gradient-via: var(--secondary);
+    --gradient-to: var(--secondary);
+
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(185 100% 50%));
     --gradient-subtle: linear-gradient(180deg, hsl(224 71% 4%), hsl(224 55% 9%));
     --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
@@ -110,13 +130,17 @@ All colors MUST be HSL.
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
   }
 
+  .surface-card {
+    @apply bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl;
+  }
+
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    background: linear-gradient(135deg, hsl(var(--gradient-from)), hsl(var(--gradient-to)));
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    background-image: linear-gradient(135deg, hsl(var(--gradient-from)), hsl(var(--gradient-to)));
   }
 
   .hover-lift {
@@ -125,5 +149,78 @@ All colors MUST be HSL.
 
   .glow-border {
     @apply border-2 border-primary/50 shadow-[0_0_15px_rgba(0,102,255,0.3)];
+  }
+
+  .aurora {
+    background: radial-gradient(60% 80% at 10% 10%, hsl(var(--gradient-from) / 0.25), transparent 60%),
+      radial-gradient(60% 80% at 90% 20%, hsl(var(--gradient-to) / 0.2), transparent 60%),
+      radial-gradient(80% 60% at 50% 100%, hsl(var(--accent) / 0.15), transparent 60%);
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: -1px -1px;
+  }
+
+  .noise-overlay {
+    position: relative;
+  }
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url('/placeholder.svg'); /* lightweight svg placeholder */
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    border-radius: inherit;
+  }
+
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .sheen::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -50%;
+    width: 50%;
+    height: 300%;
+    transform: rotate(25deg);
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.07), transparent);
+    transition: transform var(--motion-normal) ease;
+  }
+  .sheen:hover::before {
+    transform: translateX(300%) rotate(25deg);
+  }
+
+  .animated-border {
+    position: relative;
+  }
+  .animated-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, hsl(var(--gradient-from)), hsl(var(--gradient-to)));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+
+  .glow-soft {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.15), 0 8px 30px hsl(var(--primary) / 0.12);
+  }
+
+  .tilt-hover {
+    transform-style: preserve-3d;
+    transition: transform var(--motion-normal) ease;
+  }
+  .tilt-hover:hover {
+    transform: perspective(800px) rotateX(4deg) rotateY(-6deg) translateY(-2px);
   }
 }
