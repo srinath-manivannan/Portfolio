@@ -1502,7 +1502,7 @@ export default function SmartRAGWidgetEnhanced() {
         </AnimatePresence>
       </div>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1643,7 +1643,166 @@ export default function SmartRAGWidgetEnhanced() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
+      <AnimatePresence>
+  {isOpen && (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 30 }}
+      transition={{ duration: 0.28 }}
+      className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 z-50 w-[calc(100vw-16px)] sm:w-full sm:max-w-md h-[calc(100vh-16px)] sm:h-[640px] bg-[var(--card-bg)] rounded-xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border"
+      style={{
+        borderColor: 'rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(14px) saturate(120%)'
+      }}
+      ref={wrapperRef}
+    >
+      {/* Header - Responsive */}
+      <div className="px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between" style={{ background: `linear-gradient(90deg, ${css.primary}, ${css.accent})` }}>
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-white shrink-0" />
+          <div className="min-w-0">
+            <div className="font-semibold text-white text-xs sm:text-sm truncate">Ask Srinath</div>
+            <div className="text-[10px] sm:text-xs text-white/80 truncate hidden sm:block">AI-powered portfolio search</div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-full bg-white/10 text-white/90 text-[10px] sm:text-xs">
+            <Loader2 className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">{loading ? 'Analyzing...' : 'Ready'}</span>
+            <span className="sm:hidden">{loading ? '...' : '✓'}</span>
+          </div>
+          <button 
+            onClick={() => { setIsOpen(false); setMessages([]); setQuickVisible(true); }} 
+            className="p-1 rounded-md bg-white/10 hover:bg-white/12"
+          >
+            <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+          </button>
+        </div>
+      </div>
+
+      {/* Messages - Responsive */}
+      <div className="chat-messages flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 sm:space-y-4" style={{ background: `linear-gradient(180deg, rgba(0,0,0,0.02), transparent)` }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 6 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="rounded-lg sm:rounded-xl p-2 sm:p-3" 
+          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.02), transparent)' }}
+        >
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <div className="text-xs sm:text-sm font-medium truncate" style={{ color: css.foreground }}>Ask anything about Srinath</div>
+              <div className="text-[10px] sm:text-xs line-clamp-1" style={{ color: css.muted }}>Advanced semantic search</div>
+            </div>
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" style={{ color: css.foreground }} />
+          </div>
+        </motion.div>
+
+        {/* Quick Questions - Responsive */}
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          <AnimatePresence>
+            {quickVisible && quickQuestions.map((q, i) => (
+              <motion.button
+                key={q}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ delay: i * 0.03 }}
+                onClick={() => handleQuickClick(q)}
+                className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium"
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  color: css.foreground,
+                  border: '1px solid rgba(255,255,255,0.03)'
+                }}
+              >
+                {q}
+              </motion.button>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Messages List - Responsive */}
+        <motion.div variants={variants.container} initial="hidden" animate="show" className="space-y-2 sm:space-y-3">
+          {messages.map((m, i) => {
+            const isUser = m.role === 'user';
+            return (
+              <motion.div key={m.ts ?? i} variants={variants.message} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  className={`max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-sm break-words`}
+                  style={isUser ? userBubbleStyle : assistantStyle}
+                >
+                  <div className="text-xs sm:text-sm whitespace-pre-wrap">{m.content}</div>
+                  {!isUser && (
+                    <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 justify-end">
+                      <button className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md hover:opacity-90" style={{ background: 'rgba(255,255,255,0.02)', color: css.foreground }}>
+                        <ThumbsUp className="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-0.5 sm:mr-1" />
+                        <span className="hidden sm:inline">Helpful</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+
+          {/* Typing Indicator - Responsive */}
+          {isTyping && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+              <div className="max-w-[65%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl" style={{ background: css.cardBg, color: css.foreground }}>
+                <motion.div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="flex gap-0.5 sm:gap-1 items-end">
+                    <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
+                    <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7, delay: 0.12 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
+                    <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7, delay: 0.24 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
+                  </div>
+                  <div className="text-[10px] sm:text-xs" style={{ color: css.muted }}>Analyzing...</div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+          <div ref={bottomRef} />
+        </motion.div>
+      </div>
+
+      {/* Input Footer - Responsive */}
+      <div className="px-2 sm:px-4 py-2 sm:py-3 border-t" style={{ borderColor: 'rgba(255,255,255,0.03)', background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.02))' }}>
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+            placeholder="Ask about experience, projects..."
+            className="flex-1 rounded-md px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm"
+            style={{
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.04)',
+              color: css.foreground
+            }}
+          />
+          <button
+            disabled={loading || !input.trim()}
+            onClick={handleSend}
+            className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-md shadow shrink-0"
+            style={{
+              background: `linear-gradient(90deg, ${css.primary}, ${css.accent})`,
+              color: '#fff',
+              opacity: (loading || !input.trim()) ? 0.5 : 1
+            }}
+          >
+            <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          </button>
+        </div>
+        <div className="text-[9px] sm:text-xs text-center mt-1 sm:mt-2" style={{ color: css.muted }}>
+          🧠 <span className="hidden sm:inline">Advanced RAG: Semantic search + Fuzzy matching</span><span className="sm:hidden">AI-powered search</span>
+        </div>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </>
   );
 }
