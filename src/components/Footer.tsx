@@ -2,10 +2,10 @@ import { Github, Linkedin, Mail, Twitter, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:contact@example.com', label: 'Email' },
+  { icon: Github, href: 'https://github.com/srinath-manivannan', label: 'GitHub' },
+  { icon: Linkedin, href: 'http://linkedin.com/in/srinath-manivannan-57a751197', label: 'LinkedIn' },
+  // { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+  { icon: Mail, href: 'mailto:srinathmpro2001@gmail.com', label: 'Email' },
 ];
 
 const footerLinks = [

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Github, Linkedin, Trophy, Tv, Award as AwardIcon, GraduationCap } from 'lucide-react';
@@ -22,7 +23,8 @@ export default function About() {
 
   const fetchData = async () => {
     const { data: profileData } = await supabase
-      .from('public_profiles')
+      // .from('public_profiles')
+      .from('profiles') 
       .select('*')
       .limit(1)
       .maybeSingle();
@@ -76,7 +78,7 @@ export default function About() {
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
             {/* Profile Image */}
             <div className="relative">
-              <div className="w-48 h-48 rounded-full overflow-hidden ring-4 ring-primary/30">
+              {/* <div className="w-48 h-48 rounded-full overflow-hidden ring-4 ring-primary/30">
                 {profile.profile_image ? (
                   <img 
                     src={profile.profile_image} 
@@ -88,7 +90,29 @@ export default function About() {
                     {profile.name.charAt(0)}
                   </div>
                 )}
-              </div>
+              </div> */}
+           
+<div className="w-48 h-48 rounded-full overflow-hidden ring-4 ring-primary/30 relative">
+  {profile.profile_image ? (
+    <img 
+      src={profile.profile_image} 
+      alt={profile.name}
+      className="absolute w-full h-full object-cover"
+      style={{
+        objectPosition: profile.image_position 
+          ? `${profile.image_position.x}% ${profile.image_position.y}%` 
+          : 'center',
+        transform: profile.image_scale 
+          ? `scale(${profile.image_scale})` 
+          : 'scale(1)'
+      }}
+    />
+  ) : (
+    <div className="w-full h-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-6xl font-bold text-white">
+      {profile.name.charAt(0)}
+    </div>
+  )}
+</div>
             </div>
 
             {/* Profile Info */}

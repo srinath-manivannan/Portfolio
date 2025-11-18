@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Github, Linkedin, Mail, Code2, Database, Cloud, Sparkles, Download } from 'lucide-react';
@@ -21,7 +22,8 @@ export default function Home() {
 
   const fetchData = async () => {
     const { data: profileData } = await supabase
-      .from('public_profiles')
+      // .from('public_profiles')
+      .from('profiles')
       .select('*')
       .limit(1)
       .maybeSingle();
@@ -91,7 +93,7 @@ export default function Home() {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               {/* Avatar */}
-              <motion.div
+              {/* <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
@@ -119,8 +121,57 @@ export default function Home() {
                     <Sparkles className="w-4 h-4 text-white" />
                   </motion.div>
                 </div>
-              </motion.div>
-
+              </motion.div> */}
+<motion.div
+  initial={{ scale: 0.8, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{ duration: 0.5 }}
+  className="mb-8"
+>
+  <div className="relative inline-block">
+    {/* <div className="w-24 h-24 rounded-2xl overflow-hidden ring-2 ring-primary/30 ring-offset-4 ring-offset-background">
+      {profile.profile_image ? (
+        <img 
+          src={profile.profile_image} 
+          alt={profile.name}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-3xl font-bold text-white">
+          {profile.name.charAt(0)}
+        </div>
+      )}
+    </div> */}
+<div className="w-24 h-24 rounded-2xl overflow-hidden ring-2 ring-primary/30 ring-offset-4 ring-offset-background relative">
+  {profile.profile_image ? (
+    <img 
+      src={profile.profile_image} 
+      alt={profile.name}
+      className="absolute w-full h-full object-cover"
+      style={{
+        objectPosition: profile.image_position 
+          ? `${profile.image_position.x}% ${profile.image_position.y}%` 
+          : 'center',
+        transform: profile.image_scale 
+          ? `scale(${profile.image_scale})` 
+          : 'scale(1)'
+      }}
+    />
+  ) : (
+    <div className="w-full h-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-3xl font-bold text-white">
+      {profile.name.charAt(0)}
+    </div>
+  )}
+</div>
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      className="absolute -bottom-1 -right-1 w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center"
+    >
+      <Sparkles className="w-4 h-4 text-white" />
+    </motion.div>
+  </div>
+</motion.div>
               {/* Text content */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
