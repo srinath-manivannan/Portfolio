@@ -116,7 +116,7 @@ export default function CodeShowcase() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="premium-card rounded-2xl !p-0 overflow-hidden max-w-2xl mx-auto"
+      className="premium-card rounded-2xl !p-0 overflow-hidden max-w-2xl mx-auto w-full min-w-0"
     >
       {/* Toolbar */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04]">
@@ -154,7 +154,7 @@ export default function CodeShowcase() {
             transition={{ duration: 0.2 }}
             className="p-5"
           >
-            <pre className="font-mono text-sm leading-relaxed overflow-x-auto custom-scrollbar">
+            <pre className="font-mono text-[11px] sm:text-sm leading-relaxed overflow-x-auto custom-scrollbar whitespace-pre-wrap break-words">
               <code dangerouslySetInnerHTML={{ __html: highlightSyntax(snippet.code) }} />
             </pre>
           </motion.div>

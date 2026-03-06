@@ -753,7 +753,7 @@ export default function Home() {
         <NeuralNetwork className="opacity-20" />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -787,7 +787,9 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              <CodeShowcase />
+              <div className="min-w-0">
+                <CodeShowcase />
+              </div>
             </div>
           </div>
         </div>
