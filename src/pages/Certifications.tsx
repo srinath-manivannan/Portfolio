@@ -28,7 +28,7 @@ export default function Certifications() {
     : 0;
 
   return (
-    <div className="relative min-h-screen pt-24 pb-24 px-4 overflow-hidden">
+    <div className="relative min-h-screen pt-24 pb-12 px-4 overflow-hidden">
       <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
       <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 

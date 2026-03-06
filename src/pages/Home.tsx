@@ -816,7 +816,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: 'LLM Integration', desc: 'GPT-4, Claude, Gemini integration for intelligent features', icon: Brain, gradient: 'from-violet-500 to-purple-400' },
                 { title: 'Agentic Workflows', desc: 'n8n & LangChain for autonomous task execution', icon: Wand2, gradient: 'from-blue-500 to-cyan-400' },
@@ -839,9 +839,11 @@ export default function Home() {
                   </motion.div>
                 </MagneticButton>
               ))}
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
-              <AISkillAnalyzer />
+              <MagneticButton strength={0.15}>
+                <div className="h-full">
+                  <AISkillAnalyzer />
+                </div>
+              </MagneticButton>
             </div>
           </div>
         </div>

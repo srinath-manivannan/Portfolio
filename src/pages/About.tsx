@@ -45,7 +45,7 @@ export default function About() {
   }
 
   return (
-    <div className="relative min-h-screen pt-24 pb-24 px-4 overflow-hidden">
+    <div className="relative min-h-screen pt-24 pb-12 px-4 overflow-hidden">
       <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
       <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 
@@ -191,7 +191,7 @@ export default function About() {
               <h2 className="text-2xl md:text-3xl font-bold gradient-text-premium font-display">Key Achievements</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {achievements.map((achievement, index) => {
                 const Icon = iconMap[achievement.icon] || AwardIcon;
                 return (
