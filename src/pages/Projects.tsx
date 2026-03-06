@@ -1,12 +1,166 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, ExternalLink, Github, Star, Radar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, ExternalLink, Github, Star, Radar, X, ChevronLeft, ChevronRight, Eye, Layers } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTheme } from '@/contexts/ThemeContext';
+
+interface ProjectDetail {
+  id: string;
+  title: string;
+  description: string;
+  short_description: string;
+  tech_stack: string[];
+  category: string;
+  live_url: string | null;
+  github_url: string | null;
+  images: string[];
+  video_url: string | null;
+  featured: boolean;
+  display_order: number;
+}
+
+function ProjectModal({ project, onClose }: { project: ProjectDetail; onClose: () => void }) {
+  const [imgIndex, setImgIndex] = useState(0);
+  const images = project.images || [];
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft' && images.length > 1) setImgIndex((i) => (i - 1 + images.length) % images.length);
+      if (e.key === 'ArrowRight' && images.length > 1) setImgIndex((i) => (i + 1) % images.length);
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [onClose, images.length]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="relative rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto custom-scrollbar shadow-2xl"
+        style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Image carousel */}
+        {(images.length > 0 || project.video_url) && (
+          <div className="relative aspect-video bg-white/[0.03] overflow-hidden rounded-t-2xl">
+            {project.video_url ? (
+              <video src={project.video_url} controls muted className="w-full h-full object-cover" />
+            ) : images.length > 0 ? (
+              <>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={imgIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    src={images[imgIndex]}
+                    alt={`${project.title} screenshot ${imgIndex + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </AnimatePresence>
+                {images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setImgIndex((i) => (i - 1 + images.length) % images.length)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setImgIndex((i) => (i + 1) % images.length)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                      {images.map((_: string, i: number) => (
+                        <button
+                          key={i}
+                          onClick={() => setImgIndex(i)}
+                          className={`w-2 h-2 rounded-full transition-all ${i === imgIndex ? 'bg-white w-6' : 'bg-white/40'}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : null}
+          </div>
+        )}
+
+        {/* Content */}
+        <div className="p-8">
+          <div className="flex items-start gap-3 mb-4">
+            <Badge variant="outline" className="text-xs flex-shrink-0">{project.category}</Badge>
+            {project.featured && (
+              <Badge className="bg-primary/20 text-primary border-primary/30 flex items-center gap-1 text-xs">
+                <Star className="w-3 h-3" /> Featured
+              </Badge>
+            )}
+          </div>
+
+          <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">{project.title}</h2>
+          <p className="text-muted-foreground/50 leading-relaxed mb-6 whitespace-pre-line">
+            {project.description || project.short_description}
+          </p>
+
+          {/* Tech Stack */}
+          {project.tech_stack?.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold mb-3 text-muted-foreground/50 uppercase tracking-wider">Tech Stack</h4>
+              <div className="flex flex-wrap gap-2">
+                {project.tech_stack.map((tech: string) => (
+                  <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="flex flex-wrap gap-3">
+            {project.live_url && (
+              <Button asChild className="gradient-primary text-white sheen">
+                <a href={project.live_url} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="w-4 h-4 mr-2" /> Live Demo
+                </a>
+              </Button>
+            )}
+            {project.github_url && (
+              <Button variant="outline" asChild>
+                <a href={project.github_url} target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4 mr-2" /> Source Code
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export default function Projects() {
   const { prefersReducedMotion } = useTheme();
@@ -15,16 +169,13 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null);
 
   const categories = ['All', 'MERN', 'n8n', 'Frontend', 'Full-Stack'];
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  useEffect(() => { fetchProjects(); }, []);
 
-  useEffect(() => {
-    filterProjects();
-  }, [projects, searchQuery, selectedCategory]);
+  useEffect(() => { filterProjects(); }, [projects, searchQuery, selectedCategory]);
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -35,231 +186,232 @@ export default function Projects() {
 
   const filterProjects = () => {
     let filtered = projects;
-
     if (selectedCategory !== 'All') {
       filtered = filtered.filter((p) => p.category === selectedCategory);
     }
-
     if (searchQuery) {
+      const q = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.description.toLowerCase().includes(searchQuery.toLowerCase())
+          p.title.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q) ||
+          p.short_description?.toLowerCase().includes(q) ||
+          p.tech_stack?.some((t: string) => t.toLowerCase().includes(q))
       );
     }
-
     setFilteredProjects(filtered);
   };
 
   const isAIProject = (p: any) => {
     const hay = [p.title, p.short_description, p.description, ...(p.tech_stack || [])]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase();
-    return /\b(ai|ml|machine learning|gpt|transformer|vision|llm|rag|agent|n8n|automation|langchain|openai|claude)\b/i.test(
-      hay
-    );
+      .filter(Boolean).join(' ');
+    return /\b(ai|ml|machine learning|gpt|transformer|vision|llm|rag|agent|n8n|automation|langchain|openai|claude)\b/i.test(hay);
   };
 
-  const underlineRef = useRef<HTMLDivElement | null>(null);
-  const tabsListRef = useRef<HTMLDivElement | null>(null);
+  return (
+    <div className="relative min-h-screen pt-24 pb-24 px-4 overflow-hidden">
+      <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 
-  useEffect(() => {
-    // Animated underline for filters
-    const list = tabsListRef.current;
-    const underline = underlineRef.current;
-    if (!list || !underline) return;
+      {/* Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </AnimatePresence>
 
-    const active = list.querySelector(`[data-value="${selectedCategory}"]`) as HTMLElement | null;
-    if (!active) return;
+      <div className="container mx-auto max-w-7xl relative">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+          className="text-center mb-12"
+        >
+          <span className="premium-badge mb-4 inline-flex items-center gap-1.5">
+            <Layers className="w-3 h-3" />PORTFOLIO
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight mb-4">
+            <span className="gradient-text-premium">Projects</span>
+          </h1>
+          <p className="text-muted-foreground/50 mb-4">
+            {projects.length} projects built with passion and precision
+          </p>
 
-    const rect = active.getBoundingClientRect();
-    const host = list.getBoundingClientRect();
-    underline.style.width = `${rect.width}px`;
-    underline.style.transform = `translateX(${rect.left - host.left}px)`;
-  }, [selectedCategory]);
-
-  const header = useMemo(
-    () => (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
-        className="text-center mb-12"
-      >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="gradient-text">Projects</span>
-        </h1>
-        <p className="text-lg text-muted-foreground mb-8">Explore my work</p>
-
-        {/* Search */}
-        <div className="max-w-md mx-auto mb-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 glassmorphic border-border/50"
-            />
-          </div>
-        </div>
-
-        {/* Filters with animated underline */}
-        <div className="relative inline-block">
-          <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-            <TabsList ref={tabsListRef as any} className="glassmorphic relative">
-              <div
-                ref={underlineRef}
-                className="absolute bottom-0 h-[2px] bg-gradient-to-r from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] transition-transform duration-300"
-                style={{ width: 0 }}
+          {/* Search */}
+          <div className="max-w-md mx-auto mb-8">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
+              <Input
+                type="text"
+                placeholder="Search projects or technologies..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-white/[0.02] border-white/[0.06] rounded-xl"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Filter tabs */}
+          <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
+            <TabsList className="bg-white/[0.02] border border-white/[0.06]">
               {categories.map((cat) => (
-                <TabsTrigger key={cat} value={cat} data-value={cat}>
+                <TabsTrigger key={cat} value={cat}>
                   {cat}
+                  {cat !== 'All' && (
+                    <span className="ml-1.5 text-[10px] opacity-60">
+                      {projects.filter((p) => p.category === cat).length}
+                    </span>
+                  )}
                 </TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
-        </div>
-      </motion.div>
-    ),
-    [prefersReducedMotion, searchQuery, selectedCategory]
-  );
+        </motion.div>
 
-  return (
-    <div className="relative min-h-screen pt-20 pb-20 px-4 overflow-hidden">
-      {/* Background layers */}
-      <div className="absolute inset-0 aurora opacity-60 pointer-events-none" />
-      <div className="absolute inset-0 bg-grid opacity-[0.05] pointer-events-none" />
+        {/* Results count */}
+        {searchQuery && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-sm text-muted-foreground/50 mb-6 text-center"
+          >
+            {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} found
+          </motion.p>
+        )}
 
-      <div className="container mx-auto max-w-7xl relative">
-        {header}
-
-        {/* Skeletons while loading */}
+        {/* Loading skeletons */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="glassmorphic rounded-2xl overflow-hidden animate-pulse">
-                <div className="h-48 bg-muted" />
+              <div key={i} className="premium-card rounded-2xl overflow-hidden animate-pulse">
+                <div className="h-48 bg-white/[0.03]" />
                 <div className="p-6 space-y-3">
-                  <div className="h-5 bg-muted rounded w-3/4" />
-                  <div className="h-4 bg-muted rounded w-full" />
-                  <div className="h-4 bg-muted rounded w-2/3" />
+                  <div className="h-5 bg-white/[0.04] rounded w-3/4" />
+                  <div className="h-4 bg-white/[0.03] rounded w-full" />
+                  <div className="h-4 bg-white/[0.03] rounded w-2/3" />
                 </div>
               </div>
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : index * 0.08 }}
-                className="glassmorphic rounded-2xl overflow-hidden hover-lift group tilt-hover glow-soft relative"
-              >
-                {/* Badges */}
-                <div className="absolute top-3 right-3 z-10 flex gap-2">
-                  {project.featured && (
-                    <Badge className="bg-primary/20 text-primary border-primary/30 backdrop-blur-sm flex items-center gap-1">
-                      <Star className="w-3 h-3" /> Featured
-                    </Badge>
-                  )}
-                  {isAIProject(project) && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
-                      <Radar className="w-3 h-3" /> AI Ready
-                    </Badge>
-                  )}
-                </div>
-                <div className="absolute top-3 left-3 z-10">
-                  <Badge variant="outline" className="bg-[hsl(var(--card))]/80 backdrop-blur-sm text-xs">
-                    {project.category}
-                  </Badge>
-                </div>
-
-                {/* Media with sheen and optional video hover */}
-                <div className="relative h-48 bg-gradient-to-br from-[hsl(var(--gradient-from))/0.2] to-[hsl(var(--gradient-to))/0.2] overflow-hidden">
-                  {project.video_url ? (
-                    <video
-                      src={project.video_url}
-                      muted
-                      loop
-                      playsInline
-                      className="w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
-                  ) : project.images && project.images.length > 0 ? (
-                    <img src={project.images[0]} alt={project.title} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-6xl opacity-20">
-                      {project.title.charAt(0)}
-                    </div>
-                  )}
-                  {/* sheen sweep */}
-                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                    {project.short_description || project.description}
-                  </p>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech_stack?.slice(0, 3).map((tech: string) => (
-                      <Badge key={tech} variant="secondary" className="text-xs">
-                        {tech}
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: prefersReducedMotion ? 0 : index * 0.05 }}
+                  onClick={() => setSelectedProject(project)}
+                  className="premium-card rounded-2xl overflow-hidden group cursor-pointer hover:border-primary/30 transition-all hover:shadow-[0_0_40px_hsl(var(--primary)/0.08)] relative"
+                >
+                  {/* Badges */}
+                  <div className="absolute top-3 right-3 z-10 flex gap-2">
+                    {project.featured && (
+                      <Badge className="bg-primary/20 text-primary border-primary/30 backdrop-blur-sm flex items-center gap-1 text-[10px]">
+                        <Star className="w-3 h-3" /> Featured
                       </Badge>
-                    ))}
-                    {project.tech_stack?.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{project.tech_stack.length - 3}
+                    )}
+                    {isAIProject(project) && (
+                      <Badge variant="secondary" className="flex items-center gap-1 text-[10px] backdrop-blur-sm">
+                        <Radar className="w-3 h-3" /> AI
                       </Badge>
                     )}
                   </div>
-
-                  {/* Links and Live indicator */}
-                  <div className="flex items-center gap-2">
-                    {project.live_url && (
-                      <Button size="sm" variant="outline" className="flex-1" asChild>
-                        <a href={project.live_url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Live
-                        </a>
-                      </Button>
-                    )}
-                    {project.github_url && (
-                      <Button size="sm" variant="outline" className="flex-1" asChild>
-                        <a href={project.github_url} target="_blank" rel="noopener noreferrer">
-                          <Github className="w-4 h-4 mr-2" />
-                          Code
-                        </a>
-                      </Button>
-                    )}
+                  <div className="absolute top-3 left-3 z-10">
+                    <Badge variant="outline" className="bg-white/[0.04] backdrop-blur-sm text-[10px]">
+                      {project.category}
+                    </Badge>
                   </div>
 
-                  {project.live_url && (
-                    <div className="mt-3 inline-flex items-center gap-2 text-xs text-green-500">
-                      <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      Live preview available
+                  {/* Media */}
+                  <div className="relative h-48 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
+                    {project.images?.length > 0 ? (
+                      <img
+                        src={project.images[0]}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Layers className="w-16 h-16 text-primary/10" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-primary/90 text-white text-xs font-medium">
+                        <Eye className="w-3 h-3" /> View Details
+                      </div>
                     </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold font-display mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
+                    <p className="text-muted-foreground/50 text-sm mb-4 line-clamp-2">
+                      {project.short_description || project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tech_stack?.slice(0, 4).map((tech: string) => (
+                        <span key={tech} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[11px] font-medium text-muted-foreground">
+                          {tech}
+                        </span>
+                      ))}
+                      {project.tech_stack?.length > 4 && (
+                        <span className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[11px] font-medium text-primary">
+                          +{project.tech_stack.length - 4}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                      {project.live_url && (
+                        <Button size="sm" variant="outline" className="flex-1 text-xs h-8" asChild>
+                          <a href={project.live_url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3 h-3 mr-1.5" /> Live
+                          </a>
+                        </Button>
+                      )}
+                      {project.github_url && (
+                        <Button size="sm" variant="outline" className="flex-1 text-xs h-8" asChild>
+                          <a href={project.github_url} target="_blank" rel="noopener noreferrer">
+                            <Github className="w-3 h-3 mr-1.5" /> Code
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         )}
 
         {filteredProjects.length === 0 && !loading && (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg">No projects found</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-20"
+          >
+            <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
+            <p className="text-muted-foreground/50 text-lg mb-2">No projects found</p>
+            <p className="text-sm text-muted-foreground/50">Try adjusting your search or filter</p>
+            <Button variant="ghost" onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }} className="mt-4">
+              Clear Filters
+            </Button>
+          </motion.div>
         )}
       </div>
     </div>

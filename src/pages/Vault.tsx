@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/lib/store';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
@@ -127,27 +126,30 @@ export default function Vault() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary/20 border-t-primary"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="relative min-h-screen pt-24 pb-24 px-4 overflow-hidden">
+      <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
+      <div className="max-w-7xl mx-auto relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <h1 className="text-4xl font-bold mb-4">Document Vault</h1>
-          <p className="text-muted-foreground">
+          <span className="premium-badge mb-4"><FileText className="w-3 h-3" />DOCUMENT VAULT</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Document Vault</h1>
+          <p className="text-muted-foreground/50">
             Securely store and manage all your important documents in one place.
           </p>
         </motion.div>
 
         <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-          <TabsList className="w-full justify-start overflow-x-auto flex-wrap h-auto mb-6">
+          <TabsList className="bg-white/[0.02] border border-white/[0.06] rounded-xl w-full justify-start overflow-x-auto flex-wrap h-auto mb-6">
             {categories.map((cat) => (
               <TabsTrigger key={cat.value} value={cat.value} className="gap-2">
                 <cat.icon className="h-4 w-4" />
@@ -159,8 +161,8 @@ export default function Vault() {
           <TabsContent value={selectedCategory}>
             {filteredDocuments.length === 0 ? (
               <div className="text-center py-12">
-                <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground text-lg">No documents in this category yet.</p>
+                <FileText className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
+                <p className="text-muted-foreground/50 text-lg">No documents in this category yet.</p>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -171,7 +173,7 @@ export default function Vault() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer"
+                    <div className="premium-card p-4 cursor-pointer"
                           onClick={() => setSelectedDoc(doc)}>
                       <div className="flex items-start justify-between mb-3">
                         <FileText className="h-8 w-8 text-primary" />
@@ -183,7 +185,7 @@ export default function Vault() {
                         )}
                       </div>
                       <h3 className="font-semibold mb-2 line-clamp-2">{doc.title}</h3>
-                      <div className="space-y-1 text-sm text-muted-foreground">
+                      <div className="space-y-1 text-sm text-muted-foreground/50">
                         {doc.issue_date && (
                           <div className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
@@ -206,7 +208,7 @@ export default function Vault() {
                           ))}
                         </div>
                       )}
-                    </Card>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -215,27 +217,27 @@ export default function Vault() {
         </Tabs>
 
         <Dialog open={!!selectedDoc} onOpenChange={() => setSelectedDoc(null)}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl" style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}>
             {selectedDoc && (
               <div>
                 <DialogHeader>
-                  <DialogTitle className="text-2xl">{selectedDoc.title}</DialogTitle>
+                  <DialogTitle className="text-2xl font-display">{selectedDoc.title}</DialogTitle>
                 </DialogHeader>
                 <div className="mt-4 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-muted-foreground">Category</p>
+                      <p className="text-sm text-muted-foreground/50">Category</p>
                       <p className="font-medium">{selectedDoc.category.replace('_', ' ')}</p>
                     </div>
                     {selectedDoc.document_number && (
                       <div>
-                        <p className="text-sm text-muted-foreground">Document Number</p>
+                        <p className="text-sm text-muted-foreground/50">Document Number</p>
                         <p className="font-medium">{selectedDoc.document_number}</p>
                       </div>
                     )}
                     {selectedDoc.issue_date && (
                       <div>
-                        <p className="text-sm text-muted-foreground">Issue Date</p>
+                        <p className="text-sm text-muted-foreground/50">Issue Date</p>
                         <p className="font-medium">
                           {new Date(selectedDoc.issue_date).toLocaleDateString()}
                         </p>
@@ -243,7 +245,7 @@ export default function Vault() {
                     )}
                     {selectedDoc.expiry_date && (
                       <div>
-                        <p className="text-sm text-muted-foreground">Expiry Date</p>
+                        <p className="text-sm text-muted-foreground/50">Expiry Date</p>
                         <p className="font-medium">
                           {new Date(selectedDoc.expiry_date).toLocaleDateString()}
                         </p>
@@ -251,14 +253,14 @@ export default function Vault() {
                     )}
                     {selectedDoc.issuing_authority && (
                       <div className="col-span-2">
-                        <p className="text-sm text-muted-foreground">Issuing Authority</p>
+                        <p className="text-sm text-muted-foreground/50">Issuing Authority</p>
                         <p className="font-medium">{selectedDoc.issuing_authority}</p>
                       </div>
                     )}
                   </div>
                   {selectedDoc.tags.length > 0 && (
                     <div>
-                      <p className="text-sm text-muted-foreground mb-2">Tags</p>
+                      <p className="text-sm text-muted-foreground/50 mb-2">Tags</p>
                       <div className="flex flex-wrap gap-2">
                         {selectedDoc.tags.map((tag) => (
                           <Badge key={tag} variant="secondary">

@@ -1,26 +1,125 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Srinath Portfolio</title>
-    <meta name="description" content="Srinath Portfolio" />
-    <meta name="author" content="Srinath Portfolio" />
+    <title>Srinath Manivannan — AI Full-Stack Software Engineer</title>
+    <meta name="description" content="Portfolio of Srinath Manivannan — AI-focused Full-Stack Software Engineer specializing in MERN, Next.js, TypeScript, and automation. 3+ years building scalable applications." />
+    <meta name="author" content="Srinath Manivannan" />
+    <meta name="theme-color" content="#050510" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Srinath Manivannan, Full Stack Developer, React, Node.js, TypeScript, MERN, AI, Portfolio, Software Engineer" />
 
-    <meta property="og:title" content="Srinath Portfolio" />
-    <meta property="og:description" content="Srinath Portfolio" />
+    <meta property="og:title" content="Srinath Manivannan — AI Full-Stack Software Engineer" />
+    <meta property="og:description" content="Building scalable applications with MERN, Next.js, TypeScript, and AI-powered automation." />
     <meta property="og:type" content="website" />
-
-    <link rel="icon" type="image/x-icon" href="/public/favicon.ico" />
-    <!-- <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Srinath Manivannan Portfolio" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" /> -->
+    <meta name="twitter:title" content="Srinath Manivannan — AI Full-Stack Software Engineer" />
+    <meta name="twitter:description" content="Building scalable applications with MERN, Next.js, TypeScript, and AI-powered automation." />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="canonical" href="https://srinath-manivannan.dev" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Srinath Manivannan",
+      "jobTitle": "AI Full-Stack Software Engineer",
+      "url": "https://srinath-manivannan.dev",
+      "sameAs": [
+        "https://github.com/srinath-manivannan",
+        "https://linkedin.com/in/srinath-manivannan-57a751197"
+      ],
+      "knowsAbout": ["React", "Node.js", "TypeScript", "MERN Stack", "AI Automation", "Next.js", "AWS"]
+    }
+    </script>
+
+    <style>
+      html { background: #050510; }
+
+      #splash-loader {
+        position: fixed; inset: 0; z-index: 9999;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        background: #050510;
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+      }
+      #splash-loader.fade-out { opacity: 0; visibility: hidden; }
+
+      .splash-brand {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.03em;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6, #eab308);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: splash-fade-in 0.6s ease forwards 0.1s;
+      }
+
+      .splash-bar-track {
+        width: 200px;
+        height: 2px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+        opacity: 0;
+        animation: splash-fade-in 0.4s ease forwards 0.3s;
+      }
+      .splash-bar-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        animation: splash-progress 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
+      }
+
+      .splash-subtitle {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.25);
+        margin-top: 1rem;
+        opacity: 0;
+        animation: splash-fade-in 0.4s ease forwards 0.5s;
+      }
+
+      @keyframes splash-fade-in {
+        to { opacity: 1; }
+      }
+      @keyframes splash-progress {
+        to { width: 100%; }
+      }
+    </style>
   </head>
 
   <body>
+    <div id="splash-loader" aria-label="Loading portfolio">
+      <div class="splash-brand">SM</div>
+      <div class="splash-bar-track"><div class="splash-bar-fill"></div></div>
+      <div class="splash-subtitle">Loading Experience</div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const s = document.getElementById('splash-loader');
+          if (s) { s.classList.add('fade-out'); setTimeout(() => s.remove(), 700); }
+        }, 800);
+      });
+    </script>
   </body>
 </html>

@@ -1,26 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Calendar, Briefcase } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Calendar, Briefcase, ChevronDown, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Badge } from '@/components/ui/badge';
 
 export default function Experience() {
   const [experiences, setExperiences] = useState<any[]>([]);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchExperiences();
-  }, []);
+  useEffect(() => { fetchExperiences(); }, []);
 
   const fetchExperiences = async () => {
     const { data } = await supabase.from('experiences').select('*').order('display_order');
     if (data) setExperiences(data);
   };
 
+  const totalMonths = experiences.reduce((acc, exp) => {
+    if (!exp.duration) return acc;
+    const match = exp.duration.match(/(\d+)/g);
+    if (match) return acc + (match.length > 1 ? parseInt(match[0]) * 12 + parseInt(match[1]) : parseInt(match[0]));
+    return acc;
+  }, 0);
+
   return (
-    <div className="relative min-h-screen pt-20 pb-20 px-4 overflow-hidden">
-      {/* Background layers */}
-      <div className="absolute inset-0 aurora opacity-60 pointer-events-none" />
-      <div className="absolute inset-0 bg-grid opacity-[0.05] pointer-events-none" />
+    <div className="relative min-h-screen pt-24 pb-24 px-4 overflow-hidden">
+      <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 
       <div className="container mx-auto max-w-4xl relative">
         {/* Header */}
@@ -30,87 +36,152 @@ export default function Experience() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">Work Experience</h1>
-          <p className="text-lg text-muted-foreground">My professional journey</p>
+          <span className="premium-badge mb-4 inline-flex items-center gap-1.5">
+            <Briefcase className="w-3 h-3" />
+            CAREER
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Work Experience</h1>
+          <p className="text-muted-foreground/50 mb-6">My professional journey</p>
+
+          {/* Quick stats */}
+          <div className="flex flex-wrap gap-4 justify-center">
+            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+              <span className="text-primary font-bold">{experiences.length}</span>
+              <span className="text-muted-foreground/50 ml-1">Positions</span>
+            </div>
+            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+              <span className="text-primary font-bold">3+</span>
+              <span className="text-muted-foreground/50 ml-1">Years</span>
+            </div>
+            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+              <span className="text-primary font-bold">
+                {new Set(experiences.flatMap((e: any) => e.technologies || [])).size}
+              </span>
+              <span className="text-muted-foreground/50 ml-1">Technologies Used</span>
+            </div>
+          </div>
         </motion.div>
 
-        {/* System Log Timeline */}
+        {/* Timeline */}
         <div className="relative">
-          {/* Glowing vertical rail */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[hsl(var(--gradient-from))] via-[hsl(var(--gradient-via))] to-[hsl(var(--gradient-to))] opacity-40" />
+          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
 
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className={`relative mb-12 md:mb-16 ${index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'}`}
-            >
-              {/* Timeline node */}
-              <div className="absolute left-8 md:left-1/2 w-4 h-4 -translate-x-1/2 rounded-full bg-[hsl(var(--primary))] border-4 border-background shadow-[0_0_0_4px_hsl(var(--primary)/0.15)]" />
+          {experiences.map((exp, index) => {
+            const isExpanded = expandedId === exp.id;
 
-              {/* Content Card */}
-              <div className="ml-16 md:ml-0 glassmorphic rounded-2xl p-6 md:p-8 hover-lift text-left tilt-hover sheen glow-soft">
-                {/* Header */}
-                <div className="mb-4">
-                  <h3 className="text-2xl font-bold mb-1">{exp.role}</h3>
-                  <p className="text-xl gradient-text font-semibold">{exp.company}</p>
+            return (
+              <motion.div
+                key={exp.id}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative mb-8 ml-14 md:ml-20"
+              >
+                {/* Timeline node */}
+                <div className="absolute -left-[3.25rem] md:-left-[4.25rem] top-6 z-10">
+                  <motion.div
+                    whileHover={{ scale: 1.2 }}
+                    className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
+                  />
                 </div>
 
-                {/* Meta Info */}
-                <div className="flex flex-wrap gap-4 mb-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{exp.duration}</span>
+                {/* Year label */}
+                {(index === 0 || experiences[index - 1]?.duration?.split(' ')[0] !== exp.duration?.split(' ')[0]) && (
+                  <div className="absolute -left-[5.5rem] md:-left-[7rem] top-5 text-xs font-mono text-muted-foreground/50 hidden md:block">
+                    {exp.duration?.split('–')[0]?.trim() || ''}
                   </div>
-                  {exp.location && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4" />
-                      <span>{exp.location}</span>
-                    </div>
-                  )}
-                  {exp.work_type && (
-                    <div className="flex items-center gap-2">
-                      <Briefcase className="w-4 h-4" />
-                      <span>{exp.work_type}</span>
-                    </div>
-                  )}
-                </div>
+                )}
 
-                {/* Description - Staggered bullets */}
-                {Array.isArray(exp.description) && exp.description.length > 0 && (
-                  <ul className="space-y-2 mb-6 text-muted-foreground">
-                    {exp.description.map((item: string, i: number) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.35, delay: 0.05 * i }}
-                        className="flex gap-2 items-start"
+                {/* Card */}
+                <div
+                  onClick={() => setExpandedId(isExpanded ? null : exp.id)}
+                  className="premium-card rounded-2xl p-6 md:p-8 cursor-pointer hover:border-primary/30 transition-all group"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl md:text-2xl font-bold font-display mb-1 group-hover:text-primary transition-colors">
+                        {exp.role}
+                      </h3>
+                      <p className="text-lg gradient-text-premium font-semibold mb-3">{exp.company}</p>
+
+                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground/50">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <span>{exp.duration}</span>
+                        </div>
+                        {exp.location && (
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5" />
+                            <span>{exp.location}</span>
+                          </div>
+                        )}
+                        {exp.work_type && (
+                          <div className="flex items-center gap-1.5">
+                            <Briefcase className="w-3.5 h-3.5" />
+                            <span>{exp.work_type}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <motion.div
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex-shrink-0 mt-1"
+                    >
+                      <ChevronDown className="w-5 h-5 text-muted-foreground/50" />
+                    </motion.div>
+                  </div>
+
+                  {/* Expandable content */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
                       >
-                        <span className="text-primary mt-1.5 flex-shrink-0">•</span>
-                        <span className="flex-1">{item}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
-                )}
+                        <div className="mt-6 pt-6 border-t border-white/[0.04]">
+                          {Array.isArray(exp.description) && exp.description.length > 0 && (
+                            <ul className="space-y-3 mb-6">
+                              {exp.description.map((item: string, i: number) => (
+                                <motion.li
+                                  key={i}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: i * 0.05 }}
+                                  className="flex gap-3 items-start text-muted-foreground/50"
+                                >
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-2" />
+                                  <span className="flex-1 leading-relaxed">{item}</span>
+                                </motion.li>
+                              ))}
+                            </ul>
+                          )}
 
-                {/* Technologies */}
-                {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {exp.technologies.map((tech: string) => (
-                      <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                          {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
+                            <div>
+                              <p className="text-xs font-semibold text-muted-foreground/50 uppercase tracking-wider mb-2">Technologies</p>
+                              <div className="flex flex-wrap gap-2">
+                                {exp.technologies.map((tech: string) => (
+                                  <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs">
+                                    {tech}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </div>

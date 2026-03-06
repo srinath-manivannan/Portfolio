@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { MessageCircle, X, Send, Loader2, Zap, ThumbsUp, Brain } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Zap, ThumbsUp, Brain, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '@/contexts/ThemeContext';
+import { generateAIResponse, getTimeBasedSuggestions, getSmartGreeting } from '@/lib/aiEngine';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   ts?: number;
+  followUps?: string[];
 }
 
 interface PortfolioData {
@@ -28,6 +30,13 @@ export default function SmartSearchWidget() {
   const [loading, setLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [quickVisible, setQuickVisible] = useState(true);
+  const [cachedData, setCachedData] = useState<PortfolioData | null>(null);
+  const [conversationContext, setConversationContext] = useState({
+    lastTopic: null as string | null,
+    mentionedEntities: [] as string[],
+    questionCount: 0,
+    sentiment: 'neutral' as 'positive' | 'neutral' | 'curious',
+  });
   const { theme } = useTheme();
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -46,8 +55,8 @@ export default function SmartSearchWidget() {
     };
   }, [theme]);
 
-  // Data fetch
   async function getPortfolioData(): Promise<PortfolioData> {
+    if (cachedData) return cachedData;
     try {
       const [projects, experiences, skills, certifications, achievements, education, profile] = await Promise.all([
         supabase.from('projects').select('*').order('display_order'),
@@ -58,8 +67,7 @@ export default function SmartSearchWidget() {
         supabase.from('education').select('*').order('display_order'),
         supabase.from('profiles').select('*').limit(1).single(),
       ]);
-
-      return {
+      const data = {
         projects: projects.data || [],
         experiences: experiences.data || [],
         skills: skills.data || [],
@@ -68,56 +76,11 @@ export default function SmartSearchWidget() {
         education: education.data || [],
         profile: profile.data || {},
       };
+      setCachedData(data);
+      return data;
     } catch {
       return { projects: [], experiences: [], skills: [], certifications: [], achievements: [], education: [], profile: {} };
     }
-  }
-
-  // Simple RAG response (concise, robust)
-  function generateResponse(q: string, data: PortfolioData): string {
-    const question = q.toLowerCase();
-
-    if (/how many.*years|years.*experience|total.*experience/.test(question)) {
-      return '3+ years of professional experience.';
-    }
-
-    if (/contact|email|phone|reach|hire|message/.test(question)) {
-      const p = data.profile || {};
-      let res = 'Contact:\n';
-      res += `📧 ${p.email || 'srinathmpro2001@gmail.com'}\n`;
-      res += `📱 ${p.phone || '+91 8144429317'}\n`;
-      res += `📍 ${p.location || 'Tindivanam, Tamil Nadu, India'}`;
-      return res;
-    }
-
-    if (/who|about|introduce|yourself|background/.test(question)) {
-      const p = data.profile || {};
-      const name = p.name || 'Srinath Manivannan';
-      const title = p.title || 'AI-Focused Full-Stack Engineer';
-      return `${name} is an ${title} with 3+ years of experience. Specializes in MERN/Next.js, AI automation (n8n), and cloud.`;
-    }
-
-    const kw = question.split(/[^a-z0-9]+/).filter(Boolean);
-
-    const proj = (data.projects || []).filter((p: any) =>
-      kw.some(k =>
-        p.title?.toLowerCase().includes(k) ||
-        p.short_description?.toLowerCase().includes(k) ||
-        p.description?.toLowerCase().includes(k) ||
-        p.tech_stack?.some((t: string) => t.toLowerCase().includes(k))
-      )
-    );
-    if (proj.length) {
-      const lines = proj.slice(0, 4).map((p: any, i: number) => {
-        const tech = (p.tech_stack || []).slice(0, 5).join(', ');
-        const desc = (p.short_description || p.description || '').toString().slice(0, 100);
-        return `${i + 1}. ${p.title}\n   ${desc}${desc.length >= 100 ? '...' : ''}\n   Tech: ${tech}`;
-      });
-      return `Relevant Projects (${proj.length}):\n\n${lines.join('\n\n')}`;
-    }
-
-    const skills = (data.skills || []).slice(0, 8).map((s: any) => s.name).join(', ');
-    return `Try asking about projects, skills, experience, or contact.\n\nTop skills: ${skills}`;
   }
 
   async function handleSend() {
@@ -132,30 +95,33 @@ export default function SmartSearchWidget() {
     try {
       const data = await getPortfolioData();
       setIsTyping(true);
-      await new Promise(r => setTimeout(r, 300));
-      const resp = generateResponse(text, data);
-      await streamAssistant(resp);
+      await new Promise(r => setTimeout(r, 250));
+      const result = generateAIResponse(text, data, conversationContext);
+      setConversationContext(prev => ({ ...prev, ...result.context }));
+      await streamAssistant(result.response, result.followUps);
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Error accessing portfolio data.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Error accessing portfolio data. Please try again.' }]);
     } finally {
       setLoading(false);
       setIsTyping(false);
     }
   }
 
-  async function streamAssistant(full: string) {
-    const chunk = 140;
+  async function streamAssistant(full: string, followUps: string[] = []) {
+    const chunk = 100;
     let acc = '';
     setMessages(prev => [...prev, { role: 'assistant', content: '', ts: Date.now() }]);
     for (let i = 0; i < Math.ceil(full.length / chunk); i++) {
       acc += full.slice(i * chunk, (i + 1) * chunk);
+      const currentAcc = acc;
+      const isLast = i === Math.ceil(full.length / chunk) - 1;
       setMessages(prev => {
         const copy = [...prev];
         const idx = copy.map(m => m.role).lastIndexOf('assistant');
-        if (idx >= 0) copy[idx] = { ...copy[idx], content: acc };
+        if (idx >= 0) copy[idx] = { ...copy[idx], content: currentAcc, followUps: isLast ? followUps : undefined };
         return copy;
       });
-      await new Promise(r => setTimeout(r, 120));
+      await new Promise(r => setTimeout(r, 80));
     }
   }
 
@@ -163,18 +129,17 @@ export default function SmartSearchWidget() {
     if (bottomRef.current) bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const quickQuestions = [
+  const quickQuestions = useMemo(() => getTimeBasedSuggestions().concat([
     'Who is Srinath?',
-    'How many years experience?',
     'Show AI projects',
-    'Capgemini experience?',
-    'React skills?',
     'Contact info?',
-  ];
+  ]).slice(0, 6), []);
+
+  const greeting = useMemo(() => getSmartGreeting(), []);
 
   function handleQuick(q: string) {
     setInput(q);
-    setTimeout(() => handleSend(), 150);
+    setTimeout(() => handleSend(), 100);
   }
 
   // Outside click close
@@ -294,10 +259,13 @@ export default function SmartSearchWidget() {
                 <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg sm:rounded-xl p-2 sm:p-3" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.02), transparent)' }}>
                   <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <div className="text-xs sm:text-sm font-medium truncate" style={{ color: css.foreground }}>Ask anything about Srinath</div>
-                      <div className="text-[10px] sm:text-xs line-clamp-1" style={{ color: css.muted }}>Advanced semantic search</div>
+                      <div className="text-xs sm:text-sm font-medium truncate" style={{ color: css.foreground }}>
+                        <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1.5 text-primary" />
+                        AI-Powered Portfolio Search
+                      </div>
+                      <div className="text-[10px] sm:text-xs line-clamp-1 mt-0.5" style={{ color: css.muted }}>{greeting}</div>
                     </div>
-                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" style={{ color: css.foreground }} />
+                    <Brain className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" style={{ color: css.foreground }} />
                   </div>
                 </motion.div>
 
@@ -326,18 +294,41 @@ export default function SmartSearchWidget() {
                   {messages.map((m, i) => {
                     const isUser = m.role === 'user';
                     return (
-                      <motion.div key={m.ts ?? i} variants={variants.message} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-                        <div className="max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-sm break-words" style={isUser ? userBubble : assistantBubble}>
-                          <div className="text-xs sm:text-sm whitespace-pre-wrap">{m.content}</div>
-                          {!isUser && (
-                            <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 justify-end">
-                              <button className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md hover:opacity-90" style={{ background: 'rgba(255,255,255,0.02)', color: css.foreground }}>
-                                <ThumbsUp className="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-0.5 sm:mr-1" /> Helpful
+                      <React.Fragment key={m.ts ?? i}>
+                        <motion.div variants={variants.message} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
+                          <div className="max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-sm break-words" style={isUser ? userBubble : assistantBubble}>
+                            <div
+                              className="text-xs sm:text-sm whitespace-pre-wrap"
+                              dangerouslySetInnerHTML={{
+                                __html: m.content
+                                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">$1</a>')
+                              }}
+                            />
+                            {!isUser && (
+                              <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 justify-end">
+                                <button className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md hover:opacity-90" style={{ background: 'rgba(255,255,255,0.02)', color: css.foreground }}>
+                                  <ThumbsUp className="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-0.5 sm:mr-1" /> Helpful
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                        {!isUser && m.followUps && m.followUps.length > 0 && (
+                          <motion.div variants={variants.message} className="flex flex-wrap gap-1 ml-1">
+                            {m.followUps.map((q) => (
+                              <button
+                                key={q}
+                                onClick={() => handleQuick(q)}
+                                className="px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors hover:bg-white/5"
+                                style={{ background: 'rgba(255,255,255,0.02)', color: css.foreground, border: '1px solid rgba(255,255,255,0.06)' }}
+                              >
+                                {q}
                               </button>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </React.Fragment>
                     );
                   })}
 
