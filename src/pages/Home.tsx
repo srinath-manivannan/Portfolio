@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useRef, useState, lazy, Suspense } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Github, Linkedin, Mail, Code2, Database, Cloud, Sparkles, Download, ChevronDown, Terminal, Zap, Layers, Cpu, Globe, Braces, Brain, Wand2, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -317,9 +317,6 @@ export default function Home() {
 
   const heroRef = useRef<HTMLDivElement>(null);
   const featuredRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const isStatsInView = useInView(statsRef, { once: true });
-  const isFeaturedInView = useInView(featuredRef, { once: true });
 
   useEffect(() => { fetchData(); }, []);
 
@@ -564,7 +561,7 @@ export default function Home() {
       </div>
 
       {/* ── Stats Counter Section ───────────────────────────── */}
-      <div ref={statsRef} className="relative py-10 md:py-16 overflow-hidden">
+      <div className="relative py-10 md:py-16 overflow-hidden">
         <div className="premium-glow-line" />
         <div className="container mx-auto px-4 mt-4 md:mt-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
@@ -577,7 +574,8 @@ export default function Home() {
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 30 }}
-                animate={isStatsInView ? { opacity: 1, y: 0 } : {}}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="premium-card p-6 text-center group"
               >
@@ -603,7 +601,8 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
-              animate={isFeaturedInView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="text-center mb-10"
             >
@@ -646,7 +645,8 @@ export default function Home() {
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, y: 24 }}
-                  animate={isFeaturedInView ? { opacity: 1, y: 0 } : {}}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.15 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   className="premium-card group"
                 >
