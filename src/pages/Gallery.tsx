@@ -76,10 +76,10 @@ export default function Gallery() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">
             Achievement Gallery
           </h1>
-          <p className="text-muted-foreground/50 max-w-2xl mx-auto mb-4">
+          <p className="text-muted-foreground/70 max-w-2xl mx-auto mb-4">
             A visual showcase of achievements, recognitions, and memorable moments.
           </p>
-          <p className="text-sm text-muted-foreground/50">{items.length} moments captured</p>
+          <p className="text-sm text-muted-foreground/70">{items.length} moments captured</p>
         </motion.div>
 
         {/* Featured */}
@@ -122,8 +122,8 @@ export default function Gallery() {
           <TabsContent value={selectedCategory} className="mt-8">
             {filteredItems.length === 0 ? (
               <div className="text-center py-20">
-                <ImageIcon className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                <p className="text-muted-foreground/50 text-lg">No items in this category yet.</p>
+                <ImageIcon className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
+                <p className="text-muted-foreground/70 text-lg">No items in this category yet.</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -168,9 +168,9 @@ export default function Gallery() {
                   </div>
                   <h2 className="text-2xl font-bold font-display">{selectedItem.title}</h2>
                   {selectedItem.description && (
-                    <p className="text-muted-foreground/50 leading-relaxed">{selectedItem.description}</p>
+                    <p className="text-muted-foreground/70 leading-relaxed">{selectedItem.description}</p>
                   )}
-                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground/50">
+                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground/70">
                     {selectedItem.date && (
                       <span className="flex items-center gap-1.5">
                         <Calendar className="h-4 w-4" />

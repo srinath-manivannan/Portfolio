@@ -77,7 +77,7 @@ export default function AISkillAnalyzer() {
             AI Skill Analyzer
             <Sparkles className="w-4 h-4 text-primary" />
           </h3>
-          <p className="text-xs text-muted-foreground/50">Deep analysis of skill distribution & market fit</p>
+          <p className="text-xs text-muted-foreground/70">Deep analysis of skill distribution & market fit</p>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ export default function AISkillAnalyzer() {
             className="text-center py-8"
           >
             <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin mx-auto mb-4" />
-            <p className="text-sm text-muted-foreground/50 animate-pulse">Analyzing {skills.length} skills across {new Set(skills.map(s => s.category)).size} categories...</p>
+            <p className="text-sm text-muted-foreground/70 animate-pulse">Analyzing {skills.length} skills across {new Set(skills.map(s => s.category)).size} categories...</p>
             <div className="flex justify-center gap-1 mt-3">
               {['Proficiency', 'Market Fit', 'Growth'].map((step, i) => (
                 <motion.span
@@ -126,13 +126,13 @@ export default function AISkillAnalyzer() {
             <div className="p-4 rounded-xl bg-gradient-to-r from-primary/[0.06] to-secondary/[0.04] border border-primary/10">
               <div className="flex items-start gap-2">
                 <Brain className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-foreground/80 leading-relaxed">{result.insight}</p>
+                <p className="text-sm text-foreground/90 leading-relaxed">{result.insight}</p>
               </div>
             </div>
 
             {/* Top Skills */}
             <div>
-              <h4 className="text-xs font-semibold text-muted-foreground/50 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <h4 className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <TrendingUp className="w-3 h-3" /> Top Skills
               </h4>
               <div className="space-y-3">
@@ -157,7 +157,7 @@ export default function AISkillAnalyzer() {
                               {demand.label}
                             </span>
                           )}
-                          <span className="text-xs font-mono text-muted-foreground/50">{skill.proficiency}%</span>
+                          <span className="text-xs font-mono text-muted-foreground/70">{skill.proficiency}%</span>
                         </div>
                       </div>
                       <div className="h-1.5 rounded-full bg-white/[0.04] overflow-hidden">
@@ -177,7 +177,7 @@ export default function AISkillAnalyzer() {
             {/* Focus Areas */}
             {result.focusAreas.length > 0 && (
               <div>
-                <h4 className="text-xs font-semibold text-muted-foreground/50 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <h4 className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                   <Target className="w-3 h-3" /> Suggested Focus Areas
                 </h4>
                 <div className="flex flex-wrap gap-2">

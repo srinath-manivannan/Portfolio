@@ -59,10 +59,10 @@ export default function NotFound() {
           </motion.h1>
 
           <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">Page Not Found</h2>
-          <p className="text-muted-foreground/50 mb-2">
+          <p className="text-muted-foreground/70 mb-2">
             The page <code className="px-2 py-0.5 rounded bg-white/[0.04] text-sm font-mono">{location.pathname}</code> doesn't exist.
           </p>
-          <p className="text-sm text-muted-foreground/50 mb-8">
+          <p className="text-sm text-muted-foreground/70 mb-8">
             It might have been moved, deleted, or you may have mistyped the URL.
           </p>
 

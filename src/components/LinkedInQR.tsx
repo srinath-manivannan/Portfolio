@@ -76,7 +76,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
           className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/30 transition-all text-sm group"
         >
           <QrCode className="w-4 h-4 text-primary" />
-          <span className="text-muted-foreground/50 group-hover:text-primary transition-colors">Scan to connect</span>
+          <span className="text-muted-foreground/70 group-hover:text-primary transition-colors">Scan to connect</span>
         </button>
 
         <AnimatePresence>
@@ -111,7 +111,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
           className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/30 transition-all text-sm group"
         >
           <QrCode className="w-4 h-4 text-primary" />
-          <span className="text-muted-foreground/50 group-hover:text-primary transition-colors">QR Code</span>
+          <span className="text-muted-foreground/70 group-hover:text-primary transition-colors">QR Code</span>
         </button>
 
         <AnimatePresence>
@@ -143,7 +143,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                     <Linkedin className="w-5 h-5 text-blue-500" />
                   </div>
                   <h3 className="text-base font-bold font-display mb-1">Connect on LinkedIn</h3>
-                  <p className="text-xs text-muted-foreground/50 mb-4">Scan this QR code with your phone</p>
+                  <p className="text-xs text-muted-foreground/70 mb-4">Scan this QR code with your phone</p>
 
                   <div ref={qrRef} className="inline-block p-3 rounded-xl bg-white/5 border border-white/[0.04] mb-4">
                     <QRCodeSVG
@@ -155,7 +155,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                     />
                   </div>
 
-                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground/50 mb-3 justify-center">
+                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground/70 mb-3 justify-center">
                     <Smartphone className="w-3 h-3" />
                     Point your camera at the code
                   </div>
@@ -208,12 +208,12 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
             </div>
 
             {showLabel && (
-              <p className="text-sm text-muted-foreground/50 mb-3 leading-relaxed">
+              <p className="text-sm text-muted-foreground/70 mb-3 leading-relaxed">
                 Scan this QR code with your phone camera to connect with me on LinkedIn.
               </p>
             )}
 
-            <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-3 justify-center sm:justify-start">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground/70 mb-3 justify-center sm:justify-start">
               <Smartphone className="w-3.5 h-3.5" />
               Point your camera at the code
             </div>

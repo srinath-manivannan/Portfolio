@@ -121,14 +121,14 @@ function ProjectModal({ project, onClose }: { project: ProjectDetail; onClose: (
           </div>
 
           <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">{project.title}</h2>
-          <p className="text-muted-foreground/50 leading-relaxed mb-6 whitespace-pre-line">
+          <p className="text-muted-foreground/70 leading-relaxed mb-6 whitespace-pre-line">
             {project.description || project.short_description}
           </p>
 
           {/* Tech Stack */}
           {project.tech_stack?.length > 0 && (
             <div className="mb-6">
-              <h4 className="text-sm font-semibold mb-3 text-muted-foreground/50 uppercase tracking-wider">Tech Stack</h4>
+              <h4 className="text-sm font-semibold mb-3 text-muted-foreground/70 uppercase tracking-wider">Tech Stack</h4>
               <div className="flex flex-wrap gap-2">
                 {project.tech_stack.map((tech: string) => (
                   <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20">
@@ -234,14 +234,14 @@ export default function Projects() {
           <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight mb-4">
             <span className="gradient-text-premium">Projects</span>
           </h1>
-          <p className="text-muted-foreground/50 mb-4">
+          <p className="text-muted-foreground/70 mb-4">
             {projects.length} projects built with passion and precision
           </p>
 
           {/* Search */}
           <div className="max-w-md mx-auto mb-8">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/70" />
               <Input
                 type="text"
                 placeholder="Search projects or technologies..."
@@ -282,7 +282,7 @@ export default function Projects() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-sm text-muted-foreground/50 mb-6 text-center"
+            className="text-sm text-muted-foreground/70 mb-6 text-center"
           >
             {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''} found
           </motion.p>
@@ -359,7 +359,7 @@ export default function Projects() {
                   {/* Content */}
                   <div className="p-6">
                     <h3 className="text-xl font-bold font-display mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
-                    <p className="text-muted-foreground/50 text-sm mb-4 line-clamp-2">
+                    <p className="text-muted-foreground/70 text-sm mb-4 line-clamp-2">
                       {project.short_description || project.description}
                     </p>
 
@@ -405,9 +405,9 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-            <p className="text-muted-foreground/50 text-lg mb-2">No projects found</p>
-            <p className="text-sm text-muted-foreground/50">Try adjusting your search or filter</p>
+            <Search className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
+            <p className="text-muted-foreground/70 text-lg mb-2">No projects found</p>
+            <p className="text-sm text-muted-foreground/70">Try adjusting your search or filter</p>
             <Button variant="ghost" onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }} className="mt-4">
               Clear Filters
             </Button>

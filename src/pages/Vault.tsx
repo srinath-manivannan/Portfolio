@@ -143,7 +143,7 @@ export default function Vault() {
         >
           <span className="premium-badge mb-4"><FileText className="w-3 h-3" />DOCUMENT VAULT</span>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Document Vault</h1>
-          <p className="text-muted-foreground/50">
+          <p className="text-muted-foreground/70">
             Securely store and manage all your important documents in one place.
           </p>
         </motion.div>
@@ -161,8 +161,8 @@ export default function Vault() {
           <TabsContent value={selectedCategory}>
             {filteredDocuments.length === 0 ? (
               <div className="text-center py-12">
-                <FileText className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-                <p className="text-muted-foreground/50 text-lg">No documents in this category yet.</p>
+                <FileText className="h-16 w-16 mx-auto text-muted-foreground/60 mb-4" />
+                <p className="text-muted-foreground/70 text-lg">No documents in this category yet.</p>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -185,7 +185,7 @@ export default function Vault() {
                         )}
                       </div>
                       <h3 className="font-semibold mb-2 line-clamp-2">{doc.title}</h3>
-                      <div className="space-y-1 text-sm text-muted-foreground/50">
+                      <div className="space-y-1 text-sm text-muted-foreground/70">
                         {doc.issue_date && (
                           <div className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
@@ -226,18 +226,18 @@ export default function Vault() {
                 <div className="mt-4 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-muted-foreground/50">Category</p>
+                      <p className="text-sm text-muted-foreground/70">Category</p>
                       <p className="font-medium">{selectedDoc.category.replace('_', ' ')}</p>
                     </div>
                     {selectedDoc.document_number && (
                       <div>
-                        <p className="text-sm text-muted-foreground/50">Document Number</p>
+                        <p className="text-sm text-muted-foreground/70">Document Number</p>
                         <p className="font-medium">{selectedDoc.document_number}</p>
                       </div>
                     )}
                     {selectedDoc.issue_date && (
                       <div>
-                        <p className="text-sm text-muted-foreground/50">Issue Date</p>
+                        <p className="text-sm text-muted-foreground/70">Issue Date</p>
                         <p className="font-medium">
                           {new Date(selectedDoc.issue_date).toLocaleDateString()}
                         </p>
@@ -245,7 +245,7 @@ export default function Vault() {
                     )}
                     {selectedDoc.expiry_date && (
                       <div>
-                        <p className="text-sm text-muted-foreground/50">Expiry Date</p>
+                        <p className="text-sm text-muted-foreground/70">Expiry Date</p>
                         <p className="font-medium">
                           {new Date(selectedDoc.expiry_date).toLocaleDateString()}
                         </p>
@@ -253,14 +253,14 @@ export default function Vault() {
                     )}
                     {selectedDoc.issuing_authority && (
                       <div className="col-span-2">
-                        <p className="text-sm text-muted-foreground/50">Issuing Authority</p>
+                        <p className="text-sm text-muted-foreground/70">Issuing Authority</p>
                         <p className="font-medium">{selectedDoc.issuing_authority}</p>
                       </div>
                     )}
                   </div>
                   {selectedDoc.tags.length > 0 && (
                     <div>
-                      <p className="text-sm text-muted-foreground/50 mb-2">Tags</p>
+                      <p className="text-sm text-muted-foreground/70 mb-2">Tags</p>
                       <div className="flex flex-wrap gap-2">
                         {selectedDoc.tags.map((tag) => (
                           <Badge key={tag} variant="secondary">

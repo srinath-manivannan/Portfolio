@@ -107,7 +107,7 @@ export default function Footer() {
                   <span className="gradient-text-premium">Srinath Manivannan</span>
                 </h3>
               </div>
-              <p className="text-muted-foreground/40 mb-6 max-w-md text-sm leading-relaxed">
+              <p className="text-muted-foreground/70 mb-6 max-w-md text-sm leading-relaxed">
                 AI Full-Stack Software Engineer specializing in MERN, Next.js, TypeScript, and automation.
                 Building scalable applications with modern technologies.
               </p>
@@ -122,7 +122,7 @@ export default function Footer() {
                     className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.04] flex items-center justify-center hover:bg-white/[0.06] hover:border-white/[0.08] transition-all"
                     aria-label={social.label}
                   >
-                    <social.icon className="w-3.5 h-3.5 text-muted-foreground/50" />
+                    <social.icon className="w-3.5 h-3.5 text-muted-foreground/70" />
                   </a>
                 ))}
                 <LinkedInQR variant="modal" />
@@ -132,13 +132,13 @@ export default function Footer() {
             {/* Links */}
             {footerLinks.map((section) => (
               <div key={section.title} className="md:col-span-2">
-                <h4 className="font-semibold text-[11px] mb-4 text-muted-foreground/40 tracking-wider uppercase">{section.title}</h4>
+                <h4 className="font-semibold text-[11px] mb-4 text-muted-foreground/70 tracking-wider uppercase">{section.title}</h4>
                 <ul className="space-y-2.5">
                   {section.links.map((link) => (
                     <li key={link.path}>
                       <Link
                         to={link.path}
-                        className="text-sm text-muted-foreground/50 hover:text-primary transition-colors inline-block"
+                        className="text-sm text-muted-foreground/70 hover:text-primary transition-colors inline-block"
                       >
                         {link.name}
                       </Link>
@@ -150,19 +150,19 @@ export default function Footer() {
 
             {/* Status */}
             <div className="md:col-span-3">
-              <h4 className="font-semibold text-[11px] mb-4 text-muted-foreground/40 tracking-wider uppercase">Status</h4>
+              <h4 className="font-semibold text-[11px] mb-4 text-muted-foreground/70 tracking-wider uppercase">Status</h4>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-sm text-muted-foreground/50">Available for hire</span>
+                  <span className="text-sm text-muted-foreground/70">Available for hire</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  <span className="text-sm text-muted-foreground/50">Based in India (IST)</span>
+                  <span className="text-sm text-muted-foreground/70">Based in India (IST)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-                  <span className="text-sm text-muted-foreground/50">Open to remote</span>
+                  <span className="text-sm text-muted-foreground/70">Open to remote</span>
                 </div>
               </div>
             </div>
@@ -189,14 +189,14 @@ export default function Footer() {
           </AnimatePresence>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-muted-foreground/30 text-xs">
+            <p className="text-muted-foreground/60 text-xs">
               © {new Date().getFullYear()} Srinath Manivannan. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
               <span className="text-muted-foreground/20 text-[10px] font-mono tabular-nums">
                 Session: {sessionDuration}
               </span>
-              <p className="text-muted-foreground/30 text-xs flex items-center gap-1">
+              <p className="text-muted-foreground/60 text-xs flex items-center gap-1">
                 Crafted with <Heart className="w-3 h-3 text-red-400/60 inline" /> using React, Vite & Supabase
               </p>
             </div>

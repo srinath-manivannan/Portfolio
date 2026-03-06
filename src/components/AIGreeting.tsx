@@ -47,7 +47,7 @@ export default function AIGreeting() {
               onClick={() => { setDismissed(true); setVisible(false); }}
               className="absolute top-2 right-2 p-1 rounded-md hover:bg-white/[0.04] transition-colors"
             >
-              <X className="w-3 h-3 text-muted-foreground/50" />
+              <X className="w-3 h-3 text-muted-foreground/70" />
             </button>
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
@@ -58,7 +58,7 @@ export default function AIGreeting() {
                   AI Assistant
                   <Sparkles className="w-3 h-3 text-primary" />
                 </p>
-                <p className="text-xs text-muted-foreground/50 leading-relaxed">{greeting}</p>
+                <p className="text-xs text-muted-foreground/70 leading-relaxed">{greeting}</p>
               </div>
             </div>
           </div>

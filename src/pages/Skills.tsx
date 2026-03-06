@@ -61,7 +61,7 @@ export default function Skills() {
             TECHNICAL
           </span>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Skills & Technologies</h1>
-          <p className="text-muted-foreground/50 mb-8">My technical expertise at a glance</p>
+          <p className="text-muted-foreground/70 mb-8">My technical expertise at a glance</p>
 
           {/* Stats */}
           <div className="flex flex-wrap gap-4 justify-center mb-8">
@@ -87,7 +87,7 @@ export default function Skills() {
           <Tabs value={activeCategory} onValueChange={setActiveCategory}>
             <TabsList className="premium-card flex-wrap h-auto">
               {categories.map((cat) => (
-                <TabsTrigger key={cat} value={cat} className="text-xs text-muted-foreground/30">
+                <TabsTrigger key={cat} value={cat} className="text-xs text-muted-foreground/60">
                   {cat}
                 </TabsTrigger>
               ))}

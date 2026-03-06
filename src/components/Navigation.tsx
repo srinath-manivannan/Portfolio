@@ -116,7 +116,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                       className={`w-full flex items-center gap-3 px-5 py-3 text-sm transition-all duration-150 ${
                         i === selectedIndex
                           ? 'bg-primary/10 text-primary'
-                          : 'text-foreground/70 hover:bg-white/[0.03]'
+                          : 'text-foreground/90 hover:bg-white/[0.03]'
                       }`}
                     >
                       <link.icon className="w-4 h-4 flex-shrink-0 opacity-60" />
@@ -129,7 +129,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                 )}
               </div>
 
-              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-muted-foreground/40">
+              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-muted-foreground/70">
                 <span className="flex items-center gap-1">
                   <kbd className="px-1 py-0.5 bg-white/[0.04] rounded border border-white/[0.06] font-mono">↑↓</kbd>
                   Navigate
@@ -244,7 +244,7 @@ export default function Navigation() {
               </div>
               <span className="font-display font-bold text-lg hidden sm:block">
                 <span className="gradient-text-premium">Srinath</span>
-                <span className="text-muted-foreground/50 font-normal">.dev</span>
+                <span className="text-muted-foreground/70 font-normal">.dev</span>
               </span>
             </Link>
 
@@ -296,10 +296,10 @@ export default function Navigation() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setCmdOpen(true)}
-                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground/50 hover:text-foreground/80 hover:bg-white/[0.04]"
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground/70 hover:text-foreground/90 hover:bg-white/[0.04]"
               >
                 <Search className="w-3.5 h-3.5" />
-                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/40 bg-white/[0.04] rounded border border-white/[0.06]">
+                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/70 bg-white/[0.04] rounded border border-white/[0.06]">
                   ⌘K
                 </kbd>
               </Button>
@@ -324,7 +324,7 @@ export default function Navigation() {
               </Button>
 
               <Link to="/admin/login" className="hidden sm:block">
-                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground/40 hover:text-foreground/60 hover:bg-white/[0.04]">
+                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground/70 hover:text-foreground/80 hover:bg-white/[0.04]">
                   Admin
                 </Button>
               </Link>
@@ -377,7 +377,7 @@ export default function Navigation() {
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                         location.pathname === link.path
                           ? 'text-primary bg-primary/[0.08]'
-                          : 'text-foreground/50 hover:text-foreground/80 hover:bg-white/[0.03]'
+                          : 'text-foreground/50 hover:text-foreground/90 hover:bg-white/[0.03]'
                       }`}
                     >
                       <link.icon className="w-4 h-4 opacity-60" />
@@ -388,7 +388,7 @@ export default function Navigation() {
 
                 <div className="pt-2 border-t border-white/[0.04] mt-2">
                   <Link to="/admin/login" onClick={() => setIsOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full rounded-lg text-xs text-muted-foreground/50">
+                    <Button variant="ghost" size="sm" className="w-full rounded-lg text-xs text-muted-foreground/70">
                       Admin Login
                     </Button>
                   </Link>

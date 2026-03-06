@@ -87,10 +87,10 @@ export default function Blog() {
           <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight mb-4">
             <span className="gradient-text-premium">Learning Hub</span>
           </h1>
-          <p className="text-muted-foreground/50 max-w-2xl mx-auto mb-4">
+          <p className="text-muted-foreground/70 max-w-2xl mx-auto mb-4">
             Explore tutorials, insights, and deep dives into React, JavaScript, Full-Stack Development, and more.
           </p>
-          <p className="text-sm text-muted-foreground/50">{posts.length} articles published</p>
+          <p className="text-sm text-muted-foreground/70">{posts.length} articles published</p>
         </motion.div>
 
         {/* Search */}
@@ -106,8 +106,8 @@ export default function Blog() {
 
         {filteredPosts.length === 0 ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-            <BookOpen className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-            <p className="text-muted-foreground/50 text-lg mb-2">
+            <BookOpen className="w-12 h-12 text-muted-foreground/60 mx-auto mb-4" />
+            <p className="text-muted-foreground/70 text-lg mb-2">
               {searchTerm ? 'No posts found matching your search.' : 'No blog posts yet. Check back soon!'}
             </p>
           </motion.div>
@@ -147,7 +147,7 @@ export default function Blog() {
                               {post.blog_categories.name}
                             </Badge>
                           )}
-                          <span className="flex items-center gap-1 text-[10px] text-muted-foreground/50">
+                          <span className="flex items-center gap-1 text-[10px] text-muted-foreground/70">
                             <Clock className="w-3 h-3" />
                             {estimateReadTime(post.excerpt)}
                           </span>
@@ -158,13 +158,13 @@ export default function Blog() {
                         </h2>
 
                         {post.excerpt && (
-                          <p className="text-sm text-muted-foreground/50 mb-4 line-clamp-2 leading-relaxed">
+                          <p className="text-sm text-muted-foreground/70 mb-4 line-clamp-2 leading-relaxed">
                             {post.excerpt}
                           </p>
                         )}
 
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3 text-xs text-muted-foreground/50">
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground/70">
                             <span className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
                               {new Date(post.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -180,7 +180,7 @@ export default function Blog() {
                         {post.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1.5 mt-4">
                             {post.tags.slice(0, 3).map((tag) => (
-                              <span key={tag} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[10px] text-muted-foreground/50">
+                              <span key={tag} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[10px] text-muted-foreground/70">
                                 {tag}
                               </span>
                             ))}
