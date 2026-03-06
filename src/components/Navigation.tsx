@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, Search, ArrowRight, Home, User, Briefcase, FolderKanban, Wrench, Award, BookOpen, Image, Mail, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const navLinks = [
   { name: 'Home', path: '/', icon: Home },
@@ -151,12 +152,12 @@ const statusMessages = ['AVAILABLE', 'AI-POWERED', 'OPEN TO WORK', 'FULL-STACK']
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
   const location = useLocation();
+  const { isDarkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
     const id = setInterval(() => setStatusIndex(i => (i + 1) % statusMessages.length), 3000);
@@ -180,12 +181,6 @@ export default function Navigation() {
   }, []);
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'dark';
-    setIsDark(theme === 'dark');
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, []);
-
-  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -195,13 +190,6 @@ export default function Navigation() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
-
-  const toggleTheme = () => {
-    const newTheme = isDark ? 'light' : 'dark';
-    setIsDark(!isDark);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
 
   return (
     <>
@@ -213,14 +201,9 @@ export default function Navigation() {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'border-b border-white/[0.04]'
+            ? 'border-b border-border/50 bg-background/80 backdrop-blur-xl'
             : 'bg-transparent'
         }`}
-        style={isScrolled ? {
-          background: 'hsl(228 84% 3% / 0.7)',
-          backdropFilter: 'blur(24px) saturate(1.5)',
-          WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
-        } : undefined}
       >
         {/* Scroll progress — ultra-thin premium line */}
         <div
@@ -307,17 +290,18 @@ export default function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleTheme}
+                onClick={toggleDarkMode}
                 className="rounded-lg w-8 h-8 hover:bg-white/[0.04]"
+                title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 <AnimatePresence mode="wait">
-                  {isDark ? (
+                  {isDarkMode ? (
                     <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Sun className="w-4 h-4 text-muted-foreground/80" />
+                      <Sun className="w-4 h-4 text-muted-foreground" />
                     </motion.div>
                   ) : (
                     <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Moon className="w-4 h-4 text-muted-foreground/80" />
+                      <Moon className="w-4 h-4 text-muted-foreground" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -360,8 +344,7 @@ export default function Navigation() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:hidden border-t border-white/[0.04] overflow-hidden"
-              style={{ background: 'hsl(228 84% 3% / 0.95)', backdropFilter: 'blur(32px)' }}
+              className="lg:hidden border-t border-border/50 overflow-hidden bg-background/95 backdrop-blur-xl"
             >
               <div className="px-4 py-3 space-y-0.5">
                 {navLinks.map((link, i) => (

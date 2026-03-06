@@ -14,6 +14,8 @@ export type ThemeName =
 interface ThemeContextType {
   theme: ThemeName;
   setTheme: (theme: ThemeName) => void;
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
   isLoading: boolean;
   prefersReducedMotion: boolean;
   setPrefersReducedMotion: (val: boolean) => void;
@@ -171,23 +173,36 @@ const themes: Record<
   },
 };
 
-function applyCSSVariables(themeName: ThemeName) {
+function applyCSSVariables(themeName: ThemeName, darkMode: boolean) {
   const selected = themes[themeName];
   const root = document.documentElement;
-  Object.entries(selected.colors).forEach(([key, value]) => {
-    root.style.setProperty(key, value);
-  });
-  // gradient helpers
-  if (selected.gradient) {
-    root.style.setProperty('--gradient-from', selected.gradient.from);
-    root.style.setProperty('--gradient-to', selected.gradient.to);
-    if (selected.gradient.via) root.style.setProperty('--gradient-via', selected.gradient.via);
+
+  if (darkMode) {
+    Object.entries(selected.colors).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+    if (selected.gradient) {
+      root.style.setProperty('--gradient-from', selected.gradient.from);
+      root.style.setProperty('--gradient-to', selected.gradient.to);
+      if (selected.gradient.via) root.style.setProperty('--gradient-via', selected.gradient.via);
+    }
+  } else {
+    // Clear inline overrides so CSS :root light variables take effect
+    const allKeys = [
+      ...Object.keys(selected.colors),
+      '--gradient-from', '--gradient-via', '--gradient-to',
+    ];
+    allKeys.forEach(key => root.style.removeProperty(key));
   }
   root.style.fontFamily = selected.fonts;
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeName>('professional');
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const stored = localStorage.getItem('darkMode');
+    return stored !== null ? stored === 'true' : true;
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotionState] = useState<boolean>(() => {
     const stored = localStorage.getItem('prefersReducedMotion');
@@ -197,10 +212,20 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     loadTheme();
-    // Apply motion class
+    document.documentElement.classList.toggle('dark', isDarkMode);
     document.documentElement.classList.toggle('motion-safe', !prefersReducedMotion);
     document.documentElement.classList.toggle('motion-reduce', prefersReducedMotion);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    localStorage.setItem('darkMode', String(isDarkMode));
+    applyCSSVariables(theme, isDarkMode);
+  }, [isDarkMode, theme]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => !prev);
+  };
 
   useEffect(() => {
     // keep DOM classes in sync when toggled
@@ -219,7 +244,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const saved = (data?.current_theme as ThemeName | undefined) ??
         ((localStorage.getItem('theme') as ThemeName | null) || 'professional');
 
-      applyCSSVariables(saved);
+      applyCSSVariables(saved, isDarkMode);
       setThemeState(saved);
     } catch (error) {
       console.error('Error loading theme:', error);
@@ -229,7 +254,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const setTheme = async (themeName: ThemeName) => {
-    applyCSSVariables(themeName);
+    applyCSSVariables(themeName, isDarkMode);
     setThemeState(themeName);
     localStorage.setItem('theme', themeName);
     try {
@@ -250,8 +275,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const value = useMemo(
-    () => ({ theme, setTheme, isLoading, prefersReducedMotion, setPrefersReducedMotion }),
-    [theme, isLoading, prefersReducedMotion]
+    () => ({ theme, setTheme, isDarkMode, toggleDarkMode, isLoading, prefersReducedMotion, setPrefersReducedMotion }),
+    [theme, isDarkMode, isLoading, prefersReducedMotion]
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
