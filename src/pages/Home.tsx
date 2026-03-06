@@ -273,7 +273,7 @@ function TerminalBlock() {
         <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-        <span className="ml-2 text-[11px] text-muted-foreground/70 font-mono">terminal</span>
+        <span className="ml-2 text-[11px] text-muted-foreground font-mono">terminal</span>
       </div>
       <div className="p-5 font-mono text-sm space-y-1.5">
         {lines.map((line, i) => (
@@ -283,7 +283,7 @@ function TerminalBlock() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.12 }}
-            className={line.prompt ? 'text-primary' : 'text-muted-foreground/60'}
+            className={line.prompt ? 'text-primary' : 'text-muted-foreground/80'}
           >
             {line.prompt && <span className="text-green-400/80 mr-2">❯</span>}
             {line.text}
@@ -352,7 +352,7 @@ export default function Home() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-          <p className="text-muted-foreground/70 text-sm">Loading portfolio...</p>
+          <p className="text-muted-foreground text-sm">Loading portfolio...</p>
         </div>
       </div>
     );
@@ -453,7 +453,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="text-base text-muted-foreground/70 mb-8 leading-relaxed max-w-lg"
+                  className="text-base text-muted-foreground mb-8 leading-relaxed max-w-lg"
                 >
                   {profile.bio}
                 </motion.p>
@@ -550,7 +550,7 @@ export default function Home() {
                 onClick={scrollToContent}
                 animate={{ y: [0, 6, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-muted-foreground/60 transition-colors"
+                className="flex flex-col items-center gap-2 text-muted-foreground/80 hover:text-muted-foreground/80 transition-colors"
               >
                 <span className="text-[10px] font-medium tracking-[0.2em] uppercase">Explore</span>
                 <ChevronDown className="w-4 h-4" />
@@ -586,7 +586,7 @@ export default function Home() {
                   <div className="text-3xl md:text-4xl font-bold gradient-text-premium mb-1 select-none font-display">
                     {typeof stat.value === 'string' ? stat.value : stat.value}
                   </div>
-                  <div className="text-[11px] text-muted-foreground/70 font-medium tracking-wide uppercase">{stat.label}</div>
+                  <div className="text-[11px] text-muted-foreground font-medium tracking-wide uppercase">{stat.label}</div>
                 </div>
               </motion.div>
             ))}
@@ -613,7 +613,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold mb-4 font-display tracking-tight">
                 What I <span className="gradient-text-premium">Build</span>
               </h2>
-              <p className="text-muted-foreground/60 max-w-xl mx-auto text-balance">
+              <p className="text-muted-foreground/80 max-w-xl mx-auto text-balance">
                 Crafting scalable applications with modern technologies and best practices
               </p>
             </motion.div>
@@ -655,11 +655,11 @@ export default function Home() {
                       <item.icon className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-bold mb-3 font-display group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground/60 mb-6 leading-relaxed">{item.description}</p>
+                    <p className="text-sm text-muted-foreground/80 mb-6 leading-relaxed">{item.description}</p>
 
                     <div className="space-y-2.5">
                       {item.features.map((f) => (
-                        <div key={f} className="flex items-center gap-2.5 text-sm text-muted-foreground/70">
+                        <div key={f} className="flex items-center gap-2.5 text-sm text-muted-foreground">
                           <div className={`w-1 h-1 rounded-full bg-gradient-to-r ${item.gradient}`} />
                           {f}
                         </div>
@@ -691,7 +691,7 @@ export default function Home() {
                 <h2 className="text-3xl md:text-5xl font-bold mb-4 font-display tracking-tight">
                   Built with <span className="gradient-text-premium">Modern Tools</span>
                 </h2>
-                <p className="text-muted-foreground/60 mb-8 leading-relaxed">
+                <p className="text-muted-foreground/80 mb-8 leading-relaxed">
                   I write clean, maintainable code using the latest frameworks and best practices.
                   Every project is built with performance, accessibility, and scalability in mind.
                 </p>
@@ -705,7 +705,7 @@ export default function Home() {
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors">
                       <item.icon className="w-4 h-4 text-primary/70 flex-shrink-0" />
-                      <span className="text-sm font-medium text-foreground/90">{item.label}</span>
+                      <span className="text-sm font-medium text-foreground">{item.label}</span>
                     </div>
                   ))}
                 </div>
@@ -741,7 +741,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold mb-3 font-display tracking-tight">
                 Technologies I <span className="gradient-text-premium">Work With</span>
               </h2>
-              <p className="text-muted-foreground/70">The tools and frameworks powering my projects</p>
+              <p className="text-muted-foreground">The tools and frameworks powering my projects</p>
             </motion.div>
             <TechMarquee />
           </div>
@@ -767,7 +767,7 @@ export default function Home() {
                 <h2 className="text-3xl md:text-5xl font-bold mb-4 font-display tracking-tight">
                   Writing <span className="gradient-text-premium">Production-Grade</span> Code
                 </h2>
-                <p className="text-muted-foreground/60 mb-8 leading-relaxed">
+                <p className="text-muted-foreground/80 mb-8 leading-relaxed">
                   From AI agent pipelines to real-time APIs, I write clean, type-safe, and thoroughly tested code.
                   Every line is crafted for readability, performance, and maintainability.
                 </p>
@@ -781,7 +781,7 @@ export default function Home() {
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                       <item.icon className="w-4 h-4 text-primary/70 flex-shrink-0" />
-                      <span className="text-sm font-medium text-foreground/90">{item.label}</span>
+                      <span className="text-sm font-medium text-foreground">{item.label}</span>
                     </div>
                   ))}
                 </div>
@@ -813,7 +813,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold mb-4 font-display tracking-tight">
                 Powered by <span className="gradient-text-premium">Artificial Intelligence</span>
               </h2>
-              <p className="text-muted-foreground/70 max-w-xl mx-auto text-balance">
+              <p className="text-muted-foreground max-w-xl mx-auto text-balance">
                 Leveraging cutting-edge AI and machine learning to build intelligent, adaptive applications
               </p>
             </motion.div>
@@ -837,7 +837,7 @@ export default function Home() {
                       <item.icon className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="font-bold mb-2 font-display group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground/70 leading-relaxed">{item.desc}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                   </motion.div>
                 </MagneticButton>
               ))}
@@ -869,7 +869,7 @@ export default function Home() {
               Let's Build Something{' '}
               <span className="gradient-text-premium">Extraordinary</span>
             </h2>
-            <p className="text-lg text-muted-foreground/70 mb-10 max-w-lg mx-auto text-balance">
+            <p className="text-lg text-muted-foreground mb-10 max-w-lg mx-auto text-balance">
               Have a project in mind? I'd love to hear about it. Let's connect and create something remarkable together.
             </p>
             <div className="flex flex-wrap gap-3 justify-center mb-12">

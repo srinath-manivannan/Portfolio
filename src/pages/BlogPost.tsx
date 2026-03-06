@@ -141,7 +141,7 @@ export default function BlogPost() {
       <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative">
-        <Link to="/blog" className="inline-flex items-center text-sm text-muted-foreground/70 hover:text-foreground mb-6">
+        <Link to="/blog" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to all posts
         </Link>
@@ -163,13 +163,13 @@ export default function BlogPost() {
                 {post.blog_categories.name}
               </Badge>
             )}
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground/70">
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Clock className="w-3 h-3" />
               {readTime} min read
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold font-display tracking-tight mb-4">{post.title}</h1>
-          <div className="flex items-center gap-4 text-muted-foreground/70">
+          <div className="flex items-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               {new Date(post.published_at).toLocaleDateString('en-US', {
@@ -182,7 +182,7 @@ export default function BlogPost() {
               <Eye className="h-4 w-4" />
               {post.views_count} views
             </div>
-            <Button variant="ghost" size="sm" onClick={handleShare} className="text-muted-foreground/70">
+            <Button variant="ghost" size="sm" onClick={handleShare} className="text-muted-foreground">
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>
@@ -225,7 +225,7 @@ export default function BlogPost() {
               <h3 className="text-sm font-semibold font-display mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 rounded-lg bg-white/[0.03] text-muted-foreground/60 text-sm">
+                  <span key={tag} className="px-3 py-1 rounded-lg bg-white/[0.03] text-muted-foreground/80 text-sm">
                     {tag}
                   </span>
                 ))}

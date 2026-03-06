@@ -72,7 +72,7 @@ export default function GitHubHeatmap() {
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-bold font-display text-lg">Contribution Activity</h3>
-        <span className="text-sm text-muted-foreground/70">
+        <span className="text-sm text-muted-foreground">
           {totalContributions} contributions in the last 6 months
         </span>
       </div>
@@ -90,7 +90,7 @@ export default function GitHubHeatmap() {
               const prevMonth = new Date(prevWeek.date).getMonth();
               if (curMonth !== prevMonth) {
                 return (
-                  <span key={wi} className="text-[10px] text-muted-foreground/70 w-[11px] text-center">
+                  <span key={wi} className="text-[10px] text-muted-foreground w-[11px] text-center">
                     {months[curMonth]}
                   </span>
                 );
@@ -101,7 +101,7 @@ export default function GitHubHeatmap() {
 
           <div className="flex gap-0">
             {/* Day labels */}
-            <div className="flex flex-col gap-[3px] mr-1 text-[10px] text-muted-foreground/70">
+            <div className="flex flex-col gap-[3px] mr-1 text-[10px] text-muted-foreground">
               <span className="h-[11px]" />
               <span className="h-[11px] leading-[11px]">Mon</span>
               <span className="h-[11px]" />
@@ -140,11 +140,11 @@ export default function GitHubHeatmap() {
 
       {/* Legend */}
       <div className="flex items-center gap-2 mt-4 justify-end">
-        <span className="text-[10px] text-muted-foreground/70">Less</span>
+        <span className="text-[10px] text-muted-foreground">Less</span>
         {levelColors.map((color, i) => (
           <div key={i} className={`w-[11px] h-[11px] rounded-sm ${color}`} />
         ))}
-        <span className="text-[10px] text-muted-foreground/70">More</span>
+        <span className="text-[10px] text-muted-foreground">More</span>
       </div>
     </motion.div>
   );

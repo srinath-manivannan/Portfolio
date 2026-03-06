@@ -95,16 +95,16 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Where do you want to go?"
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/80"
                 />
-                <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono text-muted-foreground/60 bg-white/[0.04] rounded-md border border-white/[0.06]">
+                <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono text-muted-foreground/80 bg-white/[0.04] rounded-md border border-white/[0.06]">
                   ESC
                 </kbd>
               </div>
 
               <div className="max-h-64 overflow-y-auto custom-scrollbar py-1">
                 {filtered.length === 0 ? (
-                  <div className="px-5 py-8 text-center text-sm text-muted-foreground/60">
+                  <div className="px-5 py-8 text-center text-sm text-muted-foreground/80">
                     No results found
                   </div>
                 ) : (
@@ -116,7 +116,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                       className={`w-full flex items-center gap-3 px-5 py-3 text-sm transition-all duration-150 ${
                         i === selectedIndex
                           ? 'bg-primary/10 text-primary'
-                          : 'text-foreground/90 hover:bg-white/[0.03]'
+                          : 'text-foreground hover:bg-white/[0.03]'
                       }`}
                     >
                       <link.icon className="w-4 h-4 flex-shrink-0 opacity-60" />
@@ -129,7 +129,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                 )}
               </div>
 
-              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-muted-foreground/70">
+              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <kbd className="px-1 py-0.5 bg-white/[0.04] rounded border border-white/[0.06] font-mono">↑↓</kbd>
                   Navigate
@@ -244,7 +244,7 @@ export default function Navigation() {
               </div>
               <span className="font-display font-bold text-lg hidden sm:block">
                 <span className="gradient-text-premium">Srinath</span>
-                <span className="text-muted-foreground/70 font-normal">.dev</span>
+                <span className="text-muted-foreground font-normal">.dev</span>
               </span>
             </Link>
 
@@ -258,7 +258,7 @@ export default function Navigation() {
                     to={link.path}
                     className="relative px-3 py-2 rounded-lg text-[13px] font-medium transition-all group"
                   >
-                    <span className={`relative z-10 ${isActive ? 'text-primary' : 'text-foreground/50 group-hover:text-foreground/90'}`}>
+                    <span className={`relative z-10 ${isActive ? 'text-primary' : 'text-foreground/50 group-hover:text-foreground'}`}>
                       {link.name}
                     </span>
                     {isActive && (
@@ -296,10 +296,10 @@ export default function Navigation() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setCmdOpen(true)}
-                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground/70 hover:text-foreground/90 hover:bg-white/[0.04]"
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.04]"
               >
                 <Search className="w-3.5 h-3.5" />
-                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/70 bg-white/[0.04] rounded border border-white/[0.06]">
+                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground bg-white/[0.04] rounded border border-white/[0.06]">
                   ⌘K
                 </kbd>
               </Button>
@@ -313,18 +313,18 @@ export default function Navigation() {
                 <AnimatePresence mode="wait">
                   {isDark ? (
                     <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Sun className="w-4 h-4 text-muted-foreground/60" />
+                      <Sun className="w-4 h-4 text-muted-foreground/80" />
                     </motion.div>
                   ) : (
                     <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Moon className="w-4 h-4 text-muted-foreground/60" />
+                      <Moon className="w-4 h-4 text-muted-foreground/80" />
                     </motion.div>
                   )}
                 </AnimatePresence>
               </Button>
 
               <Link to="/admin/login" className="hidden sm:block">
-                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground/70 hover:text-foreground/80 hover:bg-white/[0.04]">
+                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground hover:text-foreground/95 hover:bg-white/[0.04]">
                   Admin
                 </Button>
               </Link>
@@ -377,7 +377,7 @@ export default function Navigation() {
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                         location.pathname === link.path
                           ? 'text-primary bg-primary/[0.08]'
-                          : 'text-foreground/50 hover:text-foreground/90 hover:bg-white/[0.03]'
+                          : 'text-foreground/50 hover:text-foreground hover:bg-white/[0.03]'
                       }`}
                     >
                       <link.icon className="w-4 h-4 opacity-60" />
@@ -388,7 +388,7 @@ export default function Navigation() {
 
                 <div className="pt-2 border-t border-white/[0.04] mt-2">
                   <Link to="/admin/login" onClick={() => setIsOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full rounded-lg text-xs text-muted-foreground/70">
+                    <Button variant="ghost" size="sm" className="w-full rounded-lg text-xs text-muted-foreground">
                       Admin Login
                     </Button>
                   </Link>

@@ -38,7 +38,7 @@ export default function About() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-          <p className="text-muted-foreground/70 text-sm">Loading...</p>
+          <p className="text-muted-foreground text-sm">Loading...</p>
         </div>
       </div>
     );
@@ -64,7 +64,7 @@ export default function About() {
           <h1 className="text-4xl md:text-6xl font-bold mb-4 font-display tracking-tight">
             <span className="gradient-text-premium">About Me</span>
           </h1>
-          <p className="text-muted-foreground/70">Get to know the person behind the code</p>
+          <p className="text-muted-foreground">Get to know the person behind the code</p>
         </motion.div>
 
         {/* Profile Card */}
@@ -112,19 +112,19 @@ export default function About() {
 
               <div className="space-y-2 mb-5">
                 {profile.email && (
-                  <a href={`mailto:${profile.email}`} className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground/70 hover:text-primary transition-colors">
+                  <a href={`mailto:${profile.email}`} className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground hover:text-primary transition-colors">
                     <Mail className="w-3.5 h-3.5 text-primary/70" />
                     {profile.email}
                   </a>
                 )}
                 {profile.phone && (
-                  <a href={`tel:${profile.phone}`} className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground/70 hover:text-primary transition-colors">
+                  <a href={`tel:${profile.phone}`} className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground hover:text-primary transition-colors">
                     <Phone className="w-3.5 h-3.5 text-primary/70" />
                     {profile.phone}
                   </a>
                 )}
                 {profile.location && (
-                  <div className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground/70">
+                  <div className="flex items-center gap-2 justify-center md:justify-start text-sm text-muted-foreground">
                     <MapPin className="w-3.5 h-3.5 text-primary/70" />
                     {profile.location}
                   </div>
@@ -165,11 +165,11 @@ export default function About() {
 
           <div className="mt-8 pt-8 border-t border-white/[0.04]">
             <h3 className="text-base font-semibold mb-3 font-display">About</h3>
-            <p className="text-muted-foreground/60 leading-relaxed">{profile.bio}</p>
+            <p className="text-muted-foreground/80 leading-relaxed">{profile.bio}</p>
 
             <div className="mt-6 flex flex-wrap gap-2">
               {['Reliability', 'Performance', 'Safety', 'Privacy', 'Clean Code'].map((p) => (
-                <span key={p} className="px-3 py-1 rounded-lg bg-white/[0.02] border border-white/[0.04] text-xs text-foreground/80 font-medium">
+                <span key={p} className="px-3 py-1 rounded-lg bg-white/[0.02] border border-white/[0.04] text-xs text-foreground/95 font-medium">
                   {p}
                 </span>
               ))}
@@ -207,12 +207,12 @@ export default function About() {
                       <Icon className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-base font-bold mb-2 font-display group-hover:text-primary transition-colors">{achievement.title}</h3>
-                    <p className="text-sm text-muted-foreground/70 mb-3 leading-relaxed">{achievement.description}</p>
+                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{achievement.description}</p>
                     {achievement.institution && (
                       <p className="text-sm text-primary/70 font-medium">{achievement.institution}</p>
                     )}
                     {achievement.date && (
-                      <p className="text-xs text-muted-foreground/60 mt-2">{new Date(achievement.date).getFullYear()}</p>
+                      <p className="text-xs text-muted-foreground/80 mt-2">{new Date(achievement.date).getFullYear()}</p>
                     )}
                   </motion.div>
                 );
@@ -249,14 +249,14 @@ export default function About() {
                     <div className="absolute left-[-4px] md:left-[-6px] top-2 w-3 h-3 rounded-full bg-primary shadow-[0_0_0_3px_hsl(var(--primary)/0.15)]" />
                     <h3 className="text-lg font-bold mb-1 font-display">{edu.degree}</h3>
                     <p className="text-base text-primary/80 font-semibold mb-1">{edu.institution}</p>
-                    {edu.university && <p className="text-sm text-muted-foreground/70 mb-2">{edu.university}</p>}
-                    <div className="flex flex-wrap gap-3 text-sm text-muted-foreground/70 mb-3">
+                    {edu.university && <p className="text-sm text-muted-foreground mb-2">{edu.university}</p>}
+                    <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-3">
                       <span>{edu.duration}</span>
                       {edu.cgpa && <span className="text-primary/70 font-medium">CGPA: {edu.cgpa}</span>}
                       {edu.grade && <span className="text-primary/70 font-medium">{edu.grade}</span>}
                     </div>
                     {edu.achievements?.length > 0 && (
-                      <ul className="space-y-1.5 text-sm text-muted-foreground/70">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         {edu.achievements.map((a: string, i: number) => (
                           <li key={i} className="flex gap-2 items-start">
                             <span className="w-1 h-1 rounded-full bg-primary/50 flex-shrink-0 mt-2" />

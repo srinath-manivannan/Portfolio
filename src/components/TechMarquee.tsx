@@ -45,7 +45,7 @@ export default function TechMarquee() {
               className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-150"
               style={{ backgroundColor: tech.color }}
             />
-            <span className="text-sm font-medium text-muted-foreground/60 group-hover:text-foreground transition-colors">
+            <span className="text-sm font-medium text-muted-foreground/80 group-hover:text-foreground transition-colors">
               {tech.name}
             </span>
           </div>
@@ -66,7 +66,7 @@ export default function TechMarquee() {
               className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-150"
               style={{ backgroundColor: tech.color }}
             />
-            <span className="text-sm font-medium text-muted-foreground/60 group-hover:text-foreground transition-colors">
+            <span className="text-sm font-medium text-muted-foreground/80 group-hover:text-foreground transition-colors">
               {tech.name}
             </span>
           </div>

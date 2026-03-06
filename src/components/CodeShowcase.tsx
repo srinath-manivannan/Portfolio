@@ -81,7 +81,7 @@ jobs:
 
 function highlightSyntax(code: string): string {
   return code
-    .replace(/(\/\/.*$)/gm, '<span class="text-muted-foreground/60">$1</span>')
+    .replace(/(\/\/.*$)/gm, '<span class="text-muted-foreground/80">$1</span>')
     .replace(/\b(const|let|var|function|return|await|new|import|from|export|default|async|if|else)\b/g, '<span class="text-purple-400">$1</span>')
     .replace(/\b(useRef|useEffect|useState|useCallback|useMemo)\b/g, '<span class="text-yellow-400">$1</span>')
     .replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="text-green-400">$1</span>')
@@ -128,7 +128,7 @@ export default function CodeShowcase() {
           </div>
           <div className="ml-3 flex items-center gap-1.5">
             <Code2 className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-mono text-muted-foreground/70">{snippet.title}</span>
+            <span className="text-xs font-mono text-muted-foreground">{snippet.title}</span>
           </div>
         </div>
 
@@ -138,7 +138,7 @@ export default function CodeShowcase() {
             {snippet.label}
           </span>
           <button onClick={copyCode} className="p-1.5 rounded-md hover:bg-white/[0.04] transition-colors">
-            {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground/70" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
           </button>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default function CodeShowcase() {
         </AnimatePresence>
 
         {/* Line numbers gutter */}
-        <div className="absolute top-5 left-0 flex flex-col font-mono text-sm leading-relaxed text-muted-foreground/60 pl-2 select-none pointer-events-none">
+        <div className="absolute top-5 left-0 flex flex-col font-mono text-sm leading-relaxed text-muted-foreground/80 pl-2 select-none pointer-events-none">
           {snippet.code.split('\n').map((_, i) => (
             <span key={i}>{i + 1}</span>
           ))}

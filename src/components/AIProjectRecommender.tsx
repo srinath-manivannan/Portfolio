@@ -71,7 +71,7 @@ export default function AIProjectRecommender() {
             AI Project Recommender
             <Sparkles className="w-4 h-4 text-primary" />
           </h3>
-          <p className="text-xs text-muted-foreground/70">Select your interest to get personalized recommendations</p>
+          <p className="text-xs text-muted-foreground">Select your interest to get personalized recommendations</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export default function AIProjectRecommender() {
               className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/20 transition-all text-left group"
             >
               <p className="text-sm font-medium group-hover:text-primary transition-colors">{interest.label}</p>
-              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/70 mt-2 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="w-3.5 h-3.5 text-muted-foreground mt-2 group-hover:text-primary group-hover:translate-x-1 transition-all" />
             </motion.button>
           ))}
         </div>
@@ -114,7 +114,7 @@ export default function AIProjectRecommender() {
                 className="text-center py-8"
               >
                 <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground/70 animate-pulse">AI is analyzing projects...</p>
+                <p className="text-sm text-muted-foreground animate-pulse">AI is analyzing projects...</p>
               </motion.div>
             ) : (
               <motion.div
@@ -123,7 +123,7 @@ export default function AIProjectRecommender() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-3"
               >
-                <p className="text-xs text-muted-foreground/70 mb-3">
+                <p className="text-xs text-muted-foreground mb-3">
                   <Sparkles className="w-3 h-3 inline mr-1" />
                   Found {recommendations.length} relevant project{recommendations.length !== 1 ? 's' : ''} for you
                 </p>
@@ -141,12 +141,12 @@ export default function AIProjectRecommender() {
                         <h4 className="font-bold text-sm group-hover:text-primary transition-colors truncate">
                           {proj.title}
                         </h4>
-                        <p className="text-xs text-muted-foreground/70 mt-1 line-clamp-2">
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                           {proj.short_description || proj.description}
                         </p>
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {(proj.tech_stack || []).slice(0, 4).map((tech: string) => (
-                            <span key={tech} className="px-1.5 py-0.5 text-[10px] rounded bg-white/[0.03] text-muted-foreground/70">
+                            <span key={tech} className="px-1.5 py-0.5 text-[10px] rounded bg-white/[0.03] text-muted-foreground">
                               {tech}
                             </span>
                           ))}

@@ -34,22 +34,22 @@ export default function Experience() {
             CAREER
           </span>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Work Experience</h1>
-          <p className="text-muted-foreground/70 mb-6">My professional journey</p>
+          <p className="text-muted-foreground mb-6">My professional journey</p>
 
           <div className="flex flex-wrap gap-3 justify-center">
             <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">{experiences.length}</span>
-              <span className="text-muted-foreground/70 ml-1">Positions</span>
+              <span className="text-muted-foreground ml-1">Positions</span>
             </div>
             <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">3+</span>
-              <span className="text-muted-foreground/70 ml-1">Years</span>
+              <span className="text-muted-foreground ml-1">Years</span>
             </div>
             <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">
                 {new Set(experiences.flatMap((e: any) => e.technologies || [])).size}
               </span>
-              <span className="text-muted-foreground/70 ml-1">Technologies Used</span>
+              <span className="text-muted-foreground ml-1">Technologies Used</span>
             </div>
           </div>
         </motion.div>
@@ -78,7 +78,7 @@ export default function Experience() {
                 </div>
 
                 {(index === 0 || experiences[index - 1]?.duration?.split('–')[0]?.trim() !== exp.duration?.split('–')[0]?.trim()) && (
-                  <div className="absolute -left-[7.5rem] top-5 text-xs font-mono text-muted-foreground/70 w-16 text-right">
+                  <div className="absolute -left-[7.5rem] top-5 text-xs font-mono text-muted-foreground w-16 text-right">
                     {exp.duration?.split('–')[0]?.trim() || ''}
                   </div>
                 )}
@@ -94,7 +94,7 @@ export default function Experience() {
                       </h3>
                       <p className="text-lg gradient-text-premium font-semibold mb-3">{exp.company}</p>
 
-                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground/70">
+                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           <span>{exp.duration}</span>
@@ -119,7 +119,7 @@ export default function Experience() {
                       transition={{ duration: 0.2 }}
                       className="flex-shrink-0 mt-1"
                     >
-                      <ChevronDown className="w-5 h-5 text-muted-foreground/70" />
+                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
                     </motion.div>
                   </div>
 
@@ -141,7 +141,7 @@ export default function Experience() {
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: i * 0.05 }}
-                                  className="flex gap-3 items-start text-muted-foreground/70"
+                                  className="flex gap-3 items-start text-muted-foreground"
                                 >
                                   <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-2" />
                                   <span className="flex-1 leading-relaxed">{item}</span>
@@ -152,7 +152,7 @@ export default function Experience() {
 
                           {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
                             <div>
-                              <p className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider mb-2">Technologies</p>
+                              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Technologies</p>
                               <div className="flex flex-wrap gap-2">
                                 {exp.technologies.map((tech: string) => (
                                   <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs">
@@ -202,7 +202,7 @@ export default function Experience() {
                       </h3>
                       <p className="text-sm gradient-text-premium font-semibold mb-2">{exp.company}</p>
 
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground/70">
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
                         {exp.location && (
                           <div className="flex items-center gap-1">
                             <MapPin className="w-3 h-3" />
@@ -223,7 +223,7 @@ export default function Experience() {
                       transition={{ duration: 0.2 }}
                       className="flex-shrink-0 mt-1"
                     >
-                      <ChevronDown className="w-4 h-4 text-muted-foreground/70" />
+                      <ChevronDown className="w-4 h-4 text-muted-foreground" />
                     </motion.div>
                   </div>
 
@@ -245,7 +245,7 @@ export default function Experience() {
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: i * 0.05 }}
-                                  className="flex gap-2.5 items-start text-muted-foreground/70 text-sm"
+                                  className="flex gap-2.5 items-start text-muted-foreground text-sm"
                                 >
                                   <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-1.5" />
                                   <span className="flex-1 leading-relaxed">{item}</span>
@@ -256,7 +256,7 @@ export default function Experience() {
 
                           {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
                             <div>
-                              <p className="text-[10px] font-semibold text-muted-foreground/70 uppercase tracking-wider mb-2">Technologies</p>
+                              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Technologies</p>
                               <div className="flex flex-wrap gap-1.5">
                                 {exp.technologies.map((tech: string) => (
                                   <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-[10px] px-2 py-0.5">
