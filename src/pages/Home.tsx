@@ -368,7 +368,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* ── Hero Section ─────────────────────────────────────── */}
-      <motion.div ref={heroRef} style={{ opacity: heroOpacity, scale: heroScale }} className="relative min-h-screen flex items-center">
+      <motion.div ref={heroRef} style={{ opacity: heroOpacity, scale: heroScale }} className="relative min-h-[calc(100vh-4rem)] flex items-center">
         {/* Background layers */}
         <div className="absolute inset-0 aurora opacity-50" />
         <div className="absolute inset-0 bg-dots opacity-[0.03]" />
@@ -381,7 +381,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[100px]" />
         </div>
 
-        <div className="relative container mx-auto px-4 pt-28 pb-20">
+        <div className="relative container mx-auto px-4 pt-24 pb-12 md:pt-28 md:pb-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* Left — Content */}
@@ -568,9 +568,9 @@ export default function Home() {
       </motion.div>
 
       {/* ── Stats Counter Section ───────────────────────────── */}
-      <div ref={statsRef} className="relative py-24 overflow-hidden">
+      <div ref={statsRef} className="relative py-16 md:py-24 overflow-hidden">
         <div className="premium-glow-line" />
-        <div className="container mx-auto px-4 mt-12">
+        <div className="container mx-auto px-4 mt-8 md:mt-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
             {[
               { label: 'Years Experience', value: years, icon: Code2, gradient: 'from-blue-500 to-cyan-400' },
@@ -601,7 +601,7 @@ export default function Home() {
       </div>
 
       {/* ── What I Build Section ────────────────────────────── */}
-      <div ref={featuredRef} className="relative py-24 overflow-hidden">
+      <div ref={featuredRef} className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 aurora opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
@@ -678,7 +678,7 @@ export default function Home() {
       </div>
 
       {/* ── Terminal Section ─────────────────────────────────── */}
-      <div className="relative py-24 overflow-hidden">
+      <div className="relative py-16 md:py-24 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -729,7 +729,7 @@ export default function Home() {
       </div>
 
       {/* ── Tech Stack Marquee ──────────────────────────────── */}
-      <div className="relative py-20 overflow-hidden">
+      <div className="relative py-14 md:py-20 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -753,7 +753,7 @@ export default function Home() {
       </div>
 
       {/* ── Code Showcase Section ─────────────────────────── */}
-      <div className="relative py-24 overflow-hidden">
+      <div className="relative py-16 md:py-24 overflow-hidden">
         <NeuralNetwork className="opacity-20" />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
@@ -798,7 +798,7 @@ export default function Home() {
       </div>
 
       {/* ── AI & Innovation Section ──────────────────────── */}
-      <div className="relative py-24 overflow-hidden">
+      <div className="relative py-16 md:py-24 overflow-hidden">
         <MatrixRain opacity={0.02} />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
@@ -852,7 +852,7 @@ export default function Home() {
       </div>
 
       {/* ── CTA Section ──────────────────────────────────── */}
-      <div className="relative py-32 overflow-hidden">
+      <div className="relative py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 aurora opacity-30 pointer-events-none" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.04] blur-[120px]" />
@@ -897,7 +897,7 @@ export default function Home() {
       </div>
 
       {/* ── AI Project Recommender Section ────────────────── */}
-      <div className="relative py-24 overflow-hidden">
+      <div className="relative py-16 md:py-24 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <AIProjectRecommender />

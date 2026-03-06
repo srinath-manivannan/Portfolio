@@ -63,8 +63,8 @@ export default function Experience() {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative">
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
+        <div className="relative pl-2 md:pl-0">
+          <div className="absolute left-[1.35rem] md:left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
 
           {experiences.map((exp, index) => {
             const isExpanded = expandedId === exp.id;
@@ -79,18 +79,23 @@ export default function Experience() {
                 className="relative mb-8 ml-12 md:ml-20"
               >
                 {/* Timeline node */}
-                <div className="absolute -left-[2.75rem] md:-left-[4.25rem] top-6 z-10">
+                <div className="absolute -left-[2.15rem] md:-left-[4.25rem] top-6 z-10">
                   <motion.div
                     whileHover={{ scale: 1.2 }}
-                    className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
+                    className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary border-[3px] md:border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
                   />
                 </div>
 
-                {/* Year label */}
+                {/* Year label — shown ABOVE card on mobile, beside timeline on desktop */}
                 {(index === 0 || experiences[index - 1]?.duration?.split(' ')[0] !== exp.duration?.split(' ')[0]) && (
-                  <div className="absolute -left-[5.5rem] md:-left-[7rem] top-5 text-xs font-mono text-muted-foreground/50 hidden md:block">
-                    {exp.duration?.split('–')[0]?.trim() || ''}
-                  </div>
+                  <>
+                    <div className="text-[10px] font-mono text-muted-foreground/40 mb-1.5 md:hidden">
+                      {exp.duration?.split('–')[0]?.trim() || ''}
+                    </div>
+                    <div className="absolute -left-[7.5rem] top-5 text-xs font-mono text-muted-foreground/40 hidden md:block w-16 text-right">
+                      {exp.duration?.split('–')[0]?.trim() || ''}
+                    </div>
+                  </>
                 )}
 
                 {/* Card */}

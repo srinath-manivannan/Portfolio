@@ -188,49 +188,51 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="premium-card p-6"
+      className="premium-card p-5 sm:p-6"
     >
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-        <div ref={qrRef} className="flex-shrink-0 p-3 rounded-xl bg-white/5 border border-white/[0.04] mx-auto sm:mx-0">
-          <QRCodeSVG
-            value={LINKEDIN_URL}
-            size={120}
-            bgColor="transparent"
-            fgColor="#60a5fa"
-            level="H"
-          />
+      <div className="flex flex-col items-center gap-4 sm:gap-5">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 w-full">
+          <div ref={qrRef} className="flex-shrink-0 p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/[0.04]">
+            <QRCodeSVG
+              value={LINKEDIN_URL}
+              size={100}
+              bgColor="transparent"
+              fgColor="#60a5fa"
+              level="H"
+            />
+          </div>
+
+          <div className="flex-1 min-w-0 text-center sm:text-left">
+            <div className="flex items-center gap-2 mb-2 justify-center sm:justify-start">
+              <Linkedin className="w-5 h-5 text-blue-500 flex-shrink-0" />
+              <h3 className="font-bold font-display">Connect on LinkedIn</h3>
+            </div>
+
+            {showLabel && (
+              <p className="text-sm text-muted-foreground/50 mb-3 leading-relaxed">
+                Scan this QR code with your phone camera to connect with me on LinkedIn.
+              </p>
+            )}
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-3 justify-center sm:justify-start">
+              <Smartphone className="w-3.5 h-3.5" />
+              Point your camera at the code
+            </div>
+          </div>
         </div>
 
-        <div className="flex-1 min-w-0 text-center sm:text-left">
-          <div className="flex items-center gap-2 mb-2 justify-center sm:justify-start">
-            <Linkedin className="w-5 h-5 text-blue-500 flex-shrink-0" />
-            <h3 className="font-bold font-display">Connect on LinkedIn</h3>
-          </div>
-
-          {showLabel && (
-            <p className="text-sm text-muted-foreground/50 mb-4 leading-relaxed">
-              Scan this QR code with your phone camera to instantly connect with me on LinkedIn.
-            </p>
-          )}
-
-          <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-4 justify-center sm:justify-start">
-            <Smartphone className="w-3.5 h-3.5" />
-            Point your camera at the code
-          </div>
-
-          <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-            <Button onClick={downloadQR} variant="outline" size="sm" className="text-xs">
-              <Download className="w-3 h-3 mr-1" /> Save
-            </Button>
-            <Button onClick={shareQR} variant="outline" size="sm" className="text-xs">
-              <Share2 className="w-3 h-3 mr-1" /> Share
-            </Button>
-            <Button asChild variant="outline" size="sm" className="text-xs">
-              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-                <Linkedin className="w-3 h-3 mr-1" /> Open
-              </a>
-            </Button>
-          </div>
+        <div className="flex flex-wrap gap-2 w-full">
+          <Button onClick={downloadQR} variant="outline" size="sm" className="text-xs flex-1 min-w-0">
+            <Download className="w-3 h-3 mr-1 flex-shrink-0" /> Save
+          </Button>
+          <Button onClick={shareQR} variant="outline" size="sm" className="text-xs flex-1 min-w-0">
+            <Share2 className="w-3 h-3 mr-1 flex-shrink-0" /> Share
+          </Button>
+          <Button asChild variant="outline" size="sm" className="text-xs flex-1 min-w-0">
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+              <Linkedin className="w-3 h-3 mr-1 flex-shrink-0" /> Open
+            </a>
+          </Button>
         </div>
       </div>
     </motion.div>
