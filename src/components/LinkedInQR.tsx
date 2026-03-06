@@ -128,50 +128,49 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 rounded-2xl p-8 shadow-2xl max-w-sm w-[90vw]"
+                className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 rounded-2xl p-5 sm:p-6 shadow-2xl max-w-sm mx-auto max-h-[85vh] overflow-y-auto"
                 style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}
               >
                 <button
                   onClick={() => setExpanded(false)}
-                  className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/[0.04] transition-colors"
+                  className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/[0.04] transition-colors z-10"
                 >
                   <X className="w-4 h-4" />
                 </button>
 
                 <div className="text-center">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mx-auto mb-4">
-                    <Linkedin className="w-6 h-6 text-blue-500" />
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mx-auto mb-3">
+                    <Linkedin className="w-5 h-5 text-blue-500" />
                   </div>
-                  <h3 className="text-lg font-bold font-display mb-1">Connect on LinkedIn</h3>
-                  <p className="text-sm text-muted-foreground/50 mb-6">Scan this QR code with your phone</p>
+                  <h3 className="text-base font-bold font-display mb-1">Connect on LinkedIn</h3>
+                  <p className="text-xs text-muted-foreground/50 mb-4">Scan this QR code with your phone</p>
 
-                  <div ref={qrRef} className="inline-block p-4 rounded-2xl bg-white/5 border border-white/[0.04] mb-6">
+                  <div ref={qrRef} className="inline-block p-3 rounded-xl bg-white/5 border border-white/[0.04] mb-4">
                     <QRCodeSVG
                       value={LINKEDIN_URL}
-                      size={180}
+                      size={140}
                       bgColor="transparent"
                       fgColor="#60a5fa"
                       level="H"
-                      imageSettings={{
-                        src: '',
-                        height: 0,
-                        width: 0,
-                        excavate: false,
-                      }}
                     />
                   </div>
 
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-4 justify-center">
+                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground/50 mb-3 justify-center">
                     <Smartphone className="w-3 h-3" />
                     Point your camera at the code
                   </div>
 
                   <div className="flex gap-2">
-                    <Button onClick={downloadQR} variant="outline" size="sm" className="flex-1">
-                      <Download className="w-3.5 h-3.5 mr-1.5" /> Download
+                    <Button onClick={downloadQR} variant="outline" size="sm" className="flex-1 text-xs">
+                      <Download className="w-3 h-3 mr-1" /> Save
                     </Button>
-                    <Button onClick={shareQR} variant="outline" size="sm" className="flex-1">
-                      <Share2 className="w-3.5 h-3.5 mr-1.5" /> Share
+                    <Button onClick={shareQR} variant="outline" size="sm" className="flex-1 text-xs">
+                      <Share2 className="w-3 h-3 mr-1" /> Share
+                    </Button>
+                    <Button asChild variant="outline" size="sm" className="flex-1 text-xs">
+                      <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                        <Linkedin className="w-3 h-3 mr-1" /> Open
+                      </a>
                     </Button>
                   </div>
                 </div>
