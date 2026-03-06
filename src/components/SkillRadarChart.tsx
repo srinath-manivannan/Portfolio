@@ -171,7 +171,7 @@ export default function SkillRadarChart({ skills = defaultSkills, size = 280 }: 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl px-4 py-2 pointer-events-none"
-            style={{ background: 'hsl(228 60% 6% / 0.9)', backdropFilter: 'blur(24px)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'hsl(var(--card) / 0.95)', backdropFilter: 'blur(24px)', border: '1px solid hsl(var(--border))' }}
           >
             <div className="text-center">
               <div className="text-sm font-bold">{skills[hoveredIndex].name}</div>

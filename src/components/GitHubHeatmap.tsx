@@ -41,7 +41,7 @@ function generateContributions(weeks: number) {
 }
 
 const levelColors = [
-  'bg-white/[0.04]',
+  'surface-raised',
   'bg-green-500/20',
   'bg-green-500/40',
   'bg-green-500/65',

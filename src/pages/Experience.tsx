@@ -132,7 +132,7 @@ export default function Experience() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-6 pt-6 border-t border-white/[0.04]">
+                        <div className="mt-6 pt-6 border-t border-subtle">
                           {Array.isArray(exp.description) && exp.description.length > 0 && (
                             <ul className="space-y-3 mb-6">
                               {exp.description.map((item: string, i: number) => (
@@ -236,7 +236,7 @@ export default function Experience() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-4 pt-4 border-t border-white/[0.04]">
+                        <div className="mt-4 pt-4 border-t border-subtle">
                           {Array.isArray(exp.description) && exp.description.length > 0 && (
                             <ul className="space-y-2.5 mb-4">
                               {exp.description.map((item: string, i: number) => (

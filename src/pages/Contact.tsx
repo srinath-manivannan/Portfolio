@@ -120,7 +120,7 @@ export default function Contact() {
             <span className="px-3 py-1 rounded-lg bg-primary/[0.06] text-primary/80 text-xs font-medium border border-primary/10">
               Response &lt; 24h
             </span>
-            <span className="px-3 py-1 rounded-lg bg-white/[0.02] text-foreground/50 text-xs font-medium border border-white/[0.04]">
+            <span className="px-3 py-1 rounded-lg surface-subtle text-foreground/50 text-xs font-medium border border-subtle">
               Timezone: IST
             </span>
             <span className="px-3 py-1 rounded-lg bg-green-500/[0.06] text-green-400/80 text-xs font-medium border border-green-500/10 flex items-center gap-1.5">
@@ -154,7 +154,7 @@ export default function Contact() {
                 </motion.div>
                 <h3 className="text-xl font-bold mb-2 font-display">Message Sent!</h3>
                 <p className="text-muted-foreground mb-6 text-sm">Thanks for reaching out. I'll get back to you within 24 hours.</p>
-                <Button variant="outline" onClick={() => setIsSuccess(false)} className="rounded-xl border-white/[0.06]">Send Another</Button>
+                <Button variant="outline" onClick={() => setIsSuccess(false)} className="rounded-xl border-subtle">Send Another</Button>
               </motion.div>
             ) : (
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
@@ -166,7 +166,7 @@ export default function Contact() {
                     onChange={(e) => handleChange('name', e.target.value)}
                     onBlur={() => validateField('name', formData.name)}
                     placeholder="Your name"
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm ${errors.name ? 'border-destructive' : ''}`}
+                    className={`surface-subtle border-subtle rounded-xl focus:border-primary/30 text-sm ${errors.name ? 'border-destructive' : ''}`}
                   />
                   {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                 </div>
@@ -179,7 +179,7 @@ export default function Contact() {
                     onChange={(e) => handleChange('email', e.target.value)}
                     onBlur={() => validateField('email', formData.email)}
                     placeholder="your.email@example.com"
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm ${errors.email ? 'border-destructive' : ''}`}
+                    className={`surface-subtle border-subtle rounded-xl focus:border-primary/30 text-sm ${errors.email ? 'border-destructive' : ''}`}
                   />
                   {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
                 </div>
@@ -192,7 +192,7 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={(e) => handleChange('subject', e.target.value)}
                       placeholder="Project discussion"
-                      className="bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm"
+                      className="surface-subtle border-subtle rounded-xl focus:border-primary/30 text-sm"
                     />
                   </div>
                   <div>
@@ -213,7 +213,7 @@ export default function Contact() {
                       )}
                     </label>
                     <Select value={formData.category} onValueChange={(value) => { handleChange('category', value); setAiSuggestion(null); }}>
-                      <SelectTrigger className="bg-white/[0.02] border-white/[0.06] rounded-xl text-sm">
+                      <SelectTrigger className="surface-subtle border-subtle rounded-xl text-sm">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -241,7 +241,7 @@ export default function Contact() {
                     onBlur={() => validateField('message', formData.message)}
                     placeholder="Tell me about your project..."
                     rows={5}
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl resize-none focus:border-primary/30 text-sm ${errors.message ? 'border-destructive' : ''}`}
+                    className={`surface-subtle border-subtle rounded-xl resize-none focus:border-primary/30 text-sm ${errors.message ? 'border-destructive' : ''}`}
                   />
                   {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
                 </div>
@@ -259,7 +259,7 @@ export default function Contact() {
                     )}
                   </Button>
                   <a href="mailto:srinathmpro2001@gmail.com" className="flex-1">
-                    <Button type="button" variant="outline" className="w-full animated-border rounded-xl border-white/[0.06]">
+                    <Button type="button" variant="outline" className="w-full animated-border rounded-xl border-subtle">
                       Or Email Directly
                     </Button>
                   </a>
@@ -347,10 +347,10 @@ export default function Contact() {
               <h3 className="font-bold text-base mb-2 font-display">Prefer to explore first?</h3>
               <p className="text-sm text-muted-foreground mb-4">Check out my work and experience before reaching out.</p>
               <div className="flex flex-wrap gap-3 justify-center">
-                <Button variant="outline" size="sm" asChild className="rounded-xl border-white/[0.06]">
+                <Button variant="outline" size="sm" asChild className="rounded-xl border-subtle">
                   <Link to="/projects">Projects <ArrowRight className="w-3 h-3 ml-1" /></Link>
                 </Button>
-                <Button variant="outline" size="sm" asChild className="rounded-xl border-white/[0.06]">
+                <Button variant="outline" size="sm" asChild className="rounded-xl border-subtle">
                   <Link to="/experience">Experience <ArrowRight className="w-3 h-3 ml-1" /></Link>
                 </Button>
               </div>

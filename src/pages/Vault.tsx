@@ -149,7 +149,7 @@ export default function Vault() {
         </motion.div>
 
         <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-          <TabsList className="bg-white/[0.02] border border-white/[0.06] rounded-xl w-full justify-start overflow-x-auto flex-wrap h-auto mb-6">
+          <TabsList className="surface-subtle border border-subtle rounded-xl w-full justify-start overflow-x-auto flex-wrap h-auto mb-6">
             {categories.map((cat) => (
               <TabsTrigger key={cat.value} value={cat.value} className="gap-2">
                 <cat.icon className="h-4 w-4" />
@@ -217,7 +217,7 @@ export default function Vault() {
         </Tabs>
 
         <Dialog open={!!selectedDoc} onOpenChange={() => setSelectedDoc(null)}>
-          <DialogContent className="max-w-2xl" style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}>
+          <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-xl">
             {selectedDoc && (
               <div>
                 <DialogHeader>

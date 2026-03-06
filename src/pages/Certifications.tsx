@@ -57,7 +57,7 @@ export default function Certifications() {
                 placeholder="Search certifications..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-9 bg-white/[0.02] border-white/[0.06] rounded-xl text-sm"
+                className="pl-9 surface-subtle border-subtle rounded-xl text-sm"
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function Certifications() {
                       {Array.isArray(cert.tags) && cert.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mt-4">
                           {cert.tags.slice(0, 3).map((t: string) => (
-                            <span key={t} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[10px] text-muted-foreground">
+                            <span key={t} className="px-2 py-0.5 rounded-md surface-subtle text-[10px] text-muted-foreground">
                               {t}
                             </span>
                           ))}

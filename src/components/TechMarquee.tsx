@@ -39,7 +39,7 @@ export default function TechMarquee() {
         {doubled.map((tech, i) => (
           <div
             key={`${tech.name}-${i}`}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/20 transition-all flex-shrink-0 group cursor-default"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl surface-subtle border border-subtle hover:border-primary/20 transition-all flex-shrink-0 group cursor-default"
           >
             <div
               className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-150"
@@ -60,7 +60,7 @@ export default function TechMarquee() {
         {[...doubled].reverse().map((tech, i) => (
           <div
             key={`${tech.name}-rev-${i}`}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/20 transition-all flex-shrink-0 group cursor-default"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl surface-subtle border border-subtle hover:border-primary/20 transition-all flex-shrink-0 group cursor-default"
           >
             <div
               className="w-2 h-2 rounded-full flex-shrink-0 transition-transform group-hover:scale-150"

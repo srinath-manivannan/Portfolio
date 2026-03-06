@@ -160,7 +160,7 @@ export default function AISkillAnalyzer() {
                           <span className="text-xs font-mono text-muted-foreground">{skill.proficiency}%</span>
                         </div>
                       </div>
-                      <div className="h-1.5 rounded-full bg-white/[0.04] overflow-hidden">
+                      <div className="h-1.5 rounded-full surface-raised overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${skill.proficiency}%` }}
@@ -191,7 +191,7 @@ export default function AISkillAnalyzer() {
               </div>
             )}
 
-            <Button onClick={runAnalysis} variant="outline" size="sm" className="w-full text-xs rounded-xl border-white/[0.06]">
+            <Button onClick={runAnalysis} variant="outline" size="sm" className="w-full text-xs rounded-xl border-subtle">
               <RefreshCw className="w-3 h-3 mr-1.5" /> Re-analyze
             </Button>
           </motion.div>

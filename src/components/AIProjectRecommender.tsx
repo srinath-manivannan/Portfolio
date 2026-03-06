@@ -84,7 +84,7 @@ export default function AIProjectRecommender() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               onClick={() => recommend(interest.id)}
-              className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/20 transition-all text-left group"
+              className="p-4 rounded-xl surface-subtle border border-subtle hover:border-primary/20 transition-all text-left group"
             >
               <p className="text-sm font-medium group-hover:text-primary transition-colors">{interest.label}</p>
               <ChevronRight className="w-3.5 h-3.5 text-muted-foreground mt-2 group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -146,7 +146,7 @@ export default function AIProjectRecommender() {
                         </p>
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {(proj.tech_stack || []).slice(0, 4).map((tech: string) => (
-                            <span key={tech} className="px-1.5 py-0.5 text-[10px] rounded bg-white/[0.03] text-muted-foreground">
+                            <span key={tech} className="px-1.5 py-0.5 text-[10px] rounded surface-subtle text-muted-foreground">
                               {tech}
                             </span>
                           ))}
@@ -155,14 +155,14 @@ export default function AIProjectRecommender() {
                       <div className="flex gap-1.5 flex-shrink-0">
                         {proj.live_url && (
                           <a href={proj.live_url} target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-lg bg-white/[0.02] border border-white/[0.06] flex items-center justify-center hover:bg-primary/10 transition-colors"
+                            className="w-7 h-7 rounded-lg surface-subtle border border-subtle flex items-center justify-center hover:bg-primary/10 transition-colors"
                           >
                             <ExternalLink className="w-3 h-3" />
                           </a>
                         )}
                         {proj.github_url && (
                           <a href={proj.github_url} target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-lg bg-white/[0.02] border border-white/[0.06] flex items-center justify-center hover:bg-primary/10 transition-colors"
+                            className="w-7 h-7 rounded-lg surface-subtle border border-subtle flex items-center justify-center hover:bg-primary/10 transition-colors"
                           >
                             <Github className="w-3 h-3" />
                           </a>

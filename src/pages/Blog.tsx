@@ -52,17 +52,17 @@ export default function Blog() {
       <div className="min-h-screen pt-24 pb-24 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <div className="h-12 w-48 bg-white/[0.03] rounded-lg mx-auto mb-4 animate-pulse" />
-            <div className="h-6 w-80 bg-white/[0.03] rounded-lg mx-auto animate-pulse" />
+            <div className="h-12 w-48 surface-subtle rounded-lg mx-auto mb-4 animate-pulse" />
+            <div className="h-6 w-80 surface-subtle rounded-lg mx-auto animate-pulse" />
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="premium-card rounded-2xl overflow-hidden animate-pulse">
-                <div className="aspect-video bg-white/[0.03]" />
+                <div className="aspect-video surface-subtle" />
                 <div className="p-6 space-y-3">
-                  <div className="h-5 bg-white/[0.03] rounded w-3/4" />
-                  <div className="h-4 bg-white/[0.03] rounded" />
-                  <div className="h-4 bg-white/[0.03] rounded w-2/3" />
+                  <div className="h-5 surface-subtle rounded w-3/4" />
+                  <div className="h-4 surface-subtle rounded" />
+                  <div className="h-4 surface-subtle rounded w-2/3" />
                 </div>
               </div>
             ))}
@@ -100,7 +100,7 @@ export default function Blog() {
             placeholder="Search posts by title, content, or tags..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white/[0.02] border-white/[0.06] rounded-xl"
+            className="pl-10 surface-subtle border-subtle rounded-xl"
           />
         </div>
 
@@ -180,7 +180,7 @@ export default function Blog() {
                         {post.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1.5 mt-4">
                             {post.tags.slice(0, 3).map((tag) => (
-                              <span key={tag} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[10px] text-muted-foreground">
+                              <span key={tag} className="px-2 py-0.5 rounded-md surface-subtle text-[10px] text-muted-foreground">
                                 {tag}
                               </span>
                             ))}

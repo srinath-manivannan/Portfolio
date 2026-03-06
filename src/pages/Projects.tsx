@@ -52,7 +52,7 @@ function ProjectModal({ project, onClose }: { project: ProjectDetail; onClose: (
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         className="relative rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto custom-scrollbar shadow-2xl"
-        style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}
+        style={{ background: 'hsl(var(--card) / 0.95)', backdropFilter: 'blur(32px)' }}
       >
         <button
           onClick={onClose}
@@ -63,7 +63,7 @@ function ProjectModal({ project, onClose }: { project: ProjectDetail; onClose: (
 
         {/* Image carousel */}
         {(images.length > 0 || project.video_url) && (
-          <div className="relative aspect-video bg-white/[0.03] overflow-hidden rounded-t-2xl">
+          <div className="relative aspect-video surface-subtle overflow-hidden rounded-t-2xl">
             {project.video_url ? (
               <video src={project.video_url} controls muted className="w-full h-full object-cover" />
             ) : images.length > 0 ? (
@@ -247,7 +247,7 @@ export default function Projects() {
                 placeholder="Search projects or technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white/[0.02] border-white/[0.06] rounded-xl"
+                className="pl-10 surface-subtle border-subtle rounded-xl"
               />
               {searchQuery && (
                 <button
@@ -262,7 +262,7 @@ export default function Projects() {
 
           {/* Filter tabs */}
           <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-            <TabsList className="bg-white/[0.02] border border-white/[0.06]">
+            <TabsList className="surface-subtle border border-subtle">
               {categories.map((cat) => (
                 <TabsTrigger key={cat} value={cat}>
                   {cat}
@@ -293,11 +293,11 @@ export default function Projects() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="premium-card rounded-2xl overflow-hidden animate-pulse">
-                <div className="h-48 bg-white/[0.03]" />
+                <div className="h-48 surface-subtle" />
                 <div className="p-6 space-y-3">
-                  <div className="h-5 bg-white/[0.04] rounded w-3/4" />
-                  <div className="h-4 bg-white/[0.03] rounded w-full" />
-                  <div className="h-4 bg-white/[0.03] rounded w-2/3" />
+                  <div className="h-5 surface-raised rounded w-3/4" />
+                  <div className="h-4 surface-subtle rounded w-full" />
+                  <div className="h-4 surface-subtle rounded w-2/3" />
                 </div>
               </div>
             ))}
@@ -330,7 +330,7 @@ export default function Projects() {
                     )}
                   </div>
                   <div className="absolute top-3 left-3 z-10">
-                    <Badge variant="outline" className="bg-white/[0.04] backdrop-blur-sm text-[10px]">
+                    <Badge variant="outline" className="surface-raised backdrop-blur-sm text-[10px]">
                       {project.category}
                     </Badge>
                   </div>
@@ -365,12 +365,12 @@ export default function Projects() {
 
                     <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.tech_stack?.slice(0, 4).map((tech: string) => (
-                        <span key={tech} className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[11px] font-medium text-muted-foreground">
+                        <span key={tech} className="px-2 py-0.5 rounded-md surface-subtle text-[11px] font-medium text-muted-foreground">
                           {tech}
                         </span>
                       ))}
                       {project.tech_stack?.length > 4 && (
-                        <span className="px-2 py-0.5 rounded-md bg-white/[0.03] text-[11px] font-medium text-primary">
+                        <span className="px-2 py-0.5 rounded-md surface-subtle text-[11px] font-medium text-primary">
                           +{project.tech_stack.length - 4}
                         </span>
                       )}

@@ -134,17 +134,17 @@ export default function About() {
               <div className="flex gap-2 justify-center md:justify-start mb-5">
                 {profile.github_url && (
                   <a href={profile.github_url} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="icon" className="rounded-xl border-white/[0.06] hover:border-primary/30 bg-white/[0.02]"><Github className="w-4 h-4" /></Button>
+                    <Button variant="outline" size="icon" className="rounded-xl border-subtle hover:border-primary/30 surface-subtle"><Github className="w-4 h-4" /></Button>
                   </a>
                 )}
                 {profile.linkedin_url && (
                   <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="icon" className="rounded-xl border-white/[0.06] hover:border-primary/30 bg-white/[0.02]"><Linkedin className="w-4 h-4" /></Button>
+                    <Button variant="outline" size="icon" className="rounded-xl border-subtle hover:border-primary/30 surface-subtle"><Linkedin className="w-4 h-4" /></Button>
                   </a>
                 )}
                 {profile.resume_url && (
                   <a href={profile.resume_url} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="sm" className="rounded-xl border-white/[0.06] hover:border-primary/30 bg-white/[0.02]">
+                    <Button variant="outline" size="sm" className="rounded-xl border-subtle hover:border-primary/30 surface-subtle">
                       <Download className="w-4 h-4 mr-1.5" /> Resume
                     </Button>
                   </a>
@@ -163,13 +163,13 @@ export default function About() {
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-white/[0.04]">
+          <div className="mt-8 pt-8 border-t border-subtle">
             <h3 className="text-base font-semibold mb-3 font-display">About</h3>
             <p className="text-muted-foreground/80 leading-relaxed">{profile.bio}</p>
 
             <div className="mt-6 flex flex-wrap gap-2">
               {['Reliability', 'Performance', 'Safety', 'Privacy', 'Clean Code'].map((p) => (
-                <span key={p} className="px-3 py-1 rounded-lg bg-white/[0.02] border border-white/[0.04] text-xs text-foreground/95 font-medium">
+                <span key={p} className="px-3 py-1 rounded-lg surface-subtle border border-subtle text-xs text-foreground/95 font-medium">
                   {p}
                 </span>
               ))}
@@ -292,7 +292,7 @@ export default function About() {
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
-          <Button variant="outline" asChild className="animated-border rounded-xl border-white/[0.06]">
+          <Button variant="outline" asChild className="animated-border rounded-xl border-subtle">
             <Link to="/contact">Work Together</Link>
           </Button>
         </motion.div>

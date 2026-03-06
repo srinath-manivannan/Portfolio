@@ -60,7 +60,7 @@ export default function NotFound() {
 
           <h2 className="text-2xl md:text-3xl font-bold font-display mb-4">Page Not Found</h2>
           <p className="text-muted-foreground mb-2">
-            The page <code className="px-2 py-0.5 rounded bg-white/[0.04] text-sm font-mono">{location.pathname}</code> doesn't exist.
+            The page <code className="px-2 py-0.5 rounded surface-raised text-sm font-mono">{location.pathname}</code> doesn't exist.
           </p>
           <p className="text-sm text-muted-foreground mb-8">
             It might have been moved, deleted, or you may have mistyped the URL.
@@ -73,7 +73,7 @@ export default function NotFound() {
                 <Home className="w-4 h-4 mr-2" /> Go Home
               </Link>
             </Button>
-            <Button variant="outline" onClick={() => window.history.back()} className="rounded-xl border-white/[0.06] hover:bg-white/[0.04]">
+            <Button variant="outline" onClick={() => window.history.back()} className="rounded-xl border-subtle surface-hover">
               <ArrowLeft className="w-4 h-4 mr-2" /> Go Back
             </Button>
           </div>
@@ -86,7 +86,7 @@ export default function NotFound() {
                 <Link
                   key={s.path}
                   to={s.path}
-                  className="flex items-center gap-2 p-3 rounded-lg hover:bg-white/[0.04] transition-colors text-sm"
+                  className="flex items-center gap-2 p-3 rounded-lg surface-hover transition-colors text-sm"
                 >
                   <s.icon className="w-4 h-4 text-primary" />
                   {s.label}

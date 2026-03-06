@@ -83,7 +83,7 @@ export default function Footer() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-24 right-6 z-40 w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.06] transition-colors group backdrop-blur-xl"
+            className="fixed bottom-24 right-6 z-40 w-10 h-10 rounded-xl surface-subtle border border-subtle flex items-center justify-center surface-hover transition-colors group backdrop-blur-xl"
             aria-label="Scroll to top"
           >
             <ArrowUp className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -91,7 +91,7 @@ export default function Footer() {
         )}
       </AnimatePresence>
 
-      <footer className="relative border-t border-white/[0.04] overflow-hidden" style={{ background: 'hsl(228 84% 3% / 0.5)' }}>
+      <footer className="relative border-t border-subtle overflow-hidden bg-background/80 backdrop-blur-sm">
         <div className="premium-glow-line" />
         <div className="pointer-events-none absolute inset-0 aurora opacity-[0.03]" />
 
@@ -119,7 +119,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.04] flex items-center justify-center hover:bg-white/[0.06] hover:border-white/[0.08] transition-all"
+                    className="w-9 h-9 rounded-lg surface-subtle border border-subtle flex items-center justify-center surface-hover border-hover transition-all"
                     aria-label={social.label}
                   >
                     <social.icon className="w-3.5 h-3.5 text-muted-foreground" />
@@ -179,7 +179,7 @@ export default function Footer() {
                 exit={{ opacity: 0 }}
                 className="mb-6 text-center"
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border border-white/[0.08]">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border border-subtle">
                   <Zap className="w-4 h-4 text-amber-400" />
                   <span className="text-sm font-medium gradient-text-premium">You found the secret! You're a true developer.</span>
                   <Zap className="w-4 h-4 text-amber-400" />

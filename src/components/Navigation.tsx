@@ -86,8 +86,8 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
             transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="fixed top-[18%] left-1/2 -translate-x-1/2 z-[61] w-[90vw] max-w-lg"
           >
-            <div className="rounded-2xl shadow-2xl border border-white/[0.06] overflow-hidden" style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px) saturate(1.5)' }}>
-              <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.06]">
+            <div className="rounded-2xl shadow-2xl border border-border overflow-hidden bg-background/95 backdrop-blur-xl">
+              <div className="flex items-center gap-3 px-5 py-4 border-b border-subtle">
                 <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                 <input
                   ref={inputRef}
@@ -98,7 +98,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                   placeholder="Where do you want to go?"
                   className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/80"
                 />
-                <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono text-muted-foreground/80 bg-white/[0.04] rounded-md border border-white/[0.06]">
+                <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono text-muted-foreground/80 surface-raised rounded-md border border-subtle">
                   ESC
                 </kbd>
               </div>
@@ -117,7 +117,7 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                       className={`w-full flex items-center gap-3 px-5 py-3 text-sm transition-all duration-150 ${
                         i === selectedIndex
                           ? 'bg-primary/10 text-primary'
-                          : 'text-foreground hover:bg-white/[0.03]'
+                          : 'text-foreground surface-hover'
                       }`}
                     >
                       <link.icon className="w-4 h-4 flex-shrink-0 opacity-60" />
@@ -130,13 +130,13 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                 )}
               </div>
 
-              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-muted-foreground">
+              <div className="px-5 py-2.5 border-t border-subtle flex items-center gap-4 text-[10px] text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 bg-white/[0.04] rounded border border-white/[0.06] font-mono">↑↓</kbd>
+                  <kbd className="px-1 py-0.5 surface-raised rounded border border-subtle font-mono">↑↓</kbd>
                   Navigate
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1 py-0.5 bg-white/[0.04] rounded border border-white/[0.06] font-mono">↵</kbd>
+                  <kbd className="px-1 py-0.5 surface-raised rounded border border-subtle font-mono">↵</kbd>
                   Select
                 </span>
               </div>
@@ -241,7 +241,7 @@ export default function Navigation() {
                     to={link.path}
                     className="relative px-3 py-2 rounded-lg text-[13px] font-medium transition-all group"
                   >
-                    <span className={`relative z-10 ${isActive ? 'text-primary' : 'text-foreground/50 group-hover:text-foreground'}`}>
+                    <span className={`relative z-10 ${isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`}>
                       {link.name}
                     </span>
                     {isActive && (
@@ -279,10 +279,10 @@ export default function Navigation() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setCmdOpen(true)}
-                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.04]"
+                className="hidden sm:inline-flex items-center gap-2 rounded-lg text-xs text-muted-foreground hover:text-foreground surface-hover"
               >
                 <Search className="w-3.5 h-3.5" />
-                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground bg-white/[0.04] rounded border border-white/[0.06]">
+                <kbd className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground surface-raised rounded border border-subtle">
                   ⌘K
                 </kbd>
               </Button>
@@ -291,7 +291,7 @@ export default function Navigation() {
                 variant="ghost"
                 size="icon"
                 onClick={toggleDarkMode}
-                className="rounded-lg w-8 h-8 hover:bg-white/[0.04]"
+                className="rounded-lg w-8 h-8 surface-hover"
                 title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 <AnimatePresence mode="wait">
@@ -308,7 +308,7 @@ export default function Navigation() {
               </Button>
 
               <Link to="/admin/login" className="hidden sm:block">
-                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground hover:text-foreground/95 hover:bg-white/[0.04]">
+                <Button variant="ghost" size="sm" className="rounded-lg text-[11px] text-muted-foreground hover:text-foreground/95 surface-hover">
                   Admin
                 </Button>
               </Link>
@@ -316,7 +316,7 @@ export default function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="lg:hidden rounded-lg w-8 h-8 hover:bg-white/[0.04]"
+                className="lg:hidden rounded-lg w-8 h-8 surface-hover"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle menu"
               >
@@ -360,7 +360,7 @@ export default function Navigation() {
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                         location.pathname === link.path
                           ? 'text-primary bg-primary/[0.08]'
-                          : 'text-foreground/50 hover:text-foreground hover:bg-white/[0.03]'
+                          : 'text-muted-foreground hover:text-foreground surface-hover'
                       }`}
                     >
                       <link.icon className="w-4 h-4 opacity-60" />
@@ -369,7 +369,7 @@ export default function Navigation() {
                   </motion.div>
                 ))}
 
-                <div className="pt-2 border-t border-white/[0.04] mt-2">
+                <div className="pt-2 border-t border-subtle mt-2">
                   <Link to="/admin/login" onClick={() => setIsOpen(false)}>
                     <Button variant="ghost" size="sm" className="w-full rounded-lg text-xs text-muted-foreground">
                       Admin Login

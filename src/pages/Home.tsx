@@ -269,7 +269,7 @@ function TerminalBlock() {
       viewport={{ once: true }}
       className="premium-card p-1 max-w-lg mx-auto overflow-hidden"
     >
-      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/[0.04]">
+      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-subtle">
         <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
         <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
@@ -403,7 +403,7 @@ export default function Home() {
                   className="mb-8"
                 >
                   <div className="relative inline-block">
-                    <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/[0.08] ring-2 ring-primary/20 ring-offset-4 ring-offset-background relative">
+                    <div className="w-20 h-20 rounded-2xl overflow-hidden border border-subtle ring-2 ring-primary/20 ring-offset-4 ring-offset-background relative">
                       {profile.profile_image ? (
                         <img
                           src={profile.profile_image}
@@ -471,7 +471,7 @@ export default function Home() {
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="rounded-xl text-sm font-semibold px-6 animated-border border-white/[0.06]">
+                  <Button asChild size="lg" variant="outline" className="rounded-xl text-sm font-semibold px-6 animated-border border-subtle">
                     <Link to="/contact">Let's Talk</Link>
                   </Button>
                   {profile.resume_url && (
@@ -499,21 +499,21 @@ export default function Home() {
                 >
                   {profile.github_url && (
                     <a href={profile.github_url} target="_blank" rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.04] flex items-center justify-center transition-all group hover:border-white/[0.1]"
+                      className="w-9 h-9 rounded-lg surface-subtle surface-hover border border-subtle flex items-center justify-center transition-all group border-hover"
                     >
                       <Github className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </a>
                   )}
                   {profile.linkedin_url && (
                     <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.04] flex items-center justify-center transition-all group hover:border-white/[0.1]"
+                      className="w-9 h-9 rounded-lg surface-subtle surface-hover border border-subtle flex items-center justify-center transition-all group border-hover"
                     >
                       <Linkedin className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </a>
                   )}
                   {profile.email && (
                     <a href={`mailto:${profile.email}`}
-                      className="w-9 h-9 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.04] flex items-center justify-center transition-all group hover:border-white/[0.1]"
+                      className="w-9 h-9 rounded-lg surface-subtle surface-hover border border-subtle flex items-center justify-center transition-all group border-hover"
                     >
                       <Mail className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </a>
@@ -703,7 +703,7 @@ export default function Home() {
                     { label: 'Performant', icon: Zap },
                     { label: 'Scalable', icon: Layers },
                   ].map((item) => (
-                    <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors">
+                    <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl surface-subtle border border-subtle border-hover transition-colors">
                       <item.icon className="w-4 h-4 text-primary/70 flex-shrink-0" />
                       <span className="text-sm font-medium text-foreground">{item.label}</span>
                     </div>
@@ -779,7 +779,7 @@ export default function Home() {
                     { label: 'Real-time APIs', icon: Zap },
                     { label: 'CI/CD Ready', icon: Layers },
                   ].map((item) => (
-                    <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                    <div key={item.label} className="flex items-center gap-3 p-3.5 rounded-xl surface-subtle border border-subtle">
                       <item.icon className="w-4 h-4 text-primary/70 flex-shrink-0" />
                       <span className="text-sm font-medium text-foreground">{item.label}</span>
                     </div>
@@ -882,7 +882,7 @@ export default function Home() {
                 </Button>
               </MagneticButton>
               <MagneticButton>
-                <Button asChild size="lg" variant="outline" className="rounded-xl text-sm font-semibold px-8 animated-border border-white/[0.06]">
+                <Button asChild size="lg" variant="outline" className="rounded-xl text-sm font-semibold px-8 animated-border border-subtle">
                   <Link to="/projects">
                     Explore My Work
                     <ExternalLink className="ml-2 w-3.5 h-3.5" />

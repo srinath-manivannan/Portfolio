@@ -73,7 +73,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
       <div className="flex items-center gap-3">
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/30 transition-all text-sm group"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl surface-subtle border border-subtle hover:border-primary/30 transition-all text-sm group"
         >
           <QrCode className="w-4 h-4 text-primary" />
           <span className="text-muted-foreground group-hover:text-primary transition-colors">Scan to connect</span>
@@ -108,7 +108,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
       <>
         <button
           onClick={() => setExpanded(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/30 transition-all text-sm group"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl surface-subtle border border-subtle hover:border-primary/30 transition-all text-sm group"
         >
           <QrCode className="w-4 h-4 text-primary" />
           <span className="text-muted-foreground group-hover:text-primary transition-colors">QR Code</span>
@@ -129,11 +129,11 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 rounded-2xl p-5 sm:p-6 shadow-2xl max-w-sm mx-auto max-h-[85vh] overflow-y-auto"
-                style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}
+                style={{ background: 'hsl(var(--card) / 0.95)', backdropFilter: 'blur(32px)' }}
               >
                 <button
                   onClick={() => setExpanded(false)}
-                  className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-white/[0.04] transition-colors z-10"
+                  className="absolute top-3 right-3 p-1.5 rounded-lg surface-hover transition-colors z-10"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -145,7 +145,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                   <h3 className="text-base font-bold font-display mb-1">Connect on LinkedIn</h3>
                   <p className="text-xs text-muted-foreground mb-4">Scan this QR code with your phone</p>
 
-                  <div ref={qrRef} className="inline-block p-3 rounded-xl bg-white/5 border border-white/[0.04] mb-4">
+                  <div ref={qrRef} className="inline-block p-3 rounded-xl bg-white/5 border border-subtle mb-4">
                     <QRCodeSVG
                       value={LINKEDIN_URL}
                       size={140}
@@ -191,7 +191,7 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
     >
       <div className="flex flex-col items-center gap-4 sm:gap-5">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 w-full">
-          <div ref={qrRef} className="flex-shrink-0 p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/[0.04]">
+          <div ref={qrRef} className="flex-shrink-0 p-2.5 sm:p-3 rounded-xl bg-white/5 border border-subtle">
             <QRCodeSVG
               value={LINKEDIN_URL}
               size={100}

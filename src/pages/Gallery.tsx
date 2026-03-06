@@ -49,11 +49,11 @@ export default function Gallery() {
       <div className="min-h-screen pt-24 pb-24 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <div className="h-12 w-64 bg-white/[0.03] rounded-lg mx-auto mb-4 animate-pulse" />
+            <div className="h-12 w-64 surface-subtle rounded-lg mx-auto mb-4 animate-pulse" />
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="aspect-square bg-white/[0.03] rounded-xl animate-pulse" />
+              <div key={i} className="aspect-square surface-subtle rounded-xl animate-pulse" />
             ))}
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function Gallery() {
 
         {/* Category tabs */}
         <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
-          <TabsList className="bg-white/[0.02] border border-white/[0.06] w-full justify-start overflow-x-auto flex-wrap h-auto">
+          <TabsList className="surface-subtle border border-subtle w-full justify-start overflow-x-auto flex-wrap h-auto">
             {categories.map((category) => (
               <TabsTrigger key={category} value={category} className="text-xs">
                 {category}
@@ -148,7 +148,7 @@ export default function Gallery() {
 
         {/* Lightbox */}
         <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar" style={{ background: 'hsl(228 60% 6% / 0.95)', backdropFilter: 'blur(32px)' }}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar bg-card/95 backdrop-blur-xl">
             {selectedItem && (
               <div>
                 {selectedItem.image_url && (
@@ -208,7 +208,7 @@ function GalleryCard({ item, onClick, featured }: { item: GalleryItem; onClick: 
   return (
     <div
       onClick={() => onClick(item)}
-      className={`group relative overflow-hidden rounded-xl cursor-pointer bg-white/[0.02] border border-white/[0.06] ${featured ? 'aspect-video' : 'aspect-square'}`}
+      className={`group relative overflow-hidden rounded-xl cursor-pointer surface-subtle border border-subtle ${featured ? 'aspect-video' : 'aspect-square'}`}
     >
       {item.image_url ? (
         <img

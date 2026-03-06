@@ -119,7 +119,7 @@ export default function CodeShowcase() {
       className="premium-card rounded-2xl !p-0 overflow-hidden max-w-2xl mx-auto w-full min-w-0"
     >
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-subtle">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-red-500/70" />
@@ -137,7 +137,7 @@ export default function CodeShowcase() {
             <Sparkles className="w-2.5 h-2.5" />
             {snippet.label}
           </span>
-          <button onClick={copyCode} className="p-1.5 rounded-md hover:bg-white/[0.04] transition-colors">
+          <button onClick={copyCode} className="p-1.5 rounded-md surface-hover transition-colors">
             {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
           </button>
         </div>
@@ -169,10 +169,10 @@ export default function CodeShowcase() {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-t border-white/[0.04]">
+      <div className="flex items-center justify-between px-4 py-2.5 border-t border-subtle">
         <button
           onClick={() => setActiveIndex((i) => (i - 1 + codeSnippets.length) % codeSnippets.length)}
-          className="p-1.5 rounded-md hover:bg-white/[0.04] transition-colors"
+          className="p-1.5 rounded-md surface-hover transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -191,7 +191,7 @@ export default function CodeShowcase() {
 
         <button
           onClick={() => setActiveIndex((i) => (i + 1) % codeSnippets.length)}
-          className="p-1.5 rounded-md hover:bg-white/[0.04] transition-colors"
+          className="p-1.5 rounded-md surface-hover transition-colors"
         >
           <ChevronRight className="w-4 h-4" />
         </button>

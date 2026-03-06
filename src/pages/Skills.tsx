@@ -116,7 +116,7 @@ export default function Skills() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl md:text-2xl font-bold font-display gradient-text-premium">{category}</h2>
-                  <span className="text-xs text-muted-foreground bg-white/[0.03] px-2.5 py-1 rounded-full">
+                  <span className="text-xs text-muted-foreground surface-subtle px-2.5 py-1 rounded-full">
                     {items.length} skills
                   </span>
                 </div>
@@ -136,14 +136,14 @@ export default function Skills() {
                         <div className="flex justify-between items-center mb-2">
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-sm">{skill.name}</span>
-                            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-white/[0.03] ${color.text}`}>
+                            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full surface-subtle ${color.text}`}>
                               {color.label}
                             </span>
                           </div>
                           <span className="text-sm font-mono text-muted-foreground">{skill.proficiency}%</span>
                         </div>
 
-                        <div className="relative h-2.5 bg-white/[0.04] rounded-full overflow-hidden">
+                        <div className="relative h-2.5 surface-raised rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${skill.proficiency}%` }}

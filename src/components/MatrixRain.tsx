@@ -75,7 +75,7 @@ export default function MatrixRain({ className = '', opacity = 0.04 }: { classNa
   if (reduced || isMobile) return null;
 
   return (
-    <div ref={containerRef} className={`absolute inset-0 ${className}`}>
+    <div ref={containerRef} className={`absolute inset-0 dark:block hidden ${className}`}>
       <canvas ref={canvasRef} className="w-full h-full pointer-events-none" style={{ opacity }} />
     </div>
   );

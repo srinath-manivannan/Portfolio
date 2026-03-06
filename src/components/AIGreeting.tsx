@@ -41,11 +41,11 @@ export default function AIGreeting() {
         >
           <div
             className="rounded-2xl p-4 shadow-xl"
-            style={{ background: 'hsl(228 60% 6% / 0.9)', backdropFilter: 'blur(24px)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'hsl(var(--card) / 0.95)', backdropFilter: 'blur(24px)', border: '1px solid hsl(var(--border))' }}
           >
             <button
               onClick={() => { setDismissed(true); setVisible(false); }}
-              className="absolute top-2 right-2 p-1 rounded-md hover:bg-white/[0.04] transition-colors"
+              className="absolute top-2 right-2 p-1 rounded-md surface-hover transition-colors"
             >
               <X className="w-3 h-3 text-muted-foreground" />
             </button>

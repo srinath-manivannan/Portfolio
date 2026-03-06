@@ -221,11 +221,11 @@ export default function BlogPost() {
           </div>
 
           {post.tags.length > 0 && (
-            <div className="mt-8 pt-8 border-t border-white/[0.04]">
+            <div className="mt-8 pt-8 border-t border-subtle">
               <h3 className="text-sm font-semibold font-display mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 rounded-lg bg-white/[0.03] text-muted-foreground/80 text-sm">
+                  <span key={tag} className="px-3 py-1 rounded-lg surface-subtle text-muted-foreground/80 text-sm">
                     {tag}
                   </span>
                 ))}
