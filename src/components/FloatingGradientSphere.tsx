@@ -14,16 +14,16 @@ function GradientSphere() {
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={1}>
+    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1.8, 32, 32]} />
+        <sphereGeometry args={[1.4, 32, 32]} />
         <MeshDistortMaterial
           color="#4f6ef7"
           emissive="#3b28cc"
           emissiveIntensity={0.4}
           roughness={0.25}
           metalness={0.75}
-          distort={0.35}
+          distort={0.3}
           speed={1.5}
           transparent
           opacity={0.9}
@@ -45,9 +45,9 @@ function InnerGlow() {
   });
 
   return (
-    <Float speed={2} floatIntensity={0.4}>
+    <Float speed={2} floatIntensity={0.3}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1.2, 24, 24]} />
+        <sphereGeometry args={[0.9, 24, 24]} />
         <MeshDistortMaterial
           color="#7c3aed"
           emissive="#6d28d9"
@@ -88,7 +88,7 @@ function Particles({ count = 30 }: { count?: number }) {
     for (let i = 0; i < count; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.random() * Math.PI;
-      const r = 2.5 + Math.random() * 1.5;
+      const r = 2.0 + Math.random() * 1.0;
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
@@ -123,7 +123,7 @@ export default function FloatingGradientSphere({ className = '' }: { className?:
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 50 }}
+        camera={{ position: [0, 0, 6], fov: 45 }}
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
         gl={{ antialias: false, powerPreference: 'high-performance' }}
@@ -135,8 +135,8 @@ export default function FloatingGradientSphere({ className = '' }: { className?:
 
         <GradientSphere />
         <InnerGlow />
-        <OrbitalRing radius={2.5} speed={0.25} color="#6366f1" />
-        <OrbitalRing radius={3} speed={-0.15} color="#a855f7" />
+        <OrbitalRing radius={2.0} speed={0.25} color="#6366f1" />
+        <OrbitalRing radius={2.4} speed={-0.15} color="#a855f7" />
         <Particles count={25} />
       </Canvas>
     </div>
