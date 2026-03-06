@@ -322,8 +322,8 @@ export default function Home() {
   const isFeaturedInView = useInView(featuredRef, { once: true });
 
   const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.97]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0.6]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98]);
 
   useEffect(() => { fetchData(); }, []);
 
@@ -368,7 +368,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* ── Hero Section ─────────────────────────────────────── */}
-      <motion.div ref={heroRef} style={{ opacity: heroOpacity, scale: heroScale }} className="relative min-h-[calc(100vh-4rem)] flex items-center">
+      <motion.div ref={heroRef} style={{ opacity: heroOpacity, scale: heroScale }} className="relative flex items-center">
         {/* Background layers */}
         <div className="absolute inset-0 aurora opacity-50" />
         <div className="absolute inset-0 bg-dots opacity-[0.03]" />
@@ -551,7 +551,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2"
+              className="flex justify-center mt-12 md:mt-16"
             >
               <motion.button
                 onClick={scrollToContent}
