@@ -123,59 +123,61 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[9990] bg-black/60 backdrop-blur-sm"
+                  className="fixed inset-0 z-[9990] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
                   onClick={() => setExpanded(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                  className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-[9991] rounded-2xl p-5 sm:p-6 shadow-2xl max-w-sm mx-auto max-h-[85vh] overflow-y-auto bg-card border border-border"
-                  style={{ backdropFilter: 'blur(32px)' }}
                 >
-                  <button
-                    onClick={() => setExpanded(false)}
-                    className="absolute top-3 right-3 p-1.5 rounded-lg surface-hover transition-colors z-10"
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="rounded-2xl p-5 shadow-2xl w-full max-w-xs overflow-y-auto bg-card border border-border relative"
+                    style={{ maxHeight: 'calc(100vh - 2rem)' }}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <X className="w-4 h-4" />
-                  </button>
+                    <button
+                      onClick={() => setExpanded(false)}
+                      className="absolute top-3 right-3 p-1.5 rounded-lg surface-hover transition-colors z-10"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
 
-                  <div className="text-center">
-                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center mx-auto mb-3">
-                      <Linkedin className="w-5 h-5 text-blue-500" />
-                    </div>
-                    <h3 className="text-base font-bold font-display mb-1">Connect on LinkedIn</h3>
-                    <p className="text-xs text-muted-foreground mb-4">Scan this QR code with your phone</p>
+                    <div className="text-center">
+                      <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center mx-auto mb-2">
+                        <Linkedin className="w-4 h-4 text-blue-500" />
+                      </div>
+                      <h3 className="text-sm font-bold font-display mb-0.5">Connect on LinkedIn</h3>
+                      <p className="text-[11px] text-muted-foreground mb-3">Scan this QR code with your phone</p>
 
-                    <div ref={qrRef} className="inline-block p-3 rounded-xl surface-subtle border border-subtle mb-4">
-                      <QRCodeSVG
-                        value={LINKEDIN_URL}
-                        size={140}
-                        bgColor="transparent"
-                        fgColor="#60a5fa"
-                        level="H"
-                      />
-                    </div>
+                      <div ref={qrRef} className="inline-block p-2.5 rounded-xl surface-subtle border border-subtle mb-3">
+                        <QRCodeSVG
+                          value={LINKEDIN_URL}
+                          size={120}
+                          bgColor="transparent"
+                          fgColor="#60a5fa"
+                          level="H"
+                        />
+                      </div>
 
-                    <div className="flex items-center gap-2 text-[11px] text-muted-foreground mb-3 justify-center">
-                      <Smartphone className="w-3 h-3" />
-                      Point your camera at the code
-                    </div>
+                      <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-3 justify-center">
+                        <Smartphone className="w-3 h-3" />
+                        Point your camera at the code
+                      </div>
 
-                    <div className="flex gap-2">
-                      <Button onClick={downloadQR} variant="outline" size="sm" className="flex-1 text-xs">
-                        <Download className="w-3 h-3 mr-1" /> Save
-                      </Button>
-                      <Button onClick={shareQR} variant="outline" size="sm" className="flex-1 text-xs">
-                        <Share2 className="w-3 h-3 mr-1" /> Share
-                      </Button>
-                      <Button asChild variant="outline" size="sm" className="flex-1 text-xs">
-                        <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-                          <Linkedin className="w-3 h-3 mr-1" /> Open
-                        </a>
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button onClick={downloadQR} variant="outline" size="sm" className="flex-1 text-xs h-8">
+                          <Download className="w-3 h-3 mr-1" /> Save
+                        </Button>
+                        <Button onClick={shareQR} variant="outline" size="sm" className="flex-1 text-xs h-8">
+                          <Share2 className="w-3 h-3 mr-1" /> Share
+                        </Button>
+                        <Button asChild variant="outline" size="sm" className="flex-1 text-xs h-8">
+                          <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                            <Linkedin className="w-3 h-3 mr-1" /> Open
+                          </a>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               </>
             )}
