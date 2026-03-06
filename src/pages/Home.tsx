@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useRef, useState, lazy, Suspense } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Github, Linkedin, Mail, Code2, Database, Cloud, Sparkles, Download, ChevronDown, Terminal, Zap, Layers, Cpu, Globe, Braces, Brain, Wand2, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -321,10 +321,6 @@ export default function Home() {
   const isStatsInView = useInView(statsRef, { once: true });
   const isFeaturedInView = useInView(featuredRef, { once: true });
 
-  const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0.6]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98]);
-
   useEffect(() => { fetchData(); }, []);
 
   const fetchData = async () => {
@@ -368,7 +364,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* ── Hero Section ─────────────────────────────────────── */}
-      <motion.div ref={heroRef} style={{ opacity: heroOpacity, scale: heroScale }} className="relative flex items-center">
+      <div ref={heroRef} className="relative flex items-center">
         {/* Background layers */}
         <div className="absolute inset-0 aurora opacity-50" />
         <div className="absolute inset-0 bg-dots opacity-[0.03]" />
@@ -381,7 +377,7 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-accent/[0.02] blur-[100px]" />
         </div>
 
-        <div className="relative container mx-auto px-4 pt-24 pb-12 md:pt-28 md:pb-20">
+        <div className="relative container mx-auto px-4 pt-20 pb-8 md:pt-24 md:pb-12">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* Left — Content */}
@@ -551,7 +547,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
-              className="flex justify-center mt-12 md:mt-16"
+              className="flex justify-center mt-6 md:mt-10"
             >
               <motion.button
                 onClick={scrollToContent}
@@ -565,12 +561,12 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* ── Stats Counter Section ───────────────────────────── */}
-      <div ref={statsRef} className="relative py-16 md:py-24 overflow-hidden">
+      <div ref={statsRef} className="relative py-10 md:py-16 overflow-hidden">
         <div className="premium-glow-line" />
-        <div className="container mx-auto px-4 mt-8 md:mt-12">
+        <div className="container mx-auto px-4 mt-4 md:mt-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
             {[
               { label: 'Years Experience', value: years, icon: Code2, gradient: 'from-blue-500 to-cyan-400' },
@@ -601,7 +597,7 @@ export default function Home() {
       </div>
 
       {/* ── What I Build Section ────────────────────────────── */}
-      <div ref={featuredRef} className="relative py-16 md:py-24 overflow-hidden">
+      <div ref={featuredRef} className="relative py-10 md:py-16 overflow-hidden">
         <div className="absolute inset-0 aurora opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
@@ -609,7 +605,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={isFeaturedInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center mb-16"
+              className="text-center mb-10"
             >
               <span className="premium-badge mb-4">
                 <Sparkles className="w-3 h-3" />
@@ -678,10 +674,10 @@ export default function Home() {
       </div>
 
       {/* ── Terminal Section ─────────────────────────────────── */}
-      <div className="relative py-16 md:py-24 overflow-hidden">
+      <div className="relative py-10 md:py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -729,7 +725,7 @@ export default function Home() {
       </div>
 
       {/* ── Tech Stack Marquee ──────────────────────────────── */}
-      <div className="relative py-14 md:py-20 overflow-hidden">
+      <div className="relative py-10 md:py-14 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -753,7 +749,7 @@ export default function Home() {
       </div>
 
       {/* ── Code Showcase Section ─────────────────────────── */}
-      <div className="relative py-16 md:py-24 overflow-hidden">
+      <div className="relative py-10 md:py-16 overflow-hidden">
         <NeuralNetwork className="opacity-20" />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
@@ -798,7 +794,7 @@ export default function Home() {
       </div>
 
       {/* ── AI & Innovation Section ──────────────────────── */}
-      <div className="relative py-16 md:py-24 overflow-hidden">
+      <div className="relative py-10 md:py-16 overflow-hidden">
         <MatrixRain opacity={0.02} />
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
@@ -806,7 +802,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-10"
             >
               <span className="premium-badge mb-4" style={{ background: 'linear-gradient(135deg, hsl(262 83% 58% / 0.12), hsl(262 83% 58% / 0.04))', borderColor: 'hsl(262 83% 58% / 0.15)', color: 'hsl(262 83% 70%)' }}>
                 <Brain className="w-3 h-3" />
@@ -852,7 +848,7 @@ export default function Home() {
       </div>
 
       {/* ── CTA Section ──────────────────────────────────── */}
-      <div className="relative py-20 md:py-32 overflow-hidden">
+      <div className="relative py-14 md:py-20 overflow-hidden">
         <div className="absolute inset-0 aurora opacity-30 pointer-events-none" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.04] blur-[120px]" />
@@ -897,7 +893,7 @@ export default function Home() {
       </div>
 
       {/* ── AI Project Recommender Section ────────────────── */}
-      <div className="relative py-16 md:py-24 overflow-hidden">
+      <div className="relative py-10 md:py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <AIProjectRecommender />
