@@ -44,16 +44,16 @@ export default function Experience() {
           <p className="text-muted-foreground/50 mb-6">My professional journey</p>
 
           {/* Quick stats */}
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+          <div className="flex flex-wrap gap-3 justify-center">
+            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">{experiences.length}</span>
               <span className="text-muted-foreground/50 ml-1">Positions</span>
             </div>
-            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">3+</span>
               <span className="text-muted-foreground/50 ml-1">Years</span>
             </div>
-            <div className="premium-card rounded-xl px-4 py-2 text-sm">
+            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
               <span className="text-primary font-bold">
                 {new Set(experiences.flatMap((e: any) => e.technologies || [])).size}
               </span>
@@ -64,7 +64,7 @@ export default function Experience() {
 
         {/* Timeline */}
         <div className="relative">
-          <div className="absolute left-6 md:left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
+          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
 
           {experiences.map((exp, index) => {
             const isExpanded = expandedId === exp.id;
@@ -76,10 +76,10 @@ export default function Experience() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative mb-8 ml-14 md:ml-20"
+                className="relative mb-8 ml-12 md:ml-20"
               >
                 {/* Timeline node */}
-                <div className="absolute -left-[3.25rem] md:-left-[4.25rem] top-6 z-10">
+                <div className="absolute -left-[2.75rem] md:-left-[4.25rem] top-6 z-10">
                   <motion.div
                     whileHover={{ scale: 1.2 }}
                     className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
@@ -96,16 +96,16 @@ export default function Experience() {
                 {/* Card */}
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : exp.id)}
-                  className="premium-card rounded-2xl p-6 md:p-8 cursor-pointer hover:border-primary/30 transition-all group"
+                  className="premium-card rounded-xl md:rounded-2xl p-4 md:p-8 cursor-pointer hover:border-primary/30 transition-all group"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <h3 className="text-xl md:text-2xl font-bold font-display mb-1 group-hover:text-primary transition-colors">
+                      <h3 className="text-lg md:text-2xl font-bold font-display mb-1 group-hover:text-primary transition-colors">
                         {exp.role}
                       </h3>
                       <p className="text-lg gradient-text-premium font-semibold mb-3">{exp.company}</p>
 
-                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground/50">
+                      <div className="flex flex-wrap gap-2 md:gap-3 text-xs md:text-sm text-muted-foreground/50">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5" />
                           <span>{exp.duration}</span>

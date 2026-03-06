@@ -452,3 +452,42 @@ export function getTimeBasedSuggestions(): string[] {
   }
   return ['Show top skills', 'AI/ML expertise?', 'Work experience'];
 }
+
+export function analyzeUserIntent(messages: string[]): {
+  primaryInterest: string;
+  confidence: number;
+  suggestedAction: string;
+} {
+  const combined = messages.join(' ').toLowerCase();
+  const intents = [
+    { interest: 'hiring', keywords: ['hire', 'job', 'position', 'work', 'salary', 'available', 'freelance', 'contract'], action: 'View my experience and contact me directly' },
+    { interest: 'collaboration', keywords: ['collaborate', 'project', 'together', 'team', 'partner', 'open source'], action: 'Check out my projects and reach out' },
+    { interest: 'learning', keywords: ['how', 'learn', 'tutorial', 'guide', 'teach', 'explain', 'course'], action: 'Read my blog posts and explore my tech stack' },
+    { interest: 'technical', keywords: ['stack', 'technology', 'framework', 'language', 'architecture', 'api', 'database'], action: 'Explore my skills page for detailed technical breakdown' },
+  ];
+
+  let best = { interest: 'general', confidence: 0, action: 'Explore the portfolio to learn more about Srinath' };
+  for (const intent of intents) {
+    const hits = intent.keywords.filter(kw => combined.includes(kw)).length;
+    const confidence = Math.min(0.95, hits / intent.keywords.length + (hits > 0 ? 0.3 : 0));
+    if (confidence > best.confidence) {
+      best = { interest: intent.interest, confidence, action: intent.action };
+    }
+  }
+  return { primaryInterest: best.interest, confidence: best.confidence, suggestedAction: best.action };
+}
+
+export function generatePortfolioSummary(data: any): string {
+  const p = data.profile || {};
+  const projCount = data.projects?.length || 0;
+  const skillCount = data.skills?.length || 0;
+  const expCount = data.experiences?.length || 0;
+  const certCount = data.certifications?.length || 0;
+  const topSkills = (data.skills || [])
+    .sort((a: any, b: any) => (b.proficiency || 0) - (a.proficiency || 0))
+    .slice(0, 5)
+    .map((s: any) => s.name)
+    .join(', ');
+
+  return `${p.full_name || 'Srinath'} is an AI Full-Stack Developer with ${expCount} professional roles, ${projCount} projects, and ${certCount} certifications. Top skills include ${topSkills || 'React, TypeScript, Node.js'}. ${skillCount} technologies mastered across frontend, backend, cloud, and AI/ML domains.`;
+}

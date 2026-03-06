@@ -14,6 +14,7 @@ import MatrixRain from '@/components/MatrixRain';
 import MagneticButton from '@/components/MagneticButton';
 import LinkedInQR from '@/components/LinkedInQR';
 import AIProjectRecommender from '@/components/AIProjectRecommender';
+import AISkillAnalyzer from '@/components/AISkillAnalyzer';
 
 const FloatingGradientSphere = lazy(() => import('@/components/FloatingGradientSphere'));
 
@@ -437,7 +438,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-5xl sm:text-6xl md:text-7xl font-bold mb-4 leading-[1.05] tracking-tight font-display"
+                  className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-[1.05] tracking-tight font-display"
                 >
                   <span className="text-foreground">I'm </span>
                   <span className="gradient-text-premium">{profile.name}</span>
@@ -448,7 +449,7 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="text-lg md:text-xl text-muted-foreground mb-6 h-8 font-display font-medium"
+                  className="text-base md:text-xl text-muted-foreground mb-6 h-8 font-display font-medium"
                 >
                   <span>{typingText}</span>
                   <span className="typing-cursor" />
@@ -570,7 +571,7 @@ export default function Home() {
       <div ref={statsRef} className="relative py-24 overflow-hidden">
         <div className="premium-glow-line" />
         <div className="container mx-auto px-4 mt-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
             {[
               { label: 'Years Experience', value: years, icon: Code2, gradient: 'from-blue-500 to-cyan-400' },
               { label: 'Projects Built', value: cProjects, icon: Database, gradient: 'from-violet-500 to-purple-400' },
@@ -622,7 +623,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {[
                 {
                   title: 'Full-Stack Applications',
@@ -842,6 +843,9 @@ export default function Home() {
                   </motion.div>
                 </MagneticButton>
               ))}
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 mt-4">
+              <AISkillAnalyzer />
             </div>
           </div>
         </div>

@@ -20,11 +20,13 @@ const defaultSkills: SkillData[] = [
   { name: 'UI/UX', value: 78 },
 ];
 
-export default function SkillRadarChart({ skills = defaultSkills, size = 300 }: SkillRadarChartProps) {
+export default function SkillRadarChart({ skills = defaultSkills, size = 280 }: SkillRadarChartProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const cx = size / 2;
-  const cy = size / 2;
-  const maxR = size * 0.38;
+  const padding = 50;
+  const svgSize = size + padding * 2;
+  const cx = svgSize / 2;
+  const cy = svgSize / 2;
+  const maxR = size * 0.35;
   const levels = 5;
   const angleStep = (Math.PI * 2) / skills.length;
 
@@ -53,7 +55,7 @@ export default function SkillRadarChart({ skills = defaultSkills, size = 300 }: 
   const labelPositions = useMemo(() => {
     return skills.map((skill, i) => {
       const angle = angleStep * i - Math.PI / 2;
-      const labelR = maxR + 28;
+      const labelR = maxR + 35;
       return {
         x: cx + labelR * Math.cos(angle),
         y: cy + labelR * Math.sin(angle),
@@ -69,7 +71,7 @@ export default function SkillRadarChart({ skills = defaultSkills, size = 300 }: 
       viewport={{ once: true }}
       className="relative"
     >
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="mx-auto">
+      <svg width="100%" height="100%" viewBox={`0 0 ${svgSize} ${svgSize}`} className="mx-auto" style={{ maxWidth: svgSize, maxHeight: svgSize }}>
         <defs>
           <linearGradient id="radarFill" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="hsl(220, 90%, 56%)" stopOpacity="0.3" />

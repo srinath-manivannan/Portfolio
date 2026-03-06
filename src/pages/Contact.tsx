@@ -111,7 +111,7 @@ export default function Contact() {
             <Mail className="w-3 h-3" />
             CONNECT
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 font-display tracking-tight">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 font-display tracking-tight">
             <span className="gradient-text-premium">Get In Touch</span>
           </h1>
           <p className="text-muted-foreground/50 mb-6">Let's discuss your next project</p>
@@ -166,7 +166,7 @@ export default function Contact() {
                     onChange={(e) => handleChange('name', e.target.value)}
                     onBlur={() => validateField('name', formData.name)}
                     placeholder="Your name"
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 ${errors.name ? 'border-destructive' : ''}`}
+                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm ${errors.name ? 'border-destructive' : ''}`}
                   />
                   {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                 </div>
@@ -179,7 +179,7 @@ export default function Contact() {
                     onChange={(e) => handleChange('email', e.target.value)}
                     onBlur={() => validateField('email', formData.email)}
                     placeholder="your.email@example.com"
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 ${errors.email ? 'border-destructive' : ''}`}
+                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm ${errors.email ? 'border-destructive' : ''}`}
                   />
                   {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
                 </div>
@@ -192,7 +192,7 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={(e) => handleChange('subject', e.target.value)}
                       placeholder="Project discussion"
-                      className="bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30"
+                      className="bg-white/[0.02] border-white/[0.06] rounded-xl focus:border-primary/30 text-sm"
                     />
                   </div>
                   <div>
@@ -213,7 +213,7 @@ export default function Contact() {
                       )}
                     </label>
                     <Select value={formData.category} onValueChange={(value) => { handleChange('category', value); setAiSuggestion(null); }}>
-                      <SelectTrigger className="bg-white/[0.02] border-white/[0.06] rounded-xl">
+                      <SelectTrigger className="bg-white/[0.02] border-white/[0.06] rounded-xl text-sm">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -241,7 +241,7 @@ export default function Contact() {
                     onBlur={() => validateField('message', formData.message)}
                     placeholder="Tell me about your project..."
                     rows={5}
-                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl resize-none focus:border-primary/30 ${errors.message ? 'border-destructive' : ''}`}
+                    className={`bg-white/[0.02] border-white/[0.06] rounded-xl resize-none focus:border-primary/30 text-sm ${errors.message ? 'border-destructive' : ''}`}
                   />
                   {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
                 </div>
@@ -275,7 +275,7 @@ export default function Contact() {
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="space-y-4"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
               {[
                 { icon: Mail, label: 'Email', value: 'srinathmpro2001@gmail.com', href: 'mailto:srinathmpro2001@gmail.com' },
                 { icon: Phone, label: 'Phone', value: '+91 8144429317', href: 'tel:8144429317' },
@@ -314,7 +314,7 @@ export default function Contact() {
 
             <div className="premium-card p-6">
               <h3 className="font-semibold mb-4 font-display text-sm">Connect on Social</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
+              <div className="flex flex-wrap gap-3">
                 <a href="https://wa.me/918144429317" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 p-3.5 rounded-xl bg-green-500/[0.03] border border-green-500/[0.06] hover:bg-green-500/[0.06] transition-colors group"
                 >
@@ -346,7 +346,7 @@ export default function Contact() {
             <div className="premium-card p-6 text-center">
               <h3 className="font-bold text-base mb-2 font-display">Prefer to explore first?</h3>
               <p className="text-sm text-muted-foreground/40 mb-4">Check out my work and experience before reaching out.</p>
-              <div className="flex gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <Button variant="outline" size="sm" asChild className="rounded-xl border-white/[0.06]">
                   <Link to="/projects">Projects <ArrowRight className="w-3 h-3 ml-1" /></Link>
                 </Button>

@@ -4,7 +4,7 @@ import { MessageCircle, X, Send, Loader2, Zap, ThumbsUp, Brain, Sparkles } from 
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { useTheme } from '@/contexts/ThemeContext';
-import { generateAIResponse, getTimeBasedSuggestions, getSmartGreeting } from '@/lib/aiEngine';
+import { generateAIResponse, getTimeBasedSuggestions, getSmartGreeting, analyzeUserIntent, generatePortfolioSummary } from '@/lib/aiEngine';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -99,6 +99,20 @@ export default function SmartSearchWidget() {
       const result = generateAIResponse(text, data, conversationContext);
       setConversationContext(prev => ({ ...prev, ...result.context }));
       await streamAssistant(result.response, result.followUps);
+      const allUserMessages = [...messages.filter(m => m.role === 'user').map(m => m.content), text];
+      const intent = analyzeUserIntent(allUserMessages);
+      if (intent.confidence > 0.5 && intent.primaryInterest !== 'general') {
+        const intentMsg = `\n\n💡 *It seems you're interested in **${intent.primaryInterest}**. ${intent.suggestedAction}.*`;
+        await new Promise(r => setTimeout(r, 300));
+        setMessages(prev => {
+          const copy = [...prev];
+          const lastAssistantIdx = copy.map(m => m.role).lastIndexOf('assistant');
+          if (lastAssistantIdx >= 0) {
+            copy[lastAssistantIdx] = { ...copy[lastAssistantIdx], content: copy[lastAssistantIdx].content + intentMsg };
+          }
+          return copy;
+        });
+      }
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error accessing portfolio data. Please try again.' }]);
     } finally {

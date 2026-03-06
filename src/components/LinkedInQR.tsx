@@ -190,8 +190,8 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
       viewport={{ once: true }}
       className="premium-card p-6"
     >
-      <div className="flex items-start gap-5">
-        <div ref={qrRef} className="flex-shrink-0 p-3 rounded-xl bg-white/5 border border-white/[0.04]">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+        <div ref={qrRef} className="flex-shrink-0 p-3 rounded-xl bg-white/5 border border-white/[0.04] mx-auto sm:mx-0">
           <QRCodeSVG
             value={LINKEDIN_URL}
             size={120}
@@ -201,8 +201,8 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
           />
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-2">
+        <div className="flex-1 min-w-0 text-center sm:text-left">
+          <div className="flex items-center gap-2 mb-2 justify-center sm:justify-start">
             <Linkedin className="w-5 h-5 text-blue-500 flex-shrink-0" />
             <h3 className="font-bold font-display">Connect on LinkedIn</h3>
           </div>
@@ -213,12 +213,12 @@ export default function LinkedInQR({ variant = 'card', showLabel = true }: Linke
             </p>
           )}
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-4">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground/50 mb-4 justify-center sm:justify-start">
             <Smartphone className="w-3.5 h-3.5" />
             Point your camera at the code
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
             <Button onClick={downloadQR} variant="outline" size="sm" className="text-xs">
               <Download className="w-3 h-3 mr-1" /> Save
             </Button>
