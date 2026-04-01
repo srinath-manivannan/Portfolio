@@ -54,8 +54,8 @@ export default function Experience() {
           </div>
         </motion.div>
 
-        {/* Timeline — desktop only */}
-        <div className="relative hidden md:block">
+        {/* Timeline — desktop (lg+) only */}
+        <div className="relative hidden lg:block">
           <div className="absolute left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
 
           {experiences.map((exp, index) => {
@@ -78,7 +78,7 @@ export default function Experience() {
                 </div>
 
                 {(index === 0 || experiences[index - 1]?.duration?.split('–')[0]?.trim() !== exp.duration?.split('–')[0]?.trim()) && (
-                  <div className="absolute -left-[7.5rem] top-5 text-xs font-mono text-muted-foreground w-16 text-right">
+                  <div className="absolute -left-[7.5rem] top-5 text-[11px] font-mono text-muted-foreground w-[4.5rem] text-right leading-tight">
                     {exp.duration?.split('–')[0]?.trim() || ''}
                   </div>
                 )}
@@ -172,8 +172,8 @@ export default function Experience() {
           })}
         </div>
 
-        {/* Mobile cards — no timeline, clean stacked layout */}
-        <div className="md:hidden space-y-4">
+        {/* Mobile + tablet cards — no timeline, clean stacked layout */}
+        <div className="lg:hidden space-y-4">
           {experiences.map((exp, index) => {
             const isExpanded = expandedId === exp.id;
 
