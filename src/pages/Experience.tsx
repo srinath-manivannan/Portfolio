@@ -1,282 +1,255 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Briefcase, ChevronDown } from 'lucide-react';
+import { MapPin, Calendar, Briefcase, ChevronRight, ExternalLink, Layers, Clock, Zap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Badge } from '@/components/ui/badge';
 
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, filter: 'blur(4px)' },
+  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
+
 export default function Experience() {
   const [experiences, setExperiences] = useState<any[]>([]);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => { fetchExperiences(); }, []);
 
   const fetchExperiences = async () => {
     const { data } = await supabase.from('experiences').select('*').order('display_order');
-    if (data) setExperiences(data);
+    if (data) {
+      setExperiences(data);
+      if (data.length > 0) setActiveId(data[0].id);
+    }
   };
 
-  return (
-    <div className="relative min-h-screen pt-24 pb-12 px-4 overflow-x-hidden">
-      <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
-      <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
+  const totalTech = new Set(experiences.flatMap((e: any) => e.technologies || [])).size;
 
-      <div className="container mx-auto max-w-4xl relative">
+  return (
+    <div className="relative min-h-screen pt-24 pb-16 px-4 overflow-x-hidden">
+      <div className="absolute inset-0 aurora opacity-30 pointer-events-none" />
+
+      <div className="container mx-auto max-w-5xl relative">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          className="mb-12 md:mb-16"
         >
-          <span className="premium-badge mb-4 inline-flex items-center gap-1.5">
-            <Briefcase className="w-3 h-3" />
-            CAREER
-          </span>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-display tracking-tight gradient-text-premium">Work Experience</h1>
-          <p className="text-muted-foreground mb-6">My professional journey</p>
-
-          <div className="flex flex-wrap gap-3 justify-center">
-            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
-              <span className="text-primary font-bold">{experiences.length}</span>
-              <span className="text-muted-foreground ml-1">Positions</span>
-            </div>
-            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
-              <span className="text-primary font-bold">3+</span>
-              <span className="text-muted-foreground ml-1">Years</span>
-            </div>
-            <div className="premium-card rounded-xl px-4 py-2 text-sm whitespace-nowrap">
-              <span className="text-primary font-bold">
-                {new Set(experiences.flatMap((e: any) => e.technologies || [])).size}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <span className="premium-badge mb-3 inline-flex items-center gap-1.5">
+                <Briefcase className="w-3 h-3" />
+                CAREER JOURNEY
               </span>
-              <span className="text-muted-foreground ml-1">Technologies Used</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight gradient-text-premium mb-2">
+                Work Experience
+              </h1>
+              <p className="text-muted-foreground text-sm md:text-base max-w-lg">
+                Building products and leading engineering teams across startups and enterprises.
+              </p>
+            </div>
+
+            {/* Stats row */}
+            <div className="flex gap-5 md:gap-6">
+              {[
+                { value: `${experiences.length}`, label: 'Roles', icon: Briefcase },
+                { value: '3+', label: 'Years', icon: Clock },
+                { value: `${totalTech}`, label: 'Tech', icon: Layers },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/10 mx-auto mb-1.5">
+                    <stat.icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="text-lg font-bold font-display text-foreground">{stat.value}</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Timeline — desktop (lg+) only */}
-        <div className="relative hidden lg:block pl-32">
-          <div className="absolute left-[7.5rem] top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
-
+        {/* Experience cards */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="space-y-4"
+        >
           {experiences.map((exp, index) => {
-            const isExpanded = expandedId === exp.id;
+            const isActive = activeId === exp.id;
+            const isFirst = index === 0;
 
             return (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative mb-8 ml-10"
-              >
-                {/* Timeline dot */}
-                <div className="absolute -left-[2.75rem] top-6 z-10">
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
+              <motion.div key={exp.id} variants={cardVariants} layout>
+                <div
+                  onClick={() => setActiveId(isActive ? null : exp.id)}
+                  className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                    isActive
+                      ? 'border-primary/30 shadow-[0_0_0_1px_hsl(var(--primary)/0.1),0_8px_40px_-12px_hsl(var(--primary)/0.15)]'
+                      : 'border-border hover:border-primary/20 hover:shadow-[0_4px_20px_-8px_hsl(var(--primary)/0.1)]'
+                  }`}
+                >
+                  {/* Gradient accent line at top */}
+                  <div
+                    className={`h-[2px] transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`}
+                    style={{ background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)))' }}
                   />
-                </div>
 
-                {/* Year label — positioned left of the timeline line */}
-                {(index === 0 || experiences[index - 1]?.duration?.split('–')[0]?.trim() !== exp.duration?.split('–')[0]?.trim()) && (
-                  <div className="absolute right-full mr-14 top-4 text-[11px] font-mono text-muted-foreground text-right whitespace-nowrap">
-                    {exp.duration?.split('–')[0]?.trim() || ''}
-                  </div>
-                )}
-
-                <div
-                  onClick={() => setExpandedId(isExpanded ? null : exp.id)}
-                  className="premium-card rounded-2xl p-8 cursor-pointer hover:border-primary/30 transition-all group"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold font-display mb-1 group-hover:text-primary transition-colors">
-                        {exp.role}
-                      </h3>
-                      <p className="text-lg gradient-text-premium font-semibold mb-3">{exp.company}</p>
-
-                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1.5">
+                  <div className="bg-card p-5 sm:p-6 md:p-8">
+                    {/* Top row: duration + status */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
                           <Calendar className="w-3.5 h-3.5" />
-                          <span>{exp.duration}</span>
+                          {exp.duration}
                         </div>
                         {exp.location && (
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                             <MapPin className="w-3.5 h-3.5" />
-                            <span>{exp.location}</span>
+                            {exp.location}
                           </div>
                         )}
                         {exp.work_type && (
-                          <div className="flex items-center gap-1.5">
-                            <Briefcase className="w-3.5 h-3.5" />
-                            <span>{exp.work_type}</span>
-                          </div>
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/8 text-primary border border-primary/15">
+                            {exp.work_type}
+                          </span>
                         )}
                       </div>
+
+                      {isFirst && (
+                        <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-500/10 text-green-500 border border-green-500/15">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                          CURRENT
+                        </span>
+                      )}
                     </div>
 
-                    <motion.div
-                      animate={{ rotate: isExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex-shrink-0 mt-1"
-                    >
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                    </motion.div>
-                  </div>
+                    {/* Title + Company */}
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold font-display mb-1 group-hover:text-primary transition-colors leading-tight">
+                          {exp.role}
+                        </h3>
+                        <p className="text-sm sm:text-base gradient-text-premium font-semibold">{exp.company}</p>
+                      </div>
 
-                  <AnimatePresence>
-                    {isExpanded && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
+                        animate={{ rotate: isActive ? 90 : 0 }}
+                        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex-shrink-0 w-8 h-8 rounded-lg surface-subtle flex items-center justify-center"
                       >
-                        <div className="mt-6 pt-6 border-t border-subtle">
-                          {Array.isArray(exp.description) && exp.description.length > 0 && (
-                            <ul className="space-y-3 mb-6">
-                              {exp.description.map((item: string, i: number) => (
-                                <motion.li
-                                  key={i}
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: i * 0.05 }}
-                                  className="flex gap-3 items-start text-muted-foreground"
-                                >
-                                  <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-2" />
-                                  <span className="flex-1 leading-relaxed">{item}</span>
-                                </motion.li>
-                              ))}
-                            </ul>
-                          )}
+                        <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                      </motion.div>
+                    </div>
 
-                          {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
-                            <div>
-                              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Technologies</p>
-                              <div className="flex flex-wrap gap-2">
-                                {exp.technologies.map((tech: string) => (
-                                  <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-xs">
-                                    {tech}
-                                  </Badge>
+                    {/* Tech preview — always visible */}
+                    {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-4">
+                        {exp.technologies.slice(0, isActive ? undefined : 5).map((tech: string) => (
+                          <span
+                            key={tech}
+                            className="text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded-md surface-subtle text-muted-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {!isActive && exp.technologies.length > 5 && (
+                          <span className="text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded-md text-primary/60">
+                            +{exp.technologies.length - 5} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Expanded content */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-6 pt-6 border-t border-border/60">
+                            {Array.isArray(exp.description) && exp.description.length > 0 && (
+                              <div className="space-y-3">
+                                {exp.description.map((item: string, i: number) => (
+                                  <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.04, duration: 0.3 }}
+                                    className="flex gap-3 items-start group/item"
+                                  >
+                                    <div className="mt-1.5 flex-shrink-0">
+                                      <Zap className="w-3.5 h-3.5 text-primary/60" />
+                                    </div>
+                                    <p className="text-sm text-muted-foreground leading-relaxed flex-1">{item}</p>
+                                  </motion.div>
                                 ))}
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                            )}
+
+                            {/* Technologies full list */}
+                            {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
+                              <div className="mt-6">
+                                <p className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-widest mb-3">
+                                  TECH STACK
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                  {exp.technologies.map((tech: string) => (
+                                    <Badge
+                                      key={tech}
+                                      variant="secondary"
+                                      className="bg-primary/8 text-primary border border-primary/15 text-[11px] px-2.5 py-1 font-medium"
+                                    >
+                                      {tech}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
-        {/* Mobile + tablet cards — no timeline, clean stacked layout */}
-        <div className="lg:hidden space-y-4">
-          {experiences.map((exp, index) => {
-            const isExpanded = expandedId === exp.id;
-
-            return (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-              >
-                <div
-                  onClick={() => setExpandedId(isExpanded ? null : exp.id)}
-                  className="premium-card rounded-xl p-4 cursor-pointer hover:border-primary/30 transition-all group"
-                >
-                  {/* Duration badge at top */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
-                    <span className="text-xs font-mono text-primary/70 font-medium">{exp.duration}</span>
-                  </div>
-
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold font-display mb-0.5 group-hover:text-primary transition-colors leading-snug">
-                        {exp.role}
-                      </h3>
-                      <p className="text-sm gradient-text-premium font-semibold mb-2">{exp.company}</p>
-
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-                        {exp.location && (
-                          <div className="flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            <span>{exp.location}</span>
-                          </div>
-                        )}
-                        {exp.work_type && (
-                          <div className="flex items-center gap-1">
-                            <Briefcase className="w-3 h-3" />
-                            <span>{exp.work_type}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <motion.div
-                      animate={{ rotate: isExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex-shrink-0 mt-1"
-                    >
-                      <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                    </motion.div>
-                  </div>
-
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-4 pt-4 border-t border-subtle">
-                          {Array.isArray(exp.description) && exp.description.length > 0 && (
-                            <ul className="space-y-2.5 mb-4">
-                              {exp.description.map((item: string, i: number) => (
-                                <motion.li
-                                  key={i}
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: i * 0.05 }}
-                                  className="flex gap-2.5 items-start text-muted-foreground text-sm"
-                                >
-                                  <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-1.5" />
-                                  <span className="flex-1 leading-relaxed">{item}</span>
-                                </motion.li>
-                              ))}
-                            </ul>
-                          )}
-
-                          {Array.isArray(exp.technologies) && exp.technologies.length > 0 && (
-                            <div>
-                              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Technologies</p>
-                              <div className="flex flex-wrap gap-1.5">
-                                {exp.technologies.map((tech: string) => (
-                                  <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-[10px] px-2 py-0.5">
-                                    {tech}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="h-px w-8 bg-border" />
+            Want to know more?
+            <a
+              href="https://linkedin.com/in/srinath-manivannan-57a751197"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-primary hover:underline font-medium"
+            >
+              View LinkedIn <ExternalLink className="w-3 h-3" />
+            </a>
+            <div className="h-px w-8 bg-border" />
+          </div>
+        </motion.div>
       </div>
     </div>
   );
