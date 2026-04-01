@@ -197,19 +197,18 @@ export default function SmartSearchWidget() {
       `}</style>
 
       {/* Launcher */}
-      <div className="fixed right-6 bottom-6 z-50">
+      <div className="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-50">
         <AnimatePresence>
           {!isOpen && (
             <motion.button
               ref={launcherRef}
               onClick={() => setIsOpen(true)}
-              className="relative rounded-full flex items-center justify-center"
-              style={{ width: 64, height: 64, background: 'hsl(var(--card))', border: '2px solid hsl(var(--border))', boxShadow: '0 8px 20px hsl(var(--primary) / 0.2)' }}
+              className="relative rounded-full flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-card border-2 border-border shadow-lg"
+              style={{ boxShadow: '0 4px 16px hsl(var(--primary) / 0.2)' }}
               whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'hsl(var(--primary) / 0.1)' }}>
-                <MessageCircle className="w-6 h-6 text-primary" />
-              </div>
+              <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
             </motion.button>
           )}
         </AnimatePresence>
@@ -219,100 +218,87 @@ export default function SmartSearchWidget() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop — mobile only */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/40"
+              className="fixed inset-0 z-40 bg-black/40 sm:bg-black/20"
               onClick={() => { setIsOpen(false); setMessages([]); setQuickVisible(true); }}
             />
 
             {/* Chat Panel */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.28 }}
-              className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 z-50 w-[calc(100vw-16px)] sm:w-full sm:max-w-md h-[calc(100vh-64px)] sm:h-[640px] bg-card rounded-xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border"
-              style={{ borderColor: 'hsl(var(--border))', backdropFilter: 'blur(14px) saturate(120%)' }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-0 bottom-0 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-full sm:w-[380px] h-[70vh] sm:h-[520px] bg-card rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border"
               ref={wrapperRef}
               onTouchStart={(e) => { touchStartY.current = e.touches[0].clientY; }}
               onTouchEnd={(e) => {
                 if (touchStartY.current !== null) {
                   const dy = e.changedTouches[0].clientY - touchStartY.current;
-                  if (dy > 60) { setIsOpen(false); setMessages([]); setQuickVisible(true); }
+                  if (dy > 80) { setIsOpen(false); setMessages([]); setQuickVisible(true); }
                   touchStartY.current = null;
                 }
               }}
             >
+              {/* Swipe indicator — mobile */}
+              <div className="sm:hidden flex justify-center pt-2 pb-0">
+                <div className="w-8 h-1 rounded-full bg-muted-foreground/20" />
+              </div>
+
               {/* Header */}
-              <div className="px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between" style={{ background: `linear-gradient(90deg, ${css.primary}, ${css.accent})` }}>
-                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-white shrink-0" />
+              <div className="px-3 sm:px-4 py-2 flex items-center justify-between shrink-0" style={{ background: `linear-gradient(90deg, ${css.primary}, ${css.accent})` }}>
+                <div className="flex items-center gap-2 min-w-0">
+                  <Brain className="w-4 h-4 text-white shrink-0" />
                   <div className="min-w-0">
-                    <div className="font-semibold text-white text-xs sm:text-sm truncate">Ask Srinath</div>
-                    <div className="text-[10px] sm:text-xs text-white/80 truncate hidden sm:block">AI-powered portfolio search</div>
+                    <div className="font-semibold text-white text-xs truncate">AI-Powered Portfolio Search</div>
+                    <div className="text-[10px] text-white/70 truncate">{greeting}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                  <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-full bg-white/10 text-white/90 text-[10px] sm:text-xs">
-                    <Loader2 className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
-                    <span className="hidden sm:inline">{loading ? 'Analyzing...' : 'Ready'}</span>
-                    <span className="sm:hidden">{loading ? '...' : '✓'}</span>
-                  </div>
-                  <button onClick={() => { setIsOpen(false); setMessages([]); setQuickVisible(true); }} className="p-1 rounded-md bg-white/10 hover:bg-white/12">
-                    <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {loading && <Loader2 className="w-3.5 h-3.5 text-white animate-spin" />}
+                  <button onClick={() => { setIsOpen(false); setMessages([]); setQuickVisible(true); }} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                    <X className="w-3.5 h-3.5 text-white" />
                   </button>
                 </div>
               </div>
 
               {/* Messages */}
-              <div className="chat-messages flex-1 overflow-y-auto p-2 sm:p-4 space-y-2 sm:space-y-4" style={{ background: `linear-gradient(180deg, hsl(var(--muted) / 0.1), transparent)` }}>
-                <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg sm:rounded-xl p-2 sm:p-3" style={{ background: 'hsl(var(--muted) / 0.2)' }}>
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs sm:text-sm font-medium truncate text-foreground">
-                        <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1.5 text-primary" />
-                        AI-Powered Portfolio Search
-                      </div>
-                      <div className="text-[10px] sm:text-xs line-clamp-1 mt-0.5 text-muted-foreground">{greeting}</div>
-                    </div>
-                    <Brain className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 text-foreground" />
-                  </div>
-                </motion.div>
-
+              <div className="chat-messages flex-1 overflow-y-auto p-3 space-y-2">
                 {/* Quick Questions */}
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  <AnimatePresence>
-                    {quickVisible && quickQuestions.map((q, i) => (
-                      <motion.button
-                        key={q}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ delay: i * 0.03 }}
-                        onClick={() => handleQuick(q)}
-                        className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-medium"
-                        style={{ background: 'hsl(var(--muted) / 0.3)', color: 'hsl(var(--foreground))', border: '1px solid hsl(var(--border))' }}
-                      >
-                        {q}
-                      </motion.button>
-                    ))}
-                  </AnimatePresence>
-                </div>
+                <AnimatePresence>
+                  {quickVisible && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-wrap gap-1.5">
+                      {quickQuestions.map((q, i) => (
+                        <motion.button
+                          key={q}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.03 }}
+                          onClick={() => handleQuick(q)}
+                          className="px-2.5 py-1 rounded-full text-[11px] font-medium surface-subtle border border-subtle hover:border-primary/30 transition-colors text-foreground"
+                        >
+                          {q}
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Conversation */}
-                <motion.div variants={variants.container} initial="hidden" animate="show" className="space-y-2 sm:space-y-3">
+                <motion.div variants={variants.container} initial="hidden" animate="show" className="space-y-2">
                   {messages.map((m, i) => {
                     const isUser = m.role === 'user';
                     return (
                       <React.Fragment key={m.ts ?? i}>
                         <motion.div variants={variants.message} className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-                          <div className="max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-sm break-words" style={isUser ? userBubble : assistantBubble}>
+                          <div className="max-w-[85%] px-3 py-2 rounded-xl shadow-sm break-words text-xs leading-relaxed" style={isUser ? userBubble : assistantBubble}>
                             <div
-                              className="text-xs sm:text-sm whitespace-pre-wrap"
+                              className="whitespace-pre-wrap"
                               dangerouslySetInnerHTML={{
                                 __html: m.content
                                   .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -320,9 +306,9 @@ export default function SmartSearchWidget() {
                               }}
                             />
                             {!isUser && (
-                              <div className="mt-1.5 sm:mt-2 flex items-center gap-1.5 sm:gap-2 justify-end">
-                                <button className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md hover:opacity-90" style={{ background: 'hsl(var(--muted) / 0.3)', color: 'hsl(var(--foreground))' }}>
-                                  <ThumbsUp className="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-0.5 sm:mr-1" /> Helpful
+                              <div className="mt-1.5 flex items-center justify-end">
+                                <button className="text-[10px] px-1.5 py-0.5 rounded surface-subtle hover:opacity-80 text-foreground">
+                                  <ThumbsUp className="w-3 h-3 inline-block mr-0.5" /> Helpful
                                 </button>
                               </div>
                             )}
@@ -334,8 +320,7 @@ export default function SmartSearchWidget() {
                               <button
                                 key={q}
                                 onClick={() => handleQuick(q)}
-                                className="px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors hover:bg-white/5"
-                                style={{ background: 'hsl(var(--muted) / 0.2)', color: 'hsl(var(--foreground))', border: '1px solid hsl(var(--border))' }}
+                                className="px-2 py-0.5 rounded-full text-[10px] font-medium surface-subtle border border-subtle hover:border-primary/30 transition-colors text-foreground"
                               >
                                 {q}
                               </button>
@@ -348,15 +333,15 @@ export default function SmartSearchWidget() {
 
                   {isTyping && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
-                      <div className="max-w-[65%] px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl" style={{ background: css.cardBg, color: css.foreground }}>
-                        <motion.div className="flex items-center gap-1.5 sm:gap-2">
-                          <div className="flex gap-0.5 sm:gap-1 items-end">
-                            <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
-                            <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7, delay: 0.12 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
-                            <motion.span animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 0.7, delay: 0.24 }} className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: css.primary }} />
+                      <div className="px-3 py-2 rounded-xl surface-subtle">
+                        <div className="flex items-center gap-2">
+                          <div className="flex gap-1 items-end">
+                            <motion.span animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 0.6 }} className="w-1.5 h-1.5 rounded-full bg-primary" />
+                            <motion.span animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.1 }} className="w-1.5 h-1.5 rounded-full bg-primary" />
+                            <motion.span animate={{ y: [0, -4, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} className="w-1.5 h-1.5 rounded-full bg-primary" />
                           </div>
-                          <div className="text-[10px] sm:text-xs text-muted-foreground">Analyzing...</div>
-                        </motion.div>
+                          <span className="text-[10px] text-muted-foreground">Analyzing...</span>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -365,27 +350,26 @@ export default function SmartSearchWidget() {
               </div>
 
               {/* Input */}
-              <div className="px-2 sm:px-4 py-2 sm:py-3 border-t" style={{ borderColor: 'hsl(var(--border))', background: 'hsl(var(--card))' }}>
-                <div className="flex items-center gap-1.5 sm:gap-3">
+              <div className="px-3 py-2 border-t border-border bg-card shrink-0">
+                <div className="flex items-center gap-2">
                   <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
                     placeholder="Ask about experience, projects..."
-                    className="flex-1 rounded-md px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm"
-                    style={{ background: 'hsl(var(--muted) / 0.2)', border: '1px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
+                    className="flex-1 rounded-lg px-3 py-2 text-xs bg-muted/30 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
                   />
                   <button
                     disabled={loading || !input.trim()}
                     onClick={handleSend}
-                    className="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-md shadow shrink-0 text-white"
-                    style={{ background: `linear-gradient(90deg, ${css.primary}, ${css.accent})`, opacity: (loading || !input.trim()) ? 0.5 : 1 }}
+                    className="p-2 rounded-lg shrink-0 text-white disabled:opacity-40 transition-opacity"
+                    style={{ background: `linear-gradient(135deg, ${css.primary}, ${css.accent})` }}
                   >
-                    <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Send className="w-3.5 h-3.5" />
                   </button>
                 </div>
-                <div className="text-[9px] sm:text-xs text-center mt-1 sm:mt-2 text-muted-foreground">
+                <div className="text-[9px] text-center mt-1 text-muted-foreground/60">
                   🧠 AI-powered search
                 </div>
               </div>
