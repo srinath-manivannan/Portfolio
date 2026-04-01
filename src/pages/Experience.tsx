@@ -17,7 +17,7 @@ export default function Experience() {
   };
 
   return (
-    <div className="relative min-h-screen pt-24 pb-12 px-4 overflow-hidden">
+    <div className="relative min-h-screen pt-24 pb-12 px-4 overflow-x-hidden">
       <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
       <div className="absolute inset-0 bg-dots opacity-[0.02] pointer-events-none" />
 
@@ -55,8 +55,8 @@ export default function Experience() {
         </motion.div>
 
         {/* Timeline — desktop (lg+) only */}
-        <div className="relative hidden lg:block">
-          <div className="absolute left-8 top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
+        <div className="relative hidden lg:block pl-32">
+          <div className="absolute left-[7.5rem] top-0 bottom-0 w-[2px]" style={{ background: 'linear-gradient(to bottom, hsl(220 90% 56% / 0.2), hsl(262 83% 58% / 0.15), transparent)' }} />
 
           {experiences.map((exp, index) => {
             const isExpanded = expandedId === exp.id;
@@ -68,17 +68,19 @@ export default function Experience() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative mb-8 ml-20"
+                className="relative mb-8 ml-10"
               >
-                <div className="absolute -left-[4.25rem] top-6 z-10">
+                {/* Timeline dot */}
+                <div className="absolute -left-[2.75rem] top-6 z-10">
                   <motion.div
                     whileHover={{ scale: 1.2 }}
                     className="w-5 h-5 rounded-full bg-primary border-4 border-background shadow-[0_0_0_3px_hsl(var(--primary)/0.2),0_0_15px_hsl(var(--primary)/0.3)]"
                   />
                 </div>
 
+                {/* Year label — positioned left of the timeline line */}
                 {(index === 0 || experiences[index - 1]?.duration?.split('–')[0]?.trim() !== exp.duration?.split('–')[0]?.trim()) && (
-                  <div className="absolute -left-[7.5rem] top-5 text-[11px] font-mono text-muted-foreground w-[4.5rem] text-right leading-tight">
+                  <div className="absolute right-full mr-14 top-4 text-[11px] font-mono text-muted-foreground text-right whitespace-nowrap">
                     {exp.duration?.split('–')[0]?.trim() || ''}
                   </div>
                 )}
